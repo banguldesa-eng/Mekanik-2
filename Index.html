@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MEKANIK 2 - Sistem Perbaikan IWIP (Firebase)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- FIREBASE SDK (v8) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<style>
+* { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
+
+/* LAYOUT CONTAINER */
+.app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background: #fff; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
+
+/* AUTH PAGES */
+.login-wrapper { min-height: 100vh; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); display: flex; align-items: center; justify-content: center; padding: 20px; }
+.card-login { background: #ffffff; width: 100%; max-width: 360px; border-radius: 20px; padding: 28px 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
+.i-group { display: flex; align-items: center; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin: 10px 0; }
+.i-group input { border: none; background: transparent; width: 100%; outline: none; font-weight: 600; font-size: 14px; color: #0f172a; margin-left: 10px; }
+.btn-green { width: 100%; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; border: none; border-radius: 12px; padding: 14px; font-weight: 700; font-size: 15px; cursor: pointer; transition: opacity 0.2s; margin-top: 10px; }
+.btn-green:active { opacity: 0.9; }
+
+/* APP PAGES */
+.page { display: none; padding-bottom: 80px; min-height: 100vh; background: #f8fafc; }
+.header-top { background: #ffffff; padding: 16px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 16px; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 10; }
+
+/* SEARCH & FILTER BOX */
+.filter-box-wrapper { margin: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+.search-box { padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; display: flex; align-items: center; gap: 8px; }
+.search-box input { border: none; background: transparent; width: 100%; outline: none; font-size: 14px; }
+.date-filter-box { display: flex; align-items: center; gap: 6px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 8px 10px; }
+.date-filter-box label { font-size: 11px; font-weight: 700; color: #64748b; margin-right: 2px; }
+.date-filter-box input[type="date"] { border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; padding: 4px 6px; font-size: 11px; outline: none; color: #0f172a; flex: 1; min-width: 0; }
+.btn-reset-filter { background: #f1f5f9; border: 1px solid #cbd5e1; color: #64748b; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
+
+/* CARDS & BADGES */
+.card-order { background: #ffffff; padding: 16px; margin: 12px 16px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+.order-id { font-weight: 800; font-size: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-block; }
+.badge-blue { background: #e0f2fe; color: #0369a1; }
+.badge-green { background: #dcfce7; color: #15803d; }
+.badge-orange { background: #fef3c7; color: #b45309; }
+
+.info-grid { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; font-size: 13px; }
+.info-grid .l { color: #64748b; font-weight: 500; }
+.info-grid .v { font-weight: 600; color: #0f172a; word-break: break-word; }
+
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; margin-top: 14px; padding-top: 12px; border-top: 1px dashed #e2e8f0; }
+.btn-row button { border: 1px solid #2563eb; color: #2563eb; background: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.btn-row button.warning { border-color: #f59e0b; color: #f59e0b; }
+.btn-row button.danger { border-color: #ef4444; color: #ef4444; }
+
+/* NAVIGATION & DRAGGABLE FAB */
+.fab { 
+  position: fixed; 
+  bottom: 80px; 
+  right: 20px; 
+  background: #2563eb; 
+  color: #fff; 
+  border: none; 
+  border-radius: 30px; 
+  padding: 12px 20px; 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  box-shadow: 0 10px 20px rgba(37,99,235,0.4); 
+  font-weight: 700; 
+  cursor: move; 
+  z-index: 99; 
+  touch-action: none; 
+  user-select: none;
+}
+
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-around: space-around; font-size: 11px; padding: 10px 0; z-index: 30; }
+.nav-item { text-align: center; font-size: 11px; font-weight: 600; color: #94a3b8; cursor: pointer; flex: 1; }
+.nav-item.active { color: #2563eb; }
+
+/* MODALS GENERAL */
+#modal, #modalSelesai, #modalEdit, #modalHapus, #modalToast, #modalForgot, #modalUpdateAccount, #modalExportExcel { 
+  position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: none; align-items: flex-end; justify-content: center; z-index: 150; backdrop-filter: blur(4px); 
+}
+#modalSelesai { z-index: 160; }
+#modalEdit { z-index: 170; }
+#modalHapus { z-index: 180; align-items: center; padding: 20px; }
+#modalForgot { z-index: 190; align-items: center; padding: 20px; }
+#modalUpdateAccount { z-index: 195; align-items: center; padding: 20px; }
+#modalExportExcel { z-index: 198; align-items: center; padding: 20px; }
+#modalToast { z-index: 200; align-items: center; padding: 20px; }
+
+.modal-box { background: #fff; width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; border-radius: 24px 24px 0 0; padding: 20px; box-shadow: 0 -10px 25px rgba(0,0,0,0.1); }
+.modal-box input, .modal-box select, .modal-box textarea { width: 100%; padding: 10px 12px; margin: 4px 0 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
+.modal-box input:focus, .modal-box select:focus, .modal-box textarea:focus { border-color: #2563eb; }
+.modal-box input:disabled, .modal-box select:disabled { background-color: #f1f5f9; color: #64748b; cursor: not-allowed; }
+label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-top: 4px; }
+.box { background: #fff; padding: 16px; border-radius: 12px; margin: 16px; border: 1px solid #e2e8f0; }
+
+/* MODAL CONFIRM & TOAST CUSTOM */
+.modal-confirm-box { 
+  background: #ffffff; width: 100%; max-width: 360px; border-radius: 24px; padding: 24px; text-align: center; 
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25); transform: scale(0.9); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); 
+}
+#modalToast.active .modal-confirm-box, #modalHapus.active .modal-confirm-box, #modalForgot.active .modal-confirm-box, #modalUpdateAccount.active .modal-confirm-box, #modalExportExcel.active .modal-confirm-box { transform: scale(1); }
+
+.icon-wrapper { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; }
+.icon-success { background: #dcfce7; color: #16a34a; }
+.icon-danger { background: #fee2e2; color: #ef4444; }
+.icon-warning { background: #fef3c7; color: #d97706; }
+.icon-info { background: #e0f2fe; color: #0284c7; }
+
+.btn-cancel { flex: 1; background: #f1f5f9; color: #475569; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; }
+.btn-delete { flex: 1; background: #ef4444; color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+.btn-primary { width: 100%; background: #2563eb; color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+
+/* USER MANAGEMENT STYLE */
+.user-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+.user-item:last-child { border-bottom: none; }
+.user-info { font-size: 13px; }
+.user-info b { color: #0f172a; }
+.user-info span { color: #64748b; font-size: 11px; display: block; }
+.role-select { padding: 4px 8px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 12px; font-weight: 600; outline: none; }
+
+/* OVERLAY RUN LOADING SYSTEM */
+#loadingOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  backdrop-filter: blur(5px);
+  color: #ffffff;
+  text-align: center;
+  padding: 20px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #22c55e;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.loading-subtext {
+  font-size: 12px;
+  color: #94a3b8;
+  max-width: 260px;
+  line-height: 1.4;
+}
+</style>
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- OVERLAY LOADING SAAT LOGIN / KONEKSI JELEK -->
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+    <div id="loadingText" class="loading-text">Memproses Login...</div>
+    <div id="loadingSubtext" class="loading-subtext">Menghubungkan ke server Firebase...</div>
+  </div>
+
+  <!-- HALAMAN LOGIN -->
+  <div id="loginPage" class="login-wrapper">
+    <div class="card-login">
+      <div style="text-align:center;font-weight:900;font-size:32px;margin-bottom:4px"><span style="color:#22c55e">◧</span><span style="color:#f97316">IWIP</span></div>
+      <div style="text-align:center;font-weight:700;color:#0f172a">Sistem Perbaikan Mekanik 2</div>
+      <div style="text-align:center;color:#64748b;font-size:12px;margin:6px 0 18px">Masuk dengan akun terdaftar</div>
+      <div class="i-group">👤<input id="user" placeholder="NIK / Username"></div>
+      <div class="i-group">🔒<input id="pass" type="password" placeholder="Password"><span onclick="togglePass('pass')" style="cursor:pointer">👁️</span></div>
+      
+      <div style="text-align:right;margin-top:2px;margin-bottom:12px">
+        <a onclick="showForgotModal()" style="color:#2563eb;font-size:12px;font-weight:600;cursor:pointer">Lupa Sandi?</a>
+      </div>
+
+      <button class="btn-green" onclick="login()">Masuk Sekarang →</button>
+      <div style="text-align:center;margin-top:14px;font-size:13px;color:#64748b">Belum punya akun? <a onclick="showReg()" style="color:#16a34a;font-weight:700;cursor:pointer">Daftar Akun</a></div>
+    </div>
+  </div>
+
+  <!-- HALAMAN REGISTER -->
+  <div id="regPage" class="login-wrapper" style="display:none">
+    <div class="card-login">
+      <div style="text-align:center;font-weight:800;font-size:20px;margin-bottom:16px;color:#0f172a">Daftar Akun Baru</div>
+      <div class="i-group">👤<input id="r_user" placeholder="NIK / Username"></div>
+      <div class="i-group">📛<input id="r_name" placeholder="Nama Lengkap"></div>
+      <div class="i-group">📱<input id="r_phone" type="tel" placeholder="Nomor HP (WhatsApp)"></div>
+      <div class="i-group">🔒<input id="r_pass" type="password" placeholder="Password"><span onclick="togglePass('r_pass')" style="cursor:pointer">👁️</span></div>
+      <button class="btn-green" onclick="register()">Daftar Sekarang</button>
+      <div style="text-align:center;margin-top:14px;font-size:13px"><a onclick="showLogin()" style="color:#2563eb;font-weight:600;cursor:pointer">← Kembali ke Login</a></div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashPage" class="page">
+    <div class="header-top"><span>Halaman Depan</span></div>
+    <div style="padding:16px">
+      <div style="font-weight:800;font-size:18px;margin-bottom:12px;color:#0f172a">Manajemen Perbaikan</div>
+      <div onclick="openBengkel()" style="background:#fff;border-radius:16px;padding:20px;width:140px;text-align:center;border:1px solid #e2e8f0;box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);cursor:pointer">
+        <div style="background:#eff6ff;color:#2563eb;border-radius:12px;width:48px;height:48px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:20px">🕒</div>
+        <p style="font-size:13px;font-weight:700;margin:0;color:#1e293b;line-height:1.3">Daftar<br>Perbaikan<br>Unit</p>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item active">🏠<br>Halaman Depan</div>
+      <div class="nav-item" onclick="openMilikku()">👤<br>Milikku</div>
+    </div>
+  </div>
+
+  <!-- DAFTAR PERBAIKAN -->
+  <div id="bengkelPage" class="page">
+    <div class="header-top">
+      <span onclick="openDash()" style="cursor:pointer;font-size:22px;line-height:1">‹</span> 
+      <span>Daftar Perbaikan Unit</span>
+      <span style="opacity:0">🔽</span>
+    </div>
+
+    <!-- PENCARIAN & FILTER TANGGAL -->
+    <div class="filter-box-wrapper">
+      <div class="search-box">
+        🔍<input id="cari" oninput="tampil()" placeholder="Cari Nomor Unit / ID WO...">
+      </div>
+      <div class="date-filter-box">
+        <label>Dari:</label>
+        <input type="date" id="tglAwal" onchange="tampil()">
+        <label>s/d:</label>
+        <input type="date" id="tglAkhir" onchange="tampil()">
+        <button class="btn-reset-filter" onclick="resetFilterTanggal()">Reset</button>
+      </div>
+    </div>
+
+    <div style="padding:0 16px 8px;font-size:13px;color:#64748b;font-weight:600">Total Perbaikan: <span id="jmlSemua" style="color:#2563eb">0</span></div>
+    <div id="list"></div>
+    
+    <button class="fab" id="fabBtn"><span>+</span> Perintah Baru</button>
+    
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="openDash()">🏠<br>Halaman Depan</div>
+      <div class="nav-item" onclick="openMilikku()">👤<br>Milikku</div>
+    </div>
+  </div>
+
+  <!-- HALAMAN MILIKKU -->
+  <div id="milikPage" class="page">
+    <div class="header-top"><span>Milikku</span></div>
+    <div class="box" style="text-align:center;padding:24px">
+      <div style="font-size:56px;margin-bottom:8px">👤</div>
+      <b id="milikName" style="font-size:18px;color:#0f172a"></b><br>
+      <small id="milikNIK" style="color:#64748b;font-size:13px"></small><br>
+      <small id="milikPhone" style="color:#64748b;font-size:12px;display:block;margin-top:2px"></small>
+      <span id="milikRole" class="badge badge-blue" style="margin-top:6px"></span>
+    </div>
+
+    <!-- PENGATURAN AKUN -->
+    <div class="box">
+      <div style="font-weight:700;margin-bottom:12px;color:#0f172a">⚙️ Pengaturan Akun</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button onclick="showUpdateAccountModal('phone')" style="background:#f1f5f9;color:#0f172a;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between">
+          <span>📱 Ubah Nomor HP</span>
+          <span>›</span>
+        </button>
+        <button onclick="showUpdateAccountModal('pass')" style="background:#f1f5f9;color:#0f172a;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between">
+          <span>🔒 Ubah Kata Sandi</span>
+          <span>›</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PANEL KONTROL PENGGUNA (ADMIN ONLY) -->
+    <div class="box" id="adminUserControl" style="display:none">
+      <div style="font-weight:700;margin-bottom:12px;color:#0f172a">⚙️ Kelola Peran Pengguna (Admin Only)</div>
+      <div id="userListContainer"></div>
+    </div>
+
+    <div class="box">
+      <div style="font-weight:700;margin-bottom:12px;color:#0f172a">📊 Database Excel (Cloud Connected)</div>
+      <div style="display:flex;gap:10px">
+        <button onclick="bukaModalExportExcel()" style="flex:1;background:#16a34a;color:#fff;padding:12px;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">📤 Export Excel</button>
+      </div>
+    </div>
+    <div class="box"><button onclick="logout()" style="background:#ef4444;color:#fff;padding:12px;width:100%;border:none;border-radius:10px;font-weight:700;cursor:pointer">Keluar (Logout)</button></div>
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="openDash()">🏠<br>Halaman Depan</div>
+      <div class="nav-item active">👤<br>Milikku</div>
+    </div>
+  </div>
+
+  <!-- MODAL EXPORT EXCEL DENGAN FILTER TANGGAL -->
+  <div id="modalExportExcel">
+    <div class="modal-confirm-box" style="text-align:left">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 style="margin:0;color:#0f172a;font-size:18px;font-weight:800">📊 Export Data Excel</h3>
+        <span onclick="tutupModalExportExcel()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+      </div>
+      <p style="margin:0 0 12px;color:#64748b;font-size:12px;line-height:1.4">
+        Pilih rentang tanggal data yang ingin diunduh. Jika dikosongkan, seluruh data akan diunduh secara default.
+      </p>
+
+      <label class="t">Dari Tanggal</label>
+      <input type="date" id="exp_tglAwal" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #cbd5e1;border-radius:8px">
+
+      <label class="t">Sampai Tanggal</label>
+      <input type="date" id="exp_tglAkhir" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid #cbd5e1;border-radius:8px">
+
+      <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:10px;border-radius:8px;margin-bottom:16px;font-size:11px;color:#64748b;line-height:1.4">
+        📁 <b>Lokasi File:</b> Otomatis tersimpan di folder <b>Downloads</b> bawaan HP / Laptop Anda.
+      </div>
+
+      <div style="display:flex;gap:8px">
+        <button class="btn-cancel" onclick="tutupModalExportExcel()">Batal</button>
+        <button class="btn-primary" style="background:#16a34a;box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3)" onclick="eksekusiExportExcel()">Unduh Excel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL INPUT WORK ORDER BARU -->
+  <div id="modal">
+    <div class="modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px;margin-bottom:12px">
+        <span>Perintah Perbaikan Baru</span>
+        <span onclick="closeModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+      </div>
+
+      <label class="t">Tanggal Masuk</label>
+      <input type="date" id="tanggal">
+
+      <label class="t">Nama Pelapor / Pekerja</label>
+      <input id="nama" placeholder="Contoh: Yudha">
+
+      <label class="t">Nomor Unit</label>
+      <input id="noMesin" placeholder="Contoh: A001">
+
+      <label class="t">Jenis Unit</label>
+      <input id="jenisMesin" placeholder="Contoh: Shacman / Excavator">
+
+      <label class="t">Kerusakan / Item</label>
+      <input id="item" placeholder="Contoh: Ganti Oli & Rem">
+
+      <label class="t">Ruangan / Tempat</label>
+      <select id="tempat">
+        <option value="">-- Pilih Ruangan --</option>
+        <option value="38-1">38-1</option>
+        <option value="38-2">38-2</option>
+        <option value="39-1">39-1</option>
+        <option value="39-2">39-2</option>
+        <option value="50-1">50-1</option>
+        <option value="50-2">50-2</option>
+        <option value="51-1">51-1</option>
+        <option value="51-2">51-2</option>
+        <option value="52-1">52-1</option>
+        <option value="52-2">52-2</option>
+      </select>
+
+      <label class="t">Tim Perbaikan</label>
+      <input id="tim" placeholder="Contoh : Shift Siang">
+
+      <div style="display:flex;gap:10px">
+        <div style="flex:1"><label class="t">Jam Masuk</label><input type="time" id="masuk" value="08:00"></div>
+        <div style="flex:1"><label class="t">Jam Mulai</label><input type="time" id="mulai" value="09:00"></div>
+      </div>
+
+      <label class="t">Keterangan Laporan</label>
+      <textarea id="laporan" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
+
+      <button onclick="simpanPerintah()" style="width:100%;background:#2563eb;color:#fff;padding:14px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px">SIMPAN KE CLOUD</button>
+    </div>
+  </div>
+
+  <!-- MODAL EDIT PERBAIKAN -->
+  <div id="modalEdit">
+    <div class="modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px;margin-bottom:12px">
+        <span id="judulModalEdit">Edit Data Perbaikan</span>
+        <span onclick="closeModalEdit()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+      </div>
+
+      <input type="hidden" id="e_firebaseKey">
+
+      <label class="t">Tanggal Masuk</label>
+      <input type="date" id="e_tanggal">
+
+      <label class="t">Nama Pelapor / Pekerja</label>
+      <input id="e_nama">
+
+      <label class="t">Nomor Unit</label>
+      <input id="e_noMesin">
+
+      <label class="t">Jenis Unit</label>
+      <input id="e_jenisMesin">
+
+      <label class="t">Kerusakan / Item</label>
+      <input id="e_item">
+
+      <label class="t">Ruangan / Tempat</label>
+      <select id="e_tempat">
+        <option value="38-1">38-1</option>
+        <option value="38-2">38-2</option>
+        <option value="39-1">39-1</option>
+        <option value="39-2">39-2</option>
+        <option value="50-1">50-1</option>
+        <option value="50-2">50-2</option>
+        <option value="51-1">51-1</option>
+        <option value="51-2">51-2</option>
+        <option value="52-1">52-1</option>
+        <option value="52-2">52-2</option>
+      </select>
+
+      <label class="t">Tim Perbaikan</label>
+      <input id="e_tim">
+
+      <label class="t">Keterangan Laporan</label>
+      <textarea id="e_laporan" rows="2"></textarea>
+
+      <button onclick="simpanEditPerbaikan()" style="width:100%;background:#f59e0b;color:#fff;padding:14px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px">UPDATE DATA</button>
+    </div>
+  </div>
+
+  <!-- MODAL INPUT SELESAI & KELUAR -->
+  <div id="modalSelesai">
+    <div class="modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px;margin-bottom:12px">
+        <span id="judulModalSelesai">Update Waktu Perbaikan</span>
+        <span onclick="closeModalSelesai()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+      </div>
+
+      <input type="hidden" id="editId">
+
+      <label class="t">Jam Selesai Perbaikan</label>
+      <input type="time" id="jamSelesaiInput">
+
+      <label class="t">Jam Keluar Bengkel <small style="color:#64748b;font-weight:normal">(Opsional)</small></label>
+      <input type="time" id="jamKeluarInput">
+
+      <div style="display:flex;gap:10px;margin-top:10px">
+        <button onclick="closeModalSelesai()" style="flex:1;background:#f1f5f9;color:#475569;padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Batal</button>
+        <button onclick="simpanSelesaiKeluar()" style="flex:1;background:#2563eb;color:#fff;padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Simpan Update</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL LUPA SANDI & OTP -->
+  <div id="modalForgot">
+    <div class="modal-confirm-box" style="text-align:left">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 style="margin:0;color:#0f172a;font-size:18px;font-weight:800">Lupa Kata Sandi</h3>
+        <span onclick="closeForgotModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+      </div>
+
+      <!-- STEP 1: VERIFIKASI NOMOR HP -->
+      <div id="fg_step1">
+        <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Masukkan Username/NIK dan Nomor HP yang terdaftar untuk menerima Kode OTP.</p>
+        <label class="t">Username / NIK</label>
+        <input id="fg_user" placeholder="NIK / Username" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid #cbd5e1;border-radius:8px">
+        <label class="t">Nomor HP / WhatsApp</label>
+        <input id="fg_phone" placeholder="Contoh: 08123456789" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
+        <button class="btn-primary" onclick="kirimOtp()">Kirim Kode OTP</button>
+      </div>
+
+      <!-- STEP 2: VERIFIKASI KODE OTP -->
+      <div id="fg_step2" style="display:none">
+        <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Kode OTP 4 digit telah dikirimkan. Masukkan kode untuk memverifikasi.</p>
+        <label class="t">Kode OTP Verifikasi</label>
+        <input id="fg_otp" placeholder="Contoh: 1234" maxlength="4" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:18px;letter-spacing:4px">
+        <button class="btn-primary" onclick="verifikasiOtp()">Verifikasi OTP</button>
+      </div>
+
+      <!-- STEP 3: RESET SANDI BARU -->
+      <div id="fg_step3" style="display:none">
+        <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Verifikasi berhasil. Silakan buat password baru untuk akun Anda.</p>
+        <label class="t">Password Baru</label>
+        <input id="fg_newpass" type="password" placeholder="Masukkan password baru" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
+        <button class="btn-primary" style="background:#22c55e" onclick="simpanSandiBaru()">Simpan Password Baru</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL UBAH NOMOR HP & KATA SANDI -->
+  <div id="modalUpdateAccount">
+    <div class="modal-confirm-box" style="text-align:left">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 id="accModalTitle" style="margin:0;color:#0f172a;font-size:18px;font-weight:800">Pengaturan Akun</h3>
+        <span onclick="closeUpdateAccountModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+      </div>
+
+      <!-- FORM UBAH NOMOR HP STEP 1 -->
+      <div id="formUpdatePhoneStep1" style="display:none">
+        <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Masukkan nomor HP baru. Kode OTP verifikasi akan dikirimkan ke nomor ini.</p>
+        <label class="t">Nomor HP Baru</label>
+        <input id="acc_new_phone" type="tel" placeholder="Contoh: 08123456789" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
+        <button class="btn-primary" onclick="kirimOtpUbahHp()">Kirim Kode OTP</button>
+      </div>
+
+      <!-- FORM UBAH NOMOR HP STEP 2 -->
+      <div id="formUpdatePhoneStep2" style="display:none">
+        <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Masukkan kode OTP 4-digit yang dikirimkan ke nomor HP baru Anda.</p>
+        <label class="t">Kode OTP Verifikasi</label>
+        <input id="acc_phone_otp" placeholder="Contoh: 1234" maxlength="4" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:18px;letter-spacing:4px">
+        <button class="btn-primary" style="background:#22c55e" onclick="verifikasiDanSimpanHpBaru()">Konfirmasi OTP & Simpan</button>
+      </div>
+
+      <!-- FORM UBAH KATA SANDI + LINK LUPA KATA SANDI -->
+      <div id="formUpdatePass" style="display:none">
+        <label class="t">Kata Sandi Lama</label>
+        <input id="acc_old_pass" type="password" placeholder="Masukkan sandi saat ini" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #cbd5e1;border-radius:8px">
+        
+        <label class="t">Kata Sandi Baru</label>
+        <input id="acc_new_pass" type="password" placeholder="Masukkan sandi baru" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid #cbd5e1;border-radius:8px">
+        
+        <button class="btn-primary" style="margin-top:4px" onclick="simpanKataSandiBaru()">Simpan Kata Sandi</button>
+        
+        <div style="text-align:center;margin-top:14px">
+          <a onclick="pindahKeLupaSandiDariModal()" style="color:#2563eb;font-size:12px;font-weight:700;cursor:pointer">Lupa Kata Sandi?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POP-UP HAPUS KUSTOM -->
+  <div id="modalHapus">
+    <div class="modal-confirm-box">
+      <div class="icon-wrapper icon-danger">🗑️</div>
+      <h3 style="margin:0 0 8px;color:#0f172a;font-size:18px;font-weight:800">Hapus Data Perbaikan?</h3>
+      <p style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.4">
+        Apakah Anda yakin ingin menghapus data perbaikan ID: <br><strong id="hapusWOId" style="color:#0f172a"></strong>? Data yang dihapus tidak dapat dikembalikan.
+      </p>
+      <input type="hidden" id="hapusFirebaseKey">
+      <div style="display:flex;gap:10px">
+        <button class="btn-cancel" onclick="closeModalHapus()">Batal</button>
+        <button class="btn-delete" onclick="eksekusiHapus()">Ya, Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POP-UP MODERN UNTUK NOTIFIKASI SYSTEM -->
+  <div id="modalToast">
+    <div class="modal-confirm-box">
+      <div id="toastIcon" class="icon-wrapper icon-success">✓</div>
+      <h3 id="toastTitle" style="margin:0 0 8px;color:#0f172a;font-size:18px;font-weight:800">Pemberitahuan</h3>
+      <p id="toastMessage" style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.5;word-break:break-word;"></p>
+      <button class="btn-primary" onclick="closeToast()">OK</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 1. KONFIGURASI FIREBASE SDK v8
+const firebaseConfig = {
+  apiKey: "AIzaSyDKyUcHEUE8HIhpL9s85122MIbn9q2GMkg",
+  authDomain: "mekanik2.firebaseapp.com",
+  databaseURL: "https://mekanik2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "mekanik2",
+  storageBucket: "mekanik2.firebasestorage.app",
+  messagingSenderId: "572982608252",
+  appId: "1:572982608252:web:338582c6e4e73fe6e3a4f9"
+};
+
+// INITIALIZE FIREBASE
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const dbRef = firebase.database().ref('perbaikan_iwip');
+const usersRef = firebase.database().ref('users_iwip');
+
+let currentUser = null;
+let db = [];
+let allUsers = {};
+let toastCallback = null;
+
+// NOTIFIKASI POP-UP SYSTEM
+function showToast(message, title = "Pemberitahuan", type = "success", callback = null) {
+  const modal = document.getElementById('modalToast');
+  const iconBox = document.getElementById('toastIcon');
+  const titleEl = document.getElementById('toastTitle');
+  const msgEl = document.getElementById('toastMessage');
+
+  titleEl.innerText = title;
+  msgEl.innerText = message;
+  toastCallback = callback;
+
+  iconBox.className = "icon-wrapper";
+  if (type === 'success') {
+    iconBox.classList.add('icon-success');
+    iconBox.innerHTML = '✓';
+  } else if (type === 'danger') {
+    iconBox.classList.add('icon-danger');
+    iconBox.innerHTML = '✕';
+  } else if (type === 'warning') {
+    iconBox.classList.add('icon-warning');
+    iconBox.innerHTML = '⚠️';
+  } else {
+    iconBox.classList.add('icon-info');
+    iconBox.innerHTML = 'ℹ️';
+  }
+
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('active'), 10);
+}
+
+function closeToast() {
+  const modal = document.getElementById('modalToast');
+  modal.classList.remove('active');
+  setTimeout(() => {
+    modal.style.display = 'none';
+    if (toastCallback) {
+      toastCallback();
+      toastCallback = null;
+    }
+  }, 150);
+}
+
+// REALTIME PERBAIKAN
+dbRef.on('value', (snapshot) => {
+  const data = snapshot.val();
+  db = [];
+  if (data) {
+    Object.keys(data).forEach(key => {
+      db.push({ firebaseKey: key, ...data[key] });
+    });
+  }
+  db.sort((a, b) => b.id.localeCompare(a.id));
+  tampil();
+});
+
+// REALTIME USERS
+usersRef.on('value', (snapshot) => {
+  allUsers = snapshot.val() || {};
+  if (currentUser && allUsers[currentUser.user]) {
+    currentUser = allUsers[currentUser.user];
+    updateMilikkuUI();
+  }
+  renderUserManagement();
+});
+
+function togglePass(id) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+
+function showReg() { 
+  document.getElementById('loginPage').style.display = 'none'; 
+  document.getElementById('regPage').style.display = 'flex'; 
+}
+function showLogin() { 
+  document.getElementById('regPage').style.display = 'none'; 
+  document.getElementById('loginPage').style.display = 'flex'; 
+}
+
+// INDIKATOR OVERLAY LOADING SYSTEM
+let loginTimeout = null;
+
+function showLoading(text = "Memproses...", subtext = "Harap tunggu sebentar") {
+  document.getElementById('loadingText').innerText = text;
+  document.getElementById('loadingSubtext').innerText = subtext;
+  document.getElementById('loadingOverlay').style.display = 'flex';
+}
+
+function hideLoading() {
+  document.getElementById('loadingOverlay').style.display = 'none';
+  if (loginTimeout) {
+    clearTimeout(loginTimeout);
+    loginTimeout = null;
+  }
+}
+
+// PENDAFTARAN
+function register() {
+  const u = document.getElementById('r_user').value.trim();
+  const p = document.getElementById('r_pass').value.trim();
+  const n = document.getElementById('r_name').value.trim();
+  const ph = document.getElementById('r_phone').value.trim();
+
+  if (!u || !p || !ph) { 
+    showToast('Harap lengkapi NIK/Username, Nomor HP, dan Password!', 'Peringatan', 'warning'); 
+    return; 
+  }
+  
+  showLoading('Mendaftarkan Akun...', 'Menyimpan data ke server...');
+
+  usersRef.once('value', snapshot => {
+    hideLoading();
+    const users = snapshot.val();
+    const isFirstUser = !users || Object.keys(users).length === 0;
+
+    if (users && users[u]) {
+      showToast('Username/NIK sudah terdaftar!', 'Gagal Daftar', 'danger');
+    } else {
+      let assignedRole = isFirstUser ? 'admin' : 'user';
+      let uData = { user: u, pass: p, name: n || u, phone: ph, role: assignedRole };
+      
+      usersRef.child(u).set(uData, (err) => {
+        if (err) {
+          showToast('Gagal mendaftar: ' + err.message, 'Sistem Error', 'danger');
+        } else {
+          if (isFirstUser) {
+            showToast('Pendaftaran berhasil! Anda adalah pendaftar pertama dan ditetapkan sebagai ADMINISTRATOR.', 'Selamat datang Admin!', 'success', showLogin);
+          } else {
+            showToast('Pendaftaran berhasil! Akun Anda terdaftar sebagai User Biasa.', 'Berhasil Daftar', 'success', showLogin);
+          }
+        }
+      });
+    }
+  }, (error) => {
+    hideLoading();
+    showToast('Gagal mendaftar, periksa koneksi internet Anda!', 'Gagal Terhubung', 'danger');
+  });
+}
+
+// LOGIN DENGAN OVERLAY LOADING & DETEKSI JARINGAN JELEK
+function login() {
+  let uInput = document.getElementById('user').value.trim();
+  let pInput = document.getElementById('pass').value.trim();
+
+  if (!uInput || !pInput) { 
+    showToast('Isi Username dan Password!', 'Peringatan', 'warning'); 
+    return; 
+  }
+
+  showLoading('Memproses Login...', 'Menghubungkan ke server Firebase...');
+
+  // Update indikator jika jaringan lambat (> 3 detik)
+  let networkNoticeTimer = setTimeout(() => {
+    document.getElementById('loadingText').innerText = 'Jaringan Lambat Detected...';
+    document.getElementById('loadingSubtext').innerText = 'Sedang mengupayakan koneksi ke database. Harap tunggu...';
+  }, 3000);
+
+  // Timeout jika jaringan tidak terhubung sama sekali (15 detik)
+  loginTimeout = setTimeout(() => {
+    clearTimeout(networkNoticeTimer);
+    hideLoading();
+    showToast('Koneksi internet Anda jelek atau terputus! Silakan periksa jaringan dan coba lagi.', 'Gagal Terhubung', 'danger');
+  }, 15000);
+
+  usersRef.child(uInput).once('value', snapshot => {
+    clearTimeout(networkNoticeTimer);
+    hideLoading();
+
+    let u = snapshot.val();
+    if (u && u.pass === pInput) {
+      if (!u.role) u.role = 'user';
+      currentUser = u;
+      goDash(u);
+    } else {
+      showToast('Username / Password salah atau belum terdaftar!', 'Akses Ditolak', 'danger');
+    }
+  }, (error) => {
+    clearTimeout(networkNoticeTimer);
+    hideLoading();
+    showToast('Terjadi kesalahan jaringan: ' + error.message, 'Gagal Terhubung', 'danger');
+  });
+}
+
+// --- LOGIKA LUPA SANDI & OTP ---
+let generatedOTP = null;
+let targetResetUser = null;
+
+function showForgotModal(prefillUser = '', prefillPhone = '') {
+  document.getElementById('fg_step1').style.display = 'block';
+  document.getElementById('fg_step2').style.display = 'none';
+  document.getElementById('fg_step3').style.display = 'none';
+  document.getElementById('fg_user').value = prefillUser;
+  document.getElementById('fg_phone').value = prefillPhone;
+  document.getElementById('fg_otp').value = '';
+  document.getElementById('fg_newpass').value = '';
+  
+  const modal = document.getElementById('modalForgot');
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('active'), 10);
+}
+
+function closeForgotModal() {
+  const modal = document.getElementById('modalForgot');
+  modal.classList.remove('active');
+  setTimeout(() => modal.style.display = 'none', 150);
+}
+
+function pindahKeLupaSandiDariModal() {
+  closeUpdateAccountModal();
+  let userVal = currentUser ? currentUser.user : '';
+  let phoneVal = currentUser ? currentUser.phone : '';
+  setTimeout(() => {
+    showForgotModal(userVal, phoneVal);
+  }, 200);
+}
+
+function kirimOtp() {
+  const u = document.getElementById('fg_user').value.trim();
+  const ph = document.getElementById('fg_phone').value.trim();
+
+  if (!u || !ph) {
+    showToast('Isi Username/NIK dan Nomor HP!', 'Data Tidak Lengkap', 'warning');
+    return;
+  }
+
+  showLoading('Memverifikasi User...', 'Mengecek data terdaftar...');
+
+  usersRef.child(u).once('value', snapshot => {
+    hideLoading();
+    const userData = snapshot.val();
+    if (!userData) {
+      showToast('Username/NIK tidak ditemukan!', 'Gagal Verifikasi', 'danger');
+      return;
+    }
+
+    if (userData.phone !== ph) {
+      showToast('Nomor HP tidak cocok dengan data terdaftar!', 'Gagal Verifikasi', 'danger');
+      return;
+    }
+
+    generatedOTP = Math.floor(1000 + Math.random() * 9000).toString();
+    targetResetUser = u;
+
+    showToast(`Kode OTP Anda adalah: ${generatedOTP}\n(Gunakan kode ini untuk membuat kata sandi baru)`, 'Kode OTP Terkirim', 'info', () => {
+      document.getElementById('fg_step1').style.display = 'none';
+      document.getElementById('fg_step2').style.display = 'block';
+    });
+  }, (error) => {
+    hideLoading();
+    showToast('Koneksi internet bermasalah!', 'Gagal', 'danger');
+  });
+}
+
+function verifikasiOtp() {
+  const otpInput = document.getElementById('fg_otp').value.trim();
+  if (otpInput === generatedOTP) {
+    showToast('OTP Valid! Silakan buat password baru.', 'Berhasil', 'success', () => {
+      document.getElementById('fg_step2').style.display = 'none';
+      document.getElementById('fg_step3').style.display = 'block';
+    });
+  } else {
+    showToast('Kode OTP salah! Periksa kembali kode Anda.', 'Gagal Verifikasi', 'danger');
+  }
+}
+
+function simpanSandiBaru() {
+  const newPass = document.getElementById('fg_newpass').value.trim();
+  if (!newPass) {
+    showToast('Masukkan password baru Anda!', 'Peringatan', 'warning');
+    return;
+  }
+
+  showLoading('Menyimpan Password...', 'Memperbarui data akun...');
+
+  usersRef.child(targetResetUser).update({ pass: newPass }, (err) => {
+    hideLoading();
+    if (err) {
+      showToast('Gagal mengubah password: ' + err.message, 'Error', 'danger');
+    } else {
+      closeForgotModal();
+      if (currentUser && currentUser.user === targetResetUser) {
+        currentUser.pass = newPass;
+      }
+      showToast('Password baru berhasil disimpan!', 'Sandi Diperbarui', 'success');
+    }
+  });
+}
+
+// --- LOGIKA UBAH HP & SANDI ---
+let changePhoneOTP = null;
+let newPhoneCandidate = null;
+
+function showUpdateAccountModal(type) {
+  if (!currentUser) return;
+
+  const modal = document.getElementById('modalUpdateAccount');
+  const title = document.getElementById('accModalTitle');
+  const formPhoneStep1 = document.getElementById('formUpdatePhoneStep1');
+  const formPhoneStep2 = document.getElementById('formUpdatePhoneStep2');
+  const formPass = document.getElementById('formUpdatePass');
+
+  if (type === 'phone') {
+    title.innerText = 'Ubah Nomor HP';
+    formPhoneStep1.style.display = 'block';
+    formPhoneStep2.style.display = 'none';
+    formPass.style.display = 'none';
+    document.getElementById('acc_new_phone').value = currentUser.phone || '';
+    document.getElementById('acc_phone_otp').value = '';
+  } else if (type === 'pass') {
+    title.innerText = 'Ubah Kata Sandi';
+    formPhoneStep1.style.display = 'none';
+    formPhoneStep2.style.display = 'none';
+    formPass.style.display = 'block';
+    document.getElementById('acc_old_pass').value = '';
+    document.getElementById('acc_new_pass').value = '';
+  }
+
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('active'), 10);
+}
+
+function closeUpdateAccountModal() {
+  const modal = document.getElementById('modalUpdateAccount');
+  modal.classList.remove('active');
+  setTimeout(() => modal.style.display = 'none', 150);
+}
+
+function kirimOtpUbahHp() {
+  const newPhone = document.getElementById('acc_new_phone').value.trim();
+  if (!newPhone) {
+    showToast('Masukkan nomor HP baru yang valid!', 'Peringatan', 'warning');
+    return;
+  }
+
+  if (newPhone === currentUser.phone) {
+    showToast('Nomor HP baru tidak boleh sama dengan nomor HP saat ini!', 'Peringatan', 'warning');
+    return;
+  }
+
+  changePhoneOTP = Math.floor(1000 + Math.random() * 9000).toString();
+  newPhoneCandidate = newPhone;
+
+  showToast(`Kode OTP Konfirmasi Anda: ${changePhoneOTP}\n(Masukkan kode ini untuk verifikasi perubahan nomor HP)`, 'Kode OTP Terkirim', 'info', () => {
+    document.getElementById('formUpdatePhoneStep1').style.display = 'none';
+    document.getElementById('formUpdatePhoneStep2').style.display = 'block';
+  });
+}
+
+function verifikasiDanSimpanHpBaru() {
+  const inputOtp = document.getElementById('acc_phone_otp').value.trim();
+
+  if (!inputOtp) {
+    showToast('Masukkan kode OTP verifikasi!', 'Peringatan', 'warning');
+    return;
+  }
+
+  if (inputOtp !== changePhoneOTP) {
+    showToast('Kode OTP yang Anda masukkan salah!', 'Gagal Verifikasi', 'danger');
+    return;
+  }
+
+  showLoading('Menyimpan Nomor HP...', 'Mengintegrasikan dengan akun...');
+
+  usersRef.child(currentUser.user).update({ phone: newPhoneCandidate }, (err) => {
+    hideLoading();
+    if (err) {
+      showToast('Gagal memperbarui nomor HP: ' + err.message, 'Error', 'danger');
+    } else {
+      currentUser.phone = newPhoneCandidate;
+      updateMilikkuUI();
+      closeUpdateAccountModal();
+      showToast('Nomor HP berhasil diverifikasi dan diperbarui!', 'Berhasil', 'success');
+    }
+  });
+}
+
+function simpanKataSandiBaru() {
+  const oldPass = document.getElementById('acc_old_pass').value.trim();
+  const newPass = document.getElementById('acc_new_pass').value.trim();
+
+  if (!oldPass || !newPass) {
+    showToast('Isi kata sandi lama dan kata sandi baru!', 'Peringatan', 'warning');
+    return;
+  }
+
+  if (oldPass !== currentUser.pass) {
+    showToast('Kata sandi lama yang Anda masukkan salah!', 'Gagal Verifikasi', 'danger');
+    return;
+  }
+
+  showLoading('Memperbarui Sandi...', 'Menyimpan kata sandi baru...');
+
+  usersRef.child(currentUser.user).update({ pass: newPass }, (err) => {
+    hideLoading();
+    if (err) {
+      showToast('Gagal memperbarui kata sandi: ' + err.message, 'Error', 'danger');
+    } else {
+      currentUser.pass = newPass;
+      closeUpdateAccountModal();
+      showToast('Kata sandi berhasil diperbarui!', 'Berhasil', 'success');
+    }
+  });
+}
+
+function updateMilikkuUI() {
+  if (!currentUser) return;
+  document.getElementById('milikName').innerText = currentUser.name || currentUser.user;
+  document.getElementById('milikNIK').innerText = 'ID: ' + currentUser.user;
+  document.getElementById('milikPhone').innerText = 'HP: ' + (currentUser.phone || '-');
+  document.getElementById('milikRole').innerText = 'Akses: ' + (currentUser.role === 'admin' ? 'Administrator' : 'User Biasa');
+}
+
+function goDash(u) {
+  currentUser = u;
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('regPage').style.display = 'none';
+  document.getElementById('dashPage').style.display = 'block';
+  document.getElementById('bengkelPage').style.display = 'none';
+  document.getElementById('milikPage').style.display = 'none';
+  
+  updateMilikkuUI();
+
+  if (u.role === 'admin') {
+    document.getElementById('adminUserControl').style.display = 'block';
+    renderUserManagement();
+  } else {
+    document.getElementById('adminUserControl').style.display = 'none';
+  }
+
+  tampil();
+}
+
+function renderUserManagement() {
+  const container = document.getElementById('userListContainer');
+  if (!container || !currentUser || currentUser.role !== 'admin') return;
+
+  const keys = Object.keys(allUsers);
+  if (keys.length === 0) {
+    container.innerHTML = '<div style="font-size:12px;color:#94a3b8">Belum ada pengguna lain.</div>';
+    return;
+  }
+
+  container.innerHTML = keys.map(k => {
+    const usr = allUsers[k];
+    const isSelf = currentUser.user === usr.user;
+    return `
+      <div class="user-item">
+        <div class="user-info">
+          <b>${usr.name || usr.user}</b> (${usr.user})
+          <span>HP: ${usr.phone || '-'} | Role: ${usr.role === 'admin' ? 'Admin' : 'User'}</span>
+        </div>
+        <div>
+          <select class="role-select" onchange="changeUserRole('${usr.user}', this.value)" ${isSelf ? 'disabled' : ''}>
+            <option value="user" ${usr.role === 'user' ? 'selected' : ''}>User</option>
+            <option value="admin" ${usr.role === 'admin' ? 'selected' : ''}>Admin</option>
+          </select>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function changeUserRole(username, newRole) {
+  if (!currentUser || currentUser.role !== 'admin') return;
+  usersRef.child(username).update({ role: newRole }, (err) => {
+    if (err) showToast('Gagal memperbarui role!', 'Error', 'danger');
+    else showToast(`Role untuk ${username} berhasil diubah menjadi ${newRole.toUpperCase()}`, 'Peran Diperbarui', 'success');
+  });
+}
+
+function openBengkel() { document.getElementById('dashPage').style.display = 'none'; document.getElementById('bengkelPage').style.display = 'block'; }
+function openDash() { document.getElementById('bengkelPage').style.display = 'none'; document.getElementById('milikPage').style.display = 'none'; document.getElementById('dashPage').style.display = 'block'; }
+function openMilikku() { document.getElementById('dashPage').style.display = 'none'; document.getElementById('bengkelPage').style.display = 'none'; document.getElementById('milikPage').style.display = 'block'; }
+function logout() { currentUser = null; location.reload(); }
+
+// MODAL CONTROLS
+function openModal() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('tanggal').value = today;
+  document.getElementById('modal').style.display = 'flex';
+}
+function closeModal() { document.getElementById('modal').style.display = 'none'; }
+function closeModalSelesai() { document.getElementById('modalSelesai').style.display = 'none'; }
+function closeModalEdit() { document.getElementById('modalEdit').style.display = 'none'; }
+function closeModalHapus() { 
+  const modal = document.getElementById('modalHapus');
+  modal.classList.remove('active');
+  setTimeout(() => modal.style.display = 'none', 150);
+}
+
+// DRAGGABLE FAB
+const fab = document.getElementById('fabBtn');
+let isDragging = false, startX, startY, fabX, fabY, moved = false;
+
+function onStart(e) {
+  isDragging = true; moved = false;
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  const rect = fab.getBoundingClientRect();
+  startX = clientX; startY = clientY; fabX = rect.left; fabY = rect.top;
+  fab.style.right = 'auto'; fab.style.bottom = 'auto';
+  fab.style.left = fabX + 'px'; fab.style.top = fabY + 'px';
+}
+
+function onMove(e) {
+  if (!isDragging) return;
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  const dx = clientX - startX, dy = clientY - startY;
+  if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+  let newX = Math.max(10, Math.min(fabX + dx, window.innerWidth - fab.offsetWidth - 10));
+  let newY = Math.max(10, Math.min(fabY + dy, window.innerHeight - fab.offsetHeight - 10));
+  fab.style.left = newX + 'px'; fab.style.top = newY + 'px';
+}
+
+function onEnd() {
+  if (!isDragging) return;
+  isDragging = false;
+  if (!moved) openModal();
+}
+
+fab.addEventListener('touchstart', onStart, {passive: true});
+window.addEventListener('touchmove', onMove, {passive: true});
+window.addEventListener('touchend', onEnd);
+fab.addEventListener('mousedown', onStart);
+window.addEventListener('mousemove', onMove);
+window.addEventListener('mouseup', onEnd);
+
+// FIREBASE DATABASE OPERATIONS
+function genId() {
+  const d = new Date();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  return 'WX' + d.getFullYear() + m + Math.floor(100000 + Math.random() * 900000);
+}
+
+function simpanPerintah() {
+  const tgl = document.getElementById('tanggal').value;
+  const unit = document.getElementById('noMesin').value;
+  const rm = document.getElementById('tempat').value;
+  const pkrj = document.getElementById('nama').value;
+
+  if (!tgl) { showToast('Pilih Tanggal Masuk!', 'Data Belum Lengkap', 'warning'); return; }
+  if (!unit) { showToast('Nomor Unit wajib diisi!', 'Data Belum Lengkap', 'warning'); return; }
+  if (!rm) { showToast('Pilih Ruangan!', 'Data Belum Lengkap', 'warning'); return; }
+
+  showLoading('Menyimpan Perintah...', 'Mengunggah ke database server...');
+
+  let o = {
+    id: genId(),
+    nama: pkrj || (currentUser ? currentUser.name : 'Petugas'),
+    tanggal: tgl,
+    nomorMesin: unit,
+    jenisMesin: document.getElementById('jenisMesin').value || '-',
+    item: document.getElementById('item').value || '-',
+    tempat: rm,
+    tim: document.getElementById('tim').value || 'Bagian Mekanik 2',
+    bengkel: 'RIM汽修厂一车间',
+    laporan: document.getElementById('laporan').value || '',
+    masuk: document.getElementById('masuk').value || '08:00',
+    mulai: document.getElementById('mulai').value || '09:00',
+    selesai: "",
+    keluar: "",
+    waktuLapor: tgl + ' ' + (document.getElementById('masuk').value || '08:00'),
+    waktuMulai: tgl + ' ' + (document.getElementById('mulai').value || '09:00'),
+    status: 'Menunggu Selesai Perbaikan',
+    durasi: 0
+  };
+
+  dbRef.push(o, (err) => {
+    hideLoading();
+    if (err) showToast('Gagal menyimpan ke Firebase: ' + err.message, 'Error', 'danger');
+    else {
+      closeModal();
+      document.getElementById('noMesin').value = '';
+      document.getElementById('jenisMesin').value = '';
+      document.getElementById('item').value = '';
+      document.getElementById('laporan').value = '';
+      showToast('Perintah perbaikan baru berhasil disimpan!', 'Berhasil', 'success');
+    }
+  });
+}
+
+function resetFilterTanggal() {
+  document.getElementById('tglAwal').value = '';
+  document.getElementById('tglAkhir').value = '';
+  tampil();
+}
+
+function tampil() {
+  let c = document.getElementById('cari')?.value.toLowerCase() || '';
+  let tglAwal = document.getElementById('tglAwal')?.value || '';
+  let tglAkhir = document.getElementById('tglAkhir')?.value || '';
+
+  let f = db.filter(x => {
+    let matchCari = !c || x.nomorMesin.toLowerCase().includes(c) || x.id.toLowerCase().includes(c);
+    let matchTgl = true;
+
+    if (tglAwal && tglAkhir) {
+      matchTgl = x.tanggal >= tglAwal && x.tanggal <= tglAkhir;
+    } else if (tglAwal) {
+      matchTgl = x.tanggal >= tglAwal;
+    } else if (tglAkhir) {
+      matchTgl = x.tanggal <= tglAkhir;
+    }
+
+    return matchCari && matchTgl;
+  });
+  
+  if (document.getElementById('jmlSemua')) document.getElementById('jmlSemua').innerText = f.length;
+  
+  const listEl = document.getElementById('list');
+  if (!listEl) return;
+
+  if (f.length === 0) {
+    listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8">Tidak ada data perbaikan</div>';
+    return;
+  }
+
+  const isAdmin = currentUser && currentUser.role === 'admin';
+
+  listEl.innerHTML = f.map(x => `
+  <div class="card-order">
+    <div class="order-id">
+      <span>${x.id}</span>
+      ${x.selesai ? 
+        (x.keluar && x.keluar !== '-' ? '<span class="badge badge-green">Sudah Keluar</span>' : '<span class="badge badge-orange">Selesai - Belum Keluar</span>') 
+        : '<span class="badge badge-blue">' + x.status + '</span>'}
+    </div>
+    <div class="info-grid">
+      <div class="l" style="color:#2563eb">Tanggal Masuk</div><div class="v" style="color:#2563eb">${x.tanggal || '-'}</div>
+      <div class="l">Pelapor</div><div class="v">${x.nama || '-'}</div>
+      <div class="l">Nomor Unit</div><div class="v">${x.nomorMesin}</div>
+      <div class="l">Jenis Unit</div><div class="v">${x.jenisMesin || '-'}</div>
+      <div class="l">Kerusakan / Item</div><div class="v">${x.item || '-'}</div>
+      <div class="l">Ruangan</div><div class="v" style="color:#2563eb;font-weight:700">${x.tempat || '-'}</div>
+      <div class="l">Tim Kerja</div><div class="v">${x.tim}</div>
+      <div class="l">Waktu Mulai</div><div class="v">${x.waktuMulai}</div>
+      <div class="l">Waktu Selesai</div><div class="v" style="color:${x.selesai ? '#16a34a' : '#94a3b8'}">${x.selesai || 'Belum selesai'}</div>
+      <div class="l">Waktu Keluar</div><div class="v" style="color:${x.keluar && x.keluar !== '-' ? '#ef4444' : '#94a3b8'}">${x.keluar || '-'} ${x.durasi ? '(' + Math.floor(x.durasi / 60) + 'j ' + (x.durasi % 60) + 'm)' : ''}</div>
+      <div class="l">Keterangan</div><div class="v">${x.laporan || '-'}</div>
+    </div>
+    <div class="btn-row">
+      ${!x.selesai ? `<button onclick="inputSelesaiKeluar('${x.firebaseKey}')">Selesai Perbaikan</button>` : ''}
+      ${x.selesai && (!x.keluar || x.keluar === '-') ? `<button onclick="inputKeluar('${x.firebaseKey}')" class="danger">Input Keluar Bengkel</button>` : ''}
+      <button onclick="bukaModalEdit('${x.firebaseKey}')" class="warning">✏️ Edit</button>
+      ${isAdmin ? `<button onclick="hapusPerbaikan('${x.firebaseKey}', '${x.id}')" class="danger">🗑️ Hapus</button>` : ''}
+    </div>
+  </div>`).join('');
+}
+
+function bukaModalEdit(firebaseKey) {
+  if (!currentUser) return;
+
+  let item = db.find(x => x.firebaseKey === firebaseKey);
+  if (!item) return;
+
+  const isAdmin = currentUser.role === 'admin';
+
+  document.getElementById('e_firebaseKey').value = firebaseKey;
+  document.getElementById('e_tanggal').value = item.tanggal || '';
+  document.getElementById('e_nama').value = item.nama || '';
+  document.getElementById('e_noMesin').value = item.nomorMesin || '';
+  document.getElementById('e_jenisMesin').value = item.jenisMesin || '';
+  document.getElementById('e_item').value = item.item || '';
+  document.getElementById('e_tempat').value = item.tempat || '38-1';
+  document.getElementById('e_tim').value = item.tim || '';
+  document.getElementById('e_laporan').value = item.laporan || '';
+
+  document.getElementById('e_tanggal').disabled = !isAdmin;
+  document.getElementById('e_nama').disabled = !isAdmin;
+  document.getElementById('e_noMesin').disabled = !isAdmin;
+  document.getElementById('e_jenisMesin').disabled = !isAdmin;
+  document.getElementById('e_item').disabled = !isAdmin;
+  document.getElementById('e_tempat').disabled = !isAdmin;
+  document.getElementById('e_tim').disabled = !isAdmin;
+
+  document.getElementById('judulModalEdit').innerText = isAdmin ? 'Edit Data Perbaikan (Admin)' : 'Edit Keterangan (User)';
+
+  document.getElementById('modalEdit').style.display = 'flex';
+}
+
+function simpanEditPerbaikan() {
+  if (!currentUser) return;
+
+  const firebaseKey = document.getElementById('e_firebaseKey').value;
+  const isAdmin = currentUser.role === 'admin';
+
+  let updateData = {};
+
+  if (isAdmin) {
+    updateData = {
+      tanggal: document.getElementById('e_tanggal').value,
+      nama: document.getElementById('e_nama').value,
+      nomorMesin: document.getElementById('e_noMesin').value,
+      jenisMesin: document.getElementById('e_jenisMesin').value,
+      item: document.getElementById('e_item').value,
+      tempat: document.getElementById('e_tempat').value,
+      tim: document.getElementById('e_tim').value,
+      laporan: document.getElementById('e_laporan').value
+    };
+  } else {
+    updateData = {
+      laporan: document.getElementById('e_laporan').value
+    };
+  }
+
+  showLoading('Memperbarui Data...', 'Mengirim pembaruan...');
+
+  dbRef.child(firebaseKey).update(updateData, (err) => {
+    hideLoading();
+    if (err) {
+      showToast('Gagal mengupdate data: ' + err.message, 'Error', 'danger');
+    } else {
+      closeModalEdit();
+      showToast('Data perbaikan berhasil diperbarui!', 'Berhasil', 'success');
+    }
+  });
+}
+
+function hapusPerbaikan(firebaseKey, id) {
+  if (!currentUser || currentUser.role !== 'admin') {
+    showToast('Akses ditolak! Fitur ini hanya untuk Admin.', 'Akses Ditolak', 'danger');
+    return;
+  }
+
+  document.getElementById('hapusFirebaseKey').value = firebaseKey;
+  document.getElementById('hapusWOId').innerText = id;
+  const modal = document.getElementById('modalHapus');
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('active'), 10);
+}
+
+function eksekusiHapus() {
+  const firebaseKey = document.getElementById('hapusFirebaseKey').value;
+  if (!firebaseKey) return;
+
+  showLoading('Menghapus Data...', 'Menghapus record database...');
+
+  dbRef.child(firebaseKey).remove((err) => {
+    hideLoading();
+    if (err) {
+      showToast('Gagal menghapus data: ' + err.message, 'Error', 'danger');
+    } else {
+      closeModalHapus();
+      showToast('Data berhasil dihapus dari database.', 'Terhapus', 'success');
+    }
+  });
+}
+
+function inputSelesaiKeluar(firebaseKey) {
+  let r = db.find(x => x.firebaseKey === firebaseKey);
+  if (!r) return;
+
+  const now = new Date();
+  const timeNow = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+
+  document.getElementById('editId').value = firebaseKey;
+  document.getElementById('judulModalSelesai').innerText = 'Update Perbaikan: ' + r.id;
+  document.getElementById('jamSelesaiInput').value = r.selesai && r.selesai !== '-' ? r.selesai : timeNow;
+  document.getElementById('jamKeluarInput').value = r.keluar && r.keluar !== '-' ? r.keluar : '';
+
+  document.getElementById('modalSelesai').style.display = 'flex';
+}
+
+function inputKeluar(firebaseKey) {
+  inputSelesaiKeluar(firebaseKey);
+}
+
+function simpanSelesaiKeluar() {
+  let firebaseKey = document.getElementById('editId').value;
+  let jamS = document.getElementById('jamSelesaiInput').value;
+  let jamK = document.getElementById('jamKeluarInput').value;
+
+  if (!jamS) { showToast('Harap isi Jam Selesai Perbaikan!', 'Peringatan', 'warning'); return; }
+
+  let r = db.find(x => x.firebaseKey === firebaseKey);
+  if (!r) return;
+
+  let [sh, sm] = (r.mulai || "00:00").split(':').map(Number);
+  let [eh, em] = jamS.split(':').map(Number);
+  let d = (eh * 60 + em) - (sh * 60 + sm);
+  if (d < 0) d += 1440;
+
+  showLoading('Memperbarui Status...', 'Menyimpan waktu perbaikan...');
+
+  dbRef.child(firebaseKey).update({
+    selesai: jamS,
+    keluar: jamK ? jamK : "-",
+    durasi: d,
+    status: jamK ? "Sudah Keluar" : "Selesai - Belum Keluar"
+  }, (err) => {
+    hideLoading();
+    if (err) showToast('Gagal update Firebase!', 'Error', 'danger');
+    else {
+      closeModalSelesai();
+      showToast('Status perbaikan berhasil diperbarui!', 'Berhasil', 'success');
+    }
+  });
+}
+
+// LOGIKA MODAL FILTER EXPORT EXCEL
+function bukaModalExportExcel() {
+  if (db.length === 0) { 
+    showToast('Database masih kosong, tidak ada data yang bisa diexport!', 'Informasi', 'info'); 
+    return; 
+  }
+  document.getElementById('exp_tglAwal').value = '';
+  document.getElementById('exp_tglAkhir').value = '';
+  
+  const modal = document.getElementById('modalExportExcel');
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('active'), 10);
+}
+
+function tutupModalExportExcel() {
+  const modal = document.getElementById('modalExportExcel');
+  modal.classList.remove('active');
+  setTimeout(() => modal.style.display = 'none', 150);
+}
+
+function eksekusiExportExcel() {
+  let tAwal = document.getElementById('exp_tglAwal').value;
+  let tAkhir = document.getElementById('exp_tglAkhir').value;
+
+  let filteredData = db.filter(x => {
+    if (tAwal && tAkhir) {
+      return x.tanggal >= tAwal && x.tanggal <= tAkhir;
+    } else if (tAwal) {
+      return x.tanggal >= tAwal;
+    } else if (tAkhir) {
+      return x.tanggal <= tAkhir;
+    }
+    return true;
+  });
+
+  if (filteredData.length === 0) {
+    showToast('Tidak ada data perbaikan pada rentang tanggal yang dipilih!', 'Data Kosong', 'warning');
+    return;
+  }
+
+  let dataExcel = filteredData.map(x => ({
+    ID: x.id,
+    TanggalMasuk: x.tanggal,
+    NamaPelapor: x.nama,
+    NomorMesin: x.nomorMesin,
+    JenisMesin: x.jenisMesin,
+    Ruangan: x.tempat,
+    MemperbaikiItem: x.item,
+    Tim: x.tim,
+    Bengkel: x.bengkel,
+    WaktuLapor: x.waktuLapor,
+    WaktuMulai: x.waktuMulai,
+    Masuk: x.masuk,
+    Mulai: x.mulai,
+    Selesai: x.selesai,
+    Keluar: x.keluar,
+    DurasiMenit: x.durasi,
+    Status: x.status,
+    Keterangan: x.laporan
+  }));
+
+  let ws = XLSX.utils.json_to_sheet(dataExcel);
+  let wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Perbaikan");
+  
+  let fileName = "Database_Perbaikan_IWIP.xlsx";
+  if (tAwal && tAkhir) {
+    fileName = `Database_Perbaikan_${tAwal}_sd_${tAkhir}.xlsx`;
+  } else if (tAwal) {
+    fileName = `Database_Perbaikan_Mulai_${tAwal}.xlsx`;
+  } else if (tAkhir) {
+    fileName = `Database_Perbaikan_Sampaip_${tAkhir}.xlsx`;
+  }
+
+  XLSX.writeFile(wb, fileName);
+  tutupModalExportExcel();
+  showToast(`Berhasil mengunduh ${filteredData.length} data perbaikan ke file Excel.\nFile tersimpan di folder Downloads.`, 'Unduh Selesai', 'success');
+}
+</script>
+
+</body>
+</html>

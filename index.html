@@ -38,6 +38,33 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 .date-filter-box input[type="date"] { border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; padding: 4px 6px; font-size: 11px; outline: none; color: #0f172a; flex: 1; min-width: 0; }
 .btn-reset-filter { background: #f1f5f9; border: 1px solid #cbd5e1; color: #64748b; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
 
+/* STATS SUMMARY IN BENGKEL PAGE (BISA DIKLIK) */
+.stats-summary { display: flex; align-items: center; justify-content: space-between; padding: 0 16px 12px; font-size: 12px; font-weight: 600; color: #64748b; flex-wrap: wrap; gap: 6px; }
+.stats-badge { 
+  padding: 4px 10px; 
+  border-radius: 12px; 
+  font-weight: 700; 
+  font-size: 11px; 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 4px; 
+  cursor: pointer; 
+  user-select: none;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.stats-badge.total { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
+.stats-badge.total.active { background: #2563eb; color: #ffffff; }
+
+.stats-badge.proses { background: #fef3c7; color: #d97706; border-color: #fde68a; }
+.stats-badge.proses.active { background: #d97706; color: #ffffff; }
+
+.stats-badge.selesai { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+.stats-badge.selesai.active { background: #15803d; color: #ffffff; }
+
+.stats-badge:hover { opacity: 0.85; transform: translateY(-1px); }
+
 /* CARDS & BADGES */
 .card-order { background: #ffffff; padding: 16px; margin: 12px 16px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
 .order-id { font-weight: 800; font-size: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -76,7 +103,7 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
   user-select: none;
 }
 
-.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-around: space-around; font-size: 11px; padding: 10px 0; z-index: 30; }
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; font-size: 11px; padding: 10px 0; z-index: 30; }
 .nav-item { text-align: center; font-size: 11px; font-weight: 600; color: #94a3b8; cursor: pointer; flex: 1; }
 .nav-item.active { color: #2563eb; }
 
@@ -248,7 +275,21 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
       </div>
     </div>
 
-    <div style="padding:0 16px 8px;font-size:13px;color:#64748b;font-weight:600">Total Perbaikan: <span id="jmlSemua" style="color:#2563eb">0</span></div>
+    <!-- STATISTIK PERBAIKAN (BISA DIKLIK KHUSUS SEBAGAI FILTER STATUS) -->
+    <div class="stats-summary">
+      <div class="stats-badge total active" id="btnFilterTotal" onclick="setFilterStatus('semua')">
+        Total Perbaikan: <span id="jmlSemua">0</span>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <div class="stats-badge proses" id="btnFilterProses" onclick="setFilterStatus('proses')">
+          Dalam Perbaikan: <span id="jmlProses">0</span>
+        </div>
+        <div class="stats-badge selesai" id="btnFilterSelesai" onclick="setFilterStatus('selesai')">
+          Selesai: <span id="jmlSelesai">0</span>
+        </div>
+      </div>
+    </div>
+
     <div id="list"></div>
     
     <button class="fab" id="fabBtn"><span>+</span> Perintah Baru</button>
@@ -585,6 +626,7 @@ let currentUser = null;
 let db = [];
 let allUsers = {};
 let toastCallback = null;
+let currentStatusFilter = 'semua'; // Filter status global: semua | proses | selesai
 
 // NOTIFIKASI POP-UP SYSTEM
 function showToast(message, title = "Pemberitahuan", type = "success", callback = null) {
@@ -737,13 +779,11 @@ function login() {
 
   showLoading('Memproses Login...', 'Menghubungkan ke server Firebase...');
 
-  // Update indikator jika jaringan lambat (> 3 detik)
   let networkNoticeTimer = setTimeout(() => {
     document.getElementById('loadingText').innerText = 'Jaringan Lambat Detected...';
     document.getElementById('loadingSubtext').innerText = 'Sedang mengupayakan koneksi ke database. Harap tunggu...';
   }, 3000);
 
-  // Timeout jika jaringan tidak terhubung sama sekali (15 detik)
   loginTimeout = setTimeout(() => {
     clearTimeout(networkNoticeTimer);
     hideLoading();
@@ -769,7 +809,7 @@ function login() {
   });
 }
 
-// --- LOGIKA LUPA SANDI & OTP ---
+// LOGIKA LUPA SANDI & OTP
 let generatedOTP = null;
 let targetResetUser = null;
 
@@ -874,7 +914,7 @@ function simpanSandiBaru() {
   });
 }
 
-// --- LOGIKA UBAH HP & SANDI ---
+// LOGIKA UBAH HP & SANDI
 let changePhoneOTP = null;
 let newPhoneCandidate = null;
 
@@ -1174,12 +1214,25 @@ function resetFilterTanggal() {
   tampil();
 }
 
+// FUNGSI UNTUK MERUBAH TAB STATUS (TOTAL / DALAM PERBAIKAN / SELESAI)
+function setFilterStatus(status) {
+  currentStatusFilter = status;
+  
+  // Ubah tampilan tombol aktif
+  document.getElementById('btnFilterTotal')?.classList.toggle('active', status === 'semua');
+  document.getElementById('btnFilterProses')?.classList.toggle('active', status === 'proses');
+  document.getElementById('btnFilterSelesai')?.classList.toggle('active', status === 'selesai');
+
+  tampil();
+}
+
 function tampil() {
   let c = document.getElementById('cari')?.value.toLowerCase() || '';
   let tglAwal = document.getElementById('tglAwal')?.value || '';
   let tglAkhir = document.getElementById('tglAkhir')?.value || '';
 
-  let f = db.filter(x => {
+  // 1. Filter awal berdasarkan Pencarian & Rentang Tanggal
+  let dataFilteredBase = db.filter(x => {
     let matchCari = !c || x.nomorMesin.toLowerCase().includes(c) || x.id.toLowerCase().includes(c);
     let matchTgl = true;
 
@@ -1193,9 +1246,23 @@ function tampil() {
 
     return matchCari && matchTgl;
   });
+
+  // Hitung Angka Ringkasan Statistik
+  let countProses = dataFilteredBase.filter(x => !x.selesai || x.selesai === '-').length;
+  let countSelesai = dataFilteredBase.filter(x => x.selesai && x.selesai !== '-').length;
   
-  if (document.getElementById('jmlSemua')) document.getElementById('jmlSemua').innerText = f.length;
-  
+  if (document.getElementById('jmlSemua')) document.getElementById('jmlSemua').innerText = dataFilteredBase.length;
+  if (document.getElementById('jmlProses')) document.getElementById('jmlProses').innerText = countProses;
+  if (document.getElementById('jmlSelesai')) document.getElementById('jmlSelesai').innerText = countSelesai;
+
+  // 2. Filter lanjutan berdasarkan Tombol Status yang dipilih
+  let f = dataFilteredBase.filter(x => {
+    let isDone = !!(x.selesai && x.selesai !== '-');
+    if (currentStatusFilter === 'proses') return !isDone;
+    if (currentStatusFilter === 'selesai') return isDone;
+    return true; // 'semua'
+  });
+
   const listEl = document.getElementById('list');
   if (!listEl) return;
 
@@ -1206,34 +1273,40 @@ function tampil() {
 
   const isAdmin = currentUser && currentUser.role === 'admin';
 
-  listEl.innerHTML = f.map(x => `
-  <div class="card-order">
-    <div class="order-id">
-      <span>${x.id}</span>
-      ${x.selesai ? 
-        (x.keluar && x.keluar !== '-' ? '<span class="badge badge-green">Sudah Keluar</span>' : '<span class="badge badge-orange">Selesai - Belum Keluar</span>') 
-        : '<span class="badge badge-blue">' + x.status + '</span>'}
-    </div>
-    <div class="info-grid">
-      <div class="l" style="color:#2563eb">Tanggal Masuk</div><div class="v" style="color:#2563eb">${x.tanggal || '-'}</div>
-      <div class="l">Pelapor</div><div class="v">${x.nama || '-'}</div>
-      <div class="l">Nomor Unit</div><div class="v">${x.nomorMesin}</div>
-      <div class="l">Jenis Unit</div><div class="v">${x.jenisMesin || '-'}</div>
-      <div class="l">Kerusakan / Item</div><div class="v">${x.item || '-'}</div>
-      <div class="l">Ruangan</div><div class="v" style="color:#2563eb;font-weight:700">${x.tempat || '-'}</div>
-      <div class="l">Tim Kerja</div><div class="v">${x.tim}</div>
-      <div class="l">Waktu Mulai</div><div class="v">${x.waktuMulai}</div>
-      <div class="l">Waktu Selesai</div><div class="v" style="color:${x.selesai ? '#16a34a' : '#94a3b8'}">${x.selesai || 'Belum selesai'}</div>
-      <div class="l">Waktu Keluar</div><div class="v" style="color:${x.keluar && x.keluar !== '-' ? '#ef4444' : '#94a3b8'}">${x.keluar || '-'} ${x.durasi ? '(' + Math.floor(x.durasi / 60) + 'j ' + (x.durasi % 60) + 'm)' : ''}</div>
-      <div class="l">Keterangan</div><div class="v">${x.laporan || '-'}</div>
-    </div>
-    <div class="btn-row">
-      ${!x.selesai ? `<button onclick="inputSelesaiKeluar('${x.firebaseKey}')">Selesai Perbaikan</button>` : ''}
-      ${x.selesai && (!x.keluar || x.keluar === '-') ? `<button onclick="inputKeluar('${x.firebaseKey}')" class="danger">Input Keluar Bengkel</button>` : ''}
-      <button onclick="bukaModalEdit('${x.firebaseKey}')" class="warning">✏️ Edit</button>
-      ${isAdmin ? `<button onclick="hapusPerbaikan('${x.firebaseKey}', '${x.id}')" class="danger">🗑️ Hapus</button>` : ''}
-    </div>
-  </div>`).join('');
+  listEl.innerHTML = f.map(x => {
+    const isSelesai = !!(x.selesai && x.selesai !== '-');
+
+    return `
+    <div class="card-order">
+      <div class="order-id">
+        <span>${x.id}</span>
+        ${x.selesai ? 
+          (x.keluar && x.keluar !== '-' ? '<span class="badge badge-green">Sudah Keluar</span>' : '<span class="badge badge-orange">Selesai - Belum Keluar</span>') 
+          : '<span class="badge badge-blue">' + x.status + '</span>'}
+      </div>
+      <div class="info-grid">
+        <div class="l" style="color:#2563eb">Tanggal Masuk</div><div class="v" style="color:#2563eb">${x.tanggal || '-'}</div>
+        <div class="l">Pelapor</div><div class="v">${x.nama || '-'}</div>
+        <div class="l">Nomor Unit</div><div class="v">${x.nomorMesin}</div>
+        <div class="l">Jenis Unit</div><div class="v">${x.jenisMesin || '-'}</div>
+        <div class="l">Kerusakan / Item</div><div class="v">${x.item || '-'}</div>
+        <div class="l">Ruangan</div><div class="v" style="color:#2563eb;font-weight:700">${x.tempat || '-'}</div>
+        <div class="l">Tim Kerja</div><div class="v">${x.tim}</div>
+        <div class="l">Waktu Mulai</div><div class="v">${x.waktuMulai}</div>
+        <div class="l">Waktu Selesai</div><div class="v" style="color:${x.selesai ? '#16a34a' : '#94a3b8'}">${x.selesai || 'Belum selesai'}</div>
+        <div class="l">Waktu Keluar</div><div class="v" style="color:${x.keluar && x.keluar !== '-' ? '#ef4444' : '#94a3b8'}">${x.keluar || '-'} ${x.durasi ? '(' + Math.floor(x.durasi / 60) + 'j ' + (x.durasi % 60) + 'm)' : ''}</div>
+        <div class="l">Keterangan</div><div class="v">${x.laporan || '-'}</div>
+      </div>
+      <div class="btn-row">
+        ${!x.selesai ? `<button onclick="inputSelesaiKeluar('${x.firebaseKey}')">Selesai Perbaikan</button>` : ''}
+        ${x.selesai && (!x.keluar || x.keluar === '-') ? `<button onclick="inputKeluar('${x.firebaseKey}')" class="danger">Input Keluar Bengkel</button>` : ''}
+        
+        <!-- Tombol Edit & Hapus hanya tampil jika perbaikan BELUM SELESAI -->
+        ${!isSelesai ? `<button onclick="bukaModalEdit('${x.firebaseKey}')" class="warning">✏️ Edit</button>` : ''}
+        ${!isSelesai && isAdmin ? `<button onclick="hapusPerbaikan('${x.firebaseKey}', '${x.id}')" class="danger">🗑️ Hapus</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function bukaModalEdit(firebaseKey) {

@@ -495,11 +495,35 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 
       <input type="hidden" id="editId">
 
-      <label class="t">Jam Selesai Perbaikan</label>
-      <input type="time" id="jamSelesaiInput">
+      <!-- SEKSI SELESAI PERBAIKAN -->
+      <div style="border-bottom: 1px dashed #cbd5e1; padding-bottom: 10px; margin-bottom: 10px;">
+        <label class="t" style="color:#15803d">Selesai Perbaikan</label>
+        <div style="display:flex; gap:10px">
+          <div style="flex:1">
+            <label class="t">Tanggal Selesai</label>
+            <input type="date" id="tglSelesaiInput">
+          </div>
+          <div style="flex:1">
+            <label class="t">Jam Selesai</label>
+            <input type="time" id="jamSelesaiInput">
+          </div>
+        </div>
+      </div>
 
-      <label class="t">Jam Keluar Bengkel <small style="color:#64748b;font-weight:normal">(Opsional)</small></label>
-      <input type="time" id="jamKeluarInput">
+      <!-- SEKSI KELUAR BENGKEL -->
+      <div style="margin-bottom: 10px;">
+        <label class="t" style="color:#b45309">Keluar Bengkel <small style="color:#64748b;font-weight:normal">(Opsional)</small></label>
+        <div style="display:flex; gap:10px">
+          <div style="flex:1">
+            <label class="t">Tanggal Keluar</label>
+            <input type="date" id="tglKeluarInput">
+          </div>
+          <div style="flex:1">
+            <label class="t">Jam Keluar</label>
+            <input type="time" id="jamKeluarInput">
+          </div>
+        </div>
+      </div>
 
       <div style="display:flex;gap:10px;margin-top:10px">
         <button onclick="closeModalSelesai()" style="flex:1;background:#f1f5f9;color:#475569;padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Batal</button>
@@ -1231,7 +1255,9 @@ function simpanPerintah() {
     masuk: document.getElementById('masuk').value || '08:00',
     mulai: document.getElementById('mulai').value || '09:00',
     selesai: "",
+    tglSelesai: "",
     keluar: "",
+    tglKeluar: "",
     waktuLapor: tgl + ' ' + (document.getElementById('masuk').value || '08:00'),
     waktuMulai: tgl + ' ' + (document.getElementById('mulai').value || '09:00'),
     status: 'Menunggu Selesai Perbaikan',
@@ -1315,6 +1341,10 @@ function tampil() {
 
   listEl.innerHTML = f.map(x => {
     const isSelesai = !!(x.selesai && x.selesai !== '-');
+    
+    // Tampilan Waktu Selesai & Keluar beserta Tanggal jika tersedia
+    let textSelesai = x.selesai && x.selesai !== '-' ? `${x.tglSelesai ? x.tglSelesai + ' ' : ''}${x.selesai}` : 'Belum selesai';
+    let textKeluar = x.keluar && x.keluar !== '-' ? `${x.tglKeluar ? x.tglKeluar + ' ' : ''}${x.keluar}` : '-';
 
     return `
     <div class="card-order">
@@ -1333,8 +1363,8 @@ function tampil() {
         <div class="l">Ruangan</div><div class="v" style="color:#2563eb;font-weight:700">${x.tempat || '-'}</div>
         <div class="l">Tim Kerja</div><div class="v">${x.tim}</div>
         <div class="l">Waktu Mulai</div><div class="v">${x.waktuMulai}</div>
-        <div class="l">Waktu Selesai</div><div class="v" style="color:${x.selesai ? '#16a34a' : '#94a3b8'}">${x.selesai || 'Belum selesai'}</div>
-        <div class="l">Waktu Keluar</div><div class="v" style="color:${x.keluar && x.keluar !== '-' ? '#ef4444' : '#94a3b8'}">${x.keluar || '-'} ${x.durasi ? '(' + Math.floor(x.durasi / 60) + 'j ' + (x.durasi % 60) + 'm)' : ''}</div>
+        <div class="l">Waktu Selesai</div><div class="v" style="color:${x.selesai ? '#16a34a' : '#94a3b8'}">${textSelesai}</div>
+        <div class="l">Waktu Keluar</div><div class="v" style="color:${x.keluar && x.keluar !== '-' ? '#ef4444' : '#94a3b8'}">${textKeluar} ${x.durasi ? '(' + Math.floor(x.durasi / 60) + 'j ' + (x.durasi % 60) + 'm)' : ''}</div>
         <div class="l">Keterangan</div><div class="v">${x.laporan || '-'}</div>
       </div>
       <div class="btn-row">
@@ -1451,11 +1481,18 @@ function inputSelesaiKeluar(firebaseKey) {
   if (!r) return;
 
   const now = new Date();
+  const dateNow = now.toISOString().split('T')[0];
   const timeNow = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
 
   document.getElementById('editId').value = firebaseKey;
   document.getElementById('judulModalSelesai').innerText = 'Update Perbaikan: ' + r.id;
+  
+  // Set Tanggal & Jam Selesai
+  document.getElementById('tglSelesaiInput').value = r.tglSelesai ? r.tglSelesai : (r.tanggal || dateNow);
   document.getElementById('jamSelesaiInput').value = r.selesai && r.selesai !== '-' ? r.selesai : timeNow;
+  
+  // Set Tanggal & Jam Keluar
+  document.getElementById('tglKeluarInput').value = r.tglKeluar ? r.tglKeluar : dateNow;
   document.getElementById('jamKeluarInput').value = r.keluar && r.keluar !== '-' ? r.keluar : '';
 
   document.getElementById('modalSelesai').style.display = 'flex';
@@ -1467,25 +1504,35 @@ function inputKeluar(firebaseKey) {
 
 function simpanSelesaiKeluar() {
   let firebaseKey = document.getElementById('editId').value;
+  let tglS = document.getElementById('tglSelesaiInput').value;
   let jamS = document.getElementById('jamSelesaiInput').value;
+  let tglK = document.getElementById('tglKeluarInput').value;
   let jamK = document.getElementById('jamKeluarInput').value;
 
-  if (!jamS) { showToast('Harap isi Jam Selesai Perbaikan!', 'Peringatan', 'warning'); return; }
+  if (!tglS || !jamS) { showToast('Harap isi Tanggal dan Jam Selesai Perbaikan!', 'Peringatan', 'warning'); return; }
 
   let r = db.find(x => x.firebaseKey === firebaseKey);
   if (!r) return;
 
-  let [sh, sm] = (r.mulai || "00:00").split(':').map(Number);
-  let [eh, em] = jamS.split(':').map(Number);
-  let d = (eh * 60 + em) - (sh * 60 + sm);
-  if (d < 0) d += 1440;
+  // Hitung durasi presisi dengan memperhitungkan beda hari/tanggal
+  let durasiMenit = 0;
+  if (tglS && jamS && r.tanggal && r.mulai) {
+    let startDateTime = new Date(`${r.tanggal}T${r.mulai}:00`);
+    let endDateTime = new Date(`${tglS}T${jamS}:00`);
+    let diffMs = endDateTime - startDateTime;
+    if (diffMs > 0) {
+      durasiMenit = Math.floor(diffMs / 60000);
+    }
+  }
 
   showLoading('Memperbarui Status...', 'Menyimpan waktu perbaikan...');
 
   dbRef.child(firebaseKey).update({
+    tglSelesai: tglS,
     selesai: jamS,
+    tglKeluar: jamK ? tglK : "",
     keluar: jamK ? jamK : "-",
-    durasi: d,
+    durasi: durasiMenit,
     status: jamK ? "Sudah Keluar" : "Selesai - Belum Keluar"
   }, (err) => {
     hideLoading();
@@ -1551,8 +1598,10 @@ function eksekusiExportExcel() {
     WaktuMulai: x.waktuMulai,
     Masuk: x.masuk,
     Mulai: x.mulai,
-    Selesai: x.selesai,
-    Keluar: x.keluar,
+    TanggalSelesai: x.tglSelesai || '-',
+    JamSelesai: x.selesai || '-',
+    TanggalKeluar: x.tglKeluar || '-',
+    JamKeluar: x.keluar || '-',
     DurasiMenit: x.durasi,
     Status: x.status,
     Keterangan: x.laporan

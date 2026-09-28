@@ -113,6 +113,7 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 .btn-row button { border: 1px solid #2563eb; color: #2563eb; background: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
 .btn-row button.warning { border-color: #f59e0b; color: #f59e0b; }
 .btn-row button.danger { border-color: #ef4444; color: #ef4444; }
+.btn-row button.secondary { border-color: #64748b; color: #475569; }
 
 /* NAVIGATION & DRAGGABLE FAB */
 .fab { 
@@ -135,12 +136,12 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
   user-select: none;
 }
 
-.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; font-size: 11px; padding: 10px 0; z-index: 30; }
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-around; font-size: 11px; padding: 10px 0; z-index: 30; }
 .nav-item { text-align: center; font-size: 11px; font-weight: 600; color: #94a3b8; cursor: pointer; flex: 1; }
 .nav-item.active { color: #2563eb; }
 
 /* MODALS GENERAL */
-#modal, #modalSelesai, #modalEdit, #modalHapus, #modalToast, #modalForgot, #modalUpdateAccount, #modalExportExcel { 
+#modal, #modalSelesai, #modalEdit, #modalHapus, #modalToast, #modalForgot, #modalUpdateAccount, #modalExportExcel, #modalDeleteAccount, #modalAdminDeleteUser { 
   position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: none; align-items: flex-end; justify-content: center; z-index: 150; backdrop-filter: blur(4px); 
 }
 #modalSelesai { z-index: 160; }
@@ -148,6 +149,8 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 #modalHapus { z-index: 180; align-items: center; padding: 20px; }
 #modalForgot { z-index: 190; align-items: center; padding: 20px; }
 #modalUpdateAccount { z-index: 195; align-items: center; padding: 20px; }
+#modalDeleteAccount { z-index: 196; align-items: center; padding: 20px; }
+#modalAdminDeleteUser { z-index: 197; align-items: center; padding: 20px; }
 #modalExportExcel { z-index: 198; align-items: center; padding: 20px; }
 #modalToast { z-index: 200; align-items: center; padding: 20px; }
 
@@ -163,7 +166,7 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   background: #ffffff; width: 100%; max-width: 360px; border-radius: 24px; padding: 24px; text-align: center; 
   box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25); transform: scale(0.9); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); 
 }
-#modalToast.active .modal-confirm-box, #modalHapus.active .modal-confirm-box, #modalForgot.active .modal-confirm-box, #modalUpdateAccount.active .modal-confirm-box, #modalExportExcel.active .modal-confirm-box { transform: scale(1); }
+#modalToast.active .modal-confirm-box, #modalHapus.active .modal-confirm-box, #modalForgot.active .modal-confirm-box, #modalUpdateAccount.active .modal-confirm-box, #modalDeleteAccount.active .modal-confirm-box, #modalAdminDeleteUser.active .modal-confirm-box, #modalExportExcel.active .modal-confirm-box { transform: scale(1); }
 
 .icon-wrapper { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; }
 .icon-success { background: #dcfce7; color: #16a34a; }
@@ -181,7 +184,10 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 .user-info { font-size: 13px; }
 .user-info b { color: #0f172a; }
 .user-info span { color: #64748b; font-size: 11px; display: block; }
+.user-action-group { display: flex; align-items: center; gap: 6px; }
 .role-select { padding: 4px 8px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 12px; font-weight: 600; outline: none; }
+.btn-del-user { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; border-radius: 6px; padding: 4px 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-del-user:hover { background: #ef4444; color: #fff; }
 
 /* OVERLAY RUN LOADING SYSTEM */
 #loadingOverlay {
@@ -225,9 +231,20 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   max-width: 260px;
   line-height: 1.4;
 }
+
+/* DESAIN CETAKAN DOKUMEN WORK ORDER */
+@media print {
+  body * { visibility: hidden; }
+  #printArea, #printArea * { visibility: visible; }
+  #printArea { position: absolute; left: 0; top: 0; width: 100%; }
+}
+#printArea { display: none; }
 </style>
 </head>
 <body>
+
+<!-- AREA KHUSUS UNTUK FUNGSI PRINT / CETAK WORK ORDER -->
+<div id="printArea"></div>
 
 <div class="app-container">
 
@@ -366,12 +383,16 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
           <span>🔒 Ubah Kata Sandi</span>
           <span>›</span>
         </button>
+        <button onclick="showDeleteAccountModal()" style="background:#fef2f2;color:#ef4444;padding:12px;border:1px solid #fecaca;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between">
+          <span>🗑️ Hapus Akun</span>
+          <span>›</span>
+        </button>
       </div>
     </div>
 
     <!-- PANEL KONTROL PENGGUNA (ADMIN ONLY) -->
     <div class="box" id="adminUserControl" style="display:none">
-      <div style="font-weight:700;margin-bottom:12px;color:#0f172a">⚙️ Kelola Peran Pengguna (Admin Only)</div>
+      <div style="font-weight:700;margin-bottom:12px;color:#0f172a">⚙️ Kelola Peran & Akun Pengguna (Admin Only)</div>
       <div id="userListContainer"></div>
     </div>
 
@@ -642,7 +663,44 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
     </div>
   </div>
 
-  <!-- POP-UP HAPUS KUSTOM -->
+  <!-- MODAL HAPUS AKUN MANDIRI -->
+  <div id="modalDeleteAccount">
+    <div class="modal-confirm-box" style="text-align:left">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 style="margin:0;color:#ef4444;font-size:18px;font-weight:800">🗑️ Hapus Akun Saya</h3>
+        <span onclick="closeDeleteAccountModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+      </div>
+      <p style="margin:0 0 12px;color:#64748b;font-size:12px;line-height:1.4">
+        Apakah Anda yakin ingin menghapus akun Anda? Tindakan ini tidak dapat dibatalkan dan akun Anda akan dihapus permanen dari sistem.
+      </p>
+
+      <label class="t">Masukkan Kata Sandi Anda</label>
+      <input type="password" id="del_confirm_pass" placeholder="Password saat ini" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
+
+      <div style="display:flex;gap:8px">
+        <button class="btn-cancel" onclick="closeDeleteAccountModal()">Batal</button>
+        <button class="btn-delete" onclick="eksekusiHapusAkun()">Ya, Hapus Akun</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ADMIN HAPUS AKUN USER -->
+  <div id="modalAdminDeleteUser">
+    <div class="modal-confirm-box">
+      <div class="icon-wrapper icon-danger">👤</div>
+      <h3 style="margin:0 0 8px;color:#0f172a;font-size:18px;font-weight:800">Hapus Akun Pengguna?</h3>
+      <p style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.4">
+        Apakah Anda yakin ingin menghapus akun pengguna <br><strong id="adminDeleteUserTarget" style="color:#0f172a"></strong>? Akun yang dihapus tidak dapat dipulihkan.
+      </p>
+      <input type="hidden" id="adminDeleteUserKey">
+      <div style="display:flex;gap:10px">
+        <button class="btn-cancel" onclick="closeAdminDeleteUserModal()">Batal</button>
+        <button class="btn-delete" onclick="eksekusiAdminHapusUser()">Ya, Hapus Akun</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POP-UP HAPUS KUSTOM (UNTUK WO) -->
   <div id="modalHapus">
     <div class="modal-confirm-box">
       <div class="icon-wrapper icon-danger">🗑️</div>
@@ -1157,6 +1215,101 @@ function simpanKataSandiBaru() {
   });
 }
 
+// LOGIKA HAPUS AKUN MANDIRI
+function showDeleteAccountModal() {
+  if (!currentUser) return;
+  document.getElementById('del_confirm_pass').value = '';
+  const modal = document.getElementById('modalDeleteAccount');
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('active'), 10);
+  pushNavigationState('modalDeleteAccount');
+}
+
+function closeDeleteAccountModal() {
+  const modal = document.getElementById('modalDeleteAccount');
+  modal.classList.remove('active');
+  setTimeout(() => modal.style.display = 'none', 150);
+}
+
+function eksekusiHapusAkun() {
+  const confirmPass = document.getElementById('del_confirm_pass').value.trim();
+
+  if (!confirmPass) {
+    showToast('Masukkan kata sandi untuk mengonfirmasi penghapusan akun!', 'Konfirmasi Diperlukan', 'warning');
+    return;
+  }
+
+  if (confirmPass !== currentUser.pass) {
+    showToast('Kata sandi yang Anda masukkan salah!', 'Gagal Konfirmasi', 'danger');
+    return;
+  }
+
+  showLoading('Menghapus Akun...', 'Menghapus data dari server...');
+
+  let targetUserKey = currentUser.user;
+
+  usersRef.child(targetUserKey).remove((err) => {
+    hideLoading();
+    if (err) {
+      showToast('Gagal menghapus akun: ' + err.message, 'Error', 'danger');
+    } else {
+      closeDeleteAccountModal();
+      localStorage.removeItem('iwip_saved_user');
+      localStorage.removeItem('iwip_saved_pass');
+      localStorage.removeItem('iwip_remember');
+      
+      showToast('Akun Anda berhasil dihapus dari database.', 'Akun Terhapus', 'success', () => {
+        logout();
+      });
+    }
+  });
+}
+
+// LOGIKA ADMIN HAPUS AKUN USER BIASA
+function confirmAdminDeleteUser(targetUser, userName) {
+  if (!currentUser || currentUser.role !== 'admin') {
+    showToast('Hanya Admin yang dapat menghapus akun pengguna!', 'Akses Ditolak', 'danger');
+    return;
+  }
+
+  if (targetUser === currentUser.user) {
+    showToast('Anda tidak dapat menghapus akun Anda sendiri dari menu ini!', 'Peringatan', 'warning');
+    return;
+  }
+
+  document.getElementById('adminDeleteUserKey').value = targetUser;
+  document.getElementById('adminDeleteUserTarget').innerText = `${userName || targetUser} (${targetUser})`;
+
+  const modal = document.getElementById('modalAdminDeleteUser');
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('active'), 10);
+  pushNavigationState('modalAdminDeleteUser');
+}
+
+function closeAdminDeleteUserModal() {
+  const modal = document.getElementById('modalAdminDeleteUser');
+  modal.classList.remove('active');
+  setTimeout(() => modal.style.display = 'none', 150);
+}
+
+function eksekusiAdminHapusUser() {
+  const targetUser = document.getElementById('adminDeleteUserKey').value;
+
+  if (!targetUser) return;
+
+  showLoading('Menghapus Akun User...', 'Mengahapus pengguna dari database...');
+
+  usersRef.child(targetUser).remove((err) => {
+    hideLoading();
+    if (err) {
+      showToast('Gagal menghapus akun user: ' + err.message, 'Error', 'danger');
+    } else {
+      closeAdminDeleteUserModal();
+      showToast(`Akun pengguna (${targetUser}) berhasil dihapus!`, 'Berhasil Dihapus', 'success');
+    }
+  });
+}
+
 function updateMilikkuUI() {
   if (!currentUser) return;
   document.getElementById('milikName').innerText = currentUser.name || currentUser.user;
@@ -1204,11 +1357,12 @@ function renderUserManagement() {
           <b>${usr.name || usr.user}</b> (${usr.user})
           <span>HP: ${usr.phone || '-'} | Role: ${usr.role === 'admin' ? 'Admin' : 'User'}</span>
         </div>
-        <div>
+        <div class="user-action-group">
           <select class="role-select" onchange="changeUserRole('${usr.user}', this.value)" ${isSelf ? 'disabled' : ''}>
             <option value="user" ${usr.role === 'user' ? 'selected' : ''}>User</option>
             <option value="admin" ${usr.role === 'admin' ? 'selected' : ''}>Admin</option>
           </select>
+          ${!isSelf ? `<button class="btn-del-user" onclick="confirmAdminDeleteUser('${usr.user}', '${usr.name || usr.user}')" title="Hapus Akun User">🗑️ Hapus</button>` : ''}
         </div>
       </div>
     `;
@@ -1441,6 +1595,7 @@ function tampil() {
         <div class="l">Keterangan</div><div class="v">${x.laporan || '-'}</div>
       </div>
       <div class="btn-row">
+        <button onclick="cetakWO('${x.firebaseKey}')" class="secondary">🖨️ Cetak WO</button>
         ${!x.selesai ? `<button onclick="inputSelesaiKeluar('${x.firebaseKey}')">Selesai Perbaikan</button>` : ''}
         ${x.selesai && (!x.keluar || x.keluar === '-') ? `<button onclick="inputKeluar('${x.firebaseKey}')" class="danger">Input Keluar Bengkel</button>` : ''}
         ${!isSelesai ? `<button onclick="bukaModalEdit('${x.firebaseKey}')" class="warning">✏️ Edit</button>` : ''}
@@ -1448,6 +1603,109 @@ function tampil() {
       </div>
     </div>`;
   }).join('');
+}
+
+// FUNGSI PRINT / CETAK WO KE FORM FISIK
+function cetakWO(firebaseKey) {
+  let item = db.find(x => x.firebaseKey === firebaseKey);
+  if (!item) return;
+
+  let textSelesai = item.selesai && item.selesai !== '-' ? `${item.tglSelesai || item.tanggal} ${item.selesai}` : 'Belum Selesai';
+  let textKeluar = item.keluar && item.keluar !== '-' ? `${item.tglKeluar || item.tanggal} ${item.keluar}` : 'Belum Keluar';
+
+  let printContent = `
+    <div style="padding: 24px; font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto; border: 2px solid #0f172a; border-radius: 8px; color: #0f172a;">
+      <div style="text-align: center; border-bottom: 2px double #0f172a; padding-bottom: 12px; margin-bottom: 16px;">
+        <h2 style="margin: 0; font-size: 22px; text-transform: uppercase;">PT. INDONESIA WEDABAY INDUSTRIAL PARK</h2>
+        <h3 style="margin: 4px 0 0; font-size: 16px; color: #2563eb;">SISTEM PERBAIKAN MEKANIK 2 (${item.bengkel || 'RIM汽修厂一车间'})</h3>
+        <p style="margin: 4px 0 0; font-size: 12px; color: #64748b;">FORMULIR PERINTAH KERJA / WORK ORDER (WO)</p>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; margin-bottom: 16px; background: #f1f5f9; padding: 10px; border-radius: 6px;">
+        <span>NO. WO: ${item.id}</span>
+        <span>STATUS: ${item.status || '-'}</span>
+      </div>
+
+      <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 20px;">
+        <tr>
+          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; width: 30%; background: #f8fafc;">Tanggal Masuk</td>
+          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.tanggal || '-'}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Nama Pelapor</td>
+          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.nama || '-'}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Nomor Unit</td>
+          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; color: #2563eb;">${item.nomorMesin}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Jenis Unit</td>
+          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.jenisMesin || '-'}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Ruangan / Tempat</td>
+          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.tempat || '-'}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Kerusakan / Item</td>
+          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.item || '-'}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Tim Perbaikan</td>
+          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.tim || '-'}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Waktu Mulai</td>
+          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.waktuMulai || '-'}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Waktu Selesai</td>
+          <td style="padding: 8px; border: 1px solid #cbd5e1;">${textSelesai}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Waktu Keluar</td>
+          <td style="padding: 8px; border: 1px solid #cbd5e1;">${textKeluar}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Durasi Pengerjaan</td>
+          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.durasi ? Math.floor(item.durasi / 60) + ' Jam ' + (item.durasi % 60) + ' Menit' : '-'}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Keterangan Laporan</td>
+          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.laporan || '-'}</td>
+        </tr>
+      </table>
+
+      <div style="display: flex; justify-content: space-between; margin-top: 40px; text-align: center; font-size: 12px;">
+        <div style="width: 30%;">
+          <p>Pelapor / Pengaju</p>
+          <br><br><br>
+          <p style="font-weight: bold; border-top: 1px solid #0f172a; padding-top: 4px;">( ${item.nama || '.................'} )</p>
+        </div>
+        <div style="width: 30%;">
+          <p>Mekanik / Tim Kerja</p>
+          <br><br><br>
+          <p style="font-weight: bold; border-top: 1px solid #0f172a; padding-top: 4px;">( ${item.tim || '.................'} )</p>
+        </div>
+        <div style="width: 30%;">
+          <p>Supervisor / Penanggung Jawab</p>
+          <br><br><br>
+          <p style="font-weight: bold; border-top: 1px solid #0f172a; padding-top: 4px;">( .................................... )</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const printContainer = document.getElementById('printArea');
+  printContainer.innerHTML = printContent;
+  printContainer.style.display = 'block';
+
+  window.print();
+
+  setTimeout(() => {
+    printContainer.style.display = 'none';
+  }, 500);
 }
 
 function bukaModalEdit(firebaseKey) {
@@ -1711,7 +1969,7 @@ function pushNavigationState(pageName) {
 }
 
 window.addEventListener('popstate', function (event) {
-  const modalList = ['modal', 'modalEdit', 'modalSelesai', 'modalHapus', 'modalForgot', 'modalUpdateAccount', 'modalExportExcel'];
+  const modalList = ['modal', 'modalEdit', 'modalSelesai', 'modalHapus', 'modalForgot', 'modalUpdateAccount', 'modalDeleteAccount', 'modalAdminDeleteUser', 'modalExportExcel'];
   
   // 1. Jika ada Modal yang terbuka, tutup modal tersebut dahulu
   let modalOpen = false;

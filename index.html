@@ -32,12 +32,39 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 
 /* APP PAGES */
 .page { display: none; padding-bottom: 80px; min-height: 100vh; background: #f8fafc; }
-.header-top { background: #ffffff; padding: 16px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 16px; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 10; }
+
+/* CONTAINER STICKY HEADER & FILTER DI HALAMAN BENGKEL */
+.sticky-top-section {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+}
+
+.header-top { background: #ffffff; padding: 16px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 16px; }
 
 /* SEARCH & FILTER BOX */
 .filter-box-wrapper { margin: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
-.search-box { padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; display: flex; align-items: center; gap: 8px; }
+.search-box { position: relative; padding: 10px 32px 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; display: flex; align-items: center; gap: 8px; }
 .search-box input { border: none; background: transparent; width: 100%; outline: none; font-size: 14px; }
+
+/* TOMBOL RESET X DI KOLOM SEARCH */
+.btn-reset-search {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: none;
+  user-select: none;
+}
+.btn-reset-search:hover { color: #ef4444; }
+
 .date-filter-box { display: flex; align-items: center; gap: 6px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 8px 10px; }
 .date-filter-box label { font-size: 11px; font-weight: 700; color: #64748b; margin-right: 2px; }
 .date-filter-box input[type="date"] { border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; padding: 4px 6px; font-size: 11px; outline: none; color: #0f172a; flex: 1; min-width: 0; }
@@ -265,40 +292,46 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 
   <!-- DAFTAR PERBAIKAN -->
   <div id="bengkelPage" class="page">
-    <div class="header-top">
-      <span onclick="openDash()" style="cursor:pointer;font-size:29px;line-height:1;margin-left:11px;">‹</span> 
-      <span>Daftar Perbaikan Unit</span>
-      <span style="opacity:0">🔽</span>
-    </div>
+    
+    <!-- STICKY TOP SECTION (HEADER, FILTER, STATISTIK TETAP DIAM SAAT SCROLL) -->
+    <div class="sticky-top-section">
+      <div class="header-top">
+        <span onclick="openDash()" style="cursor:pointer;font-size:28px;line-height:1; margin-left:10px">‹</span> 
+        <span>Daftar Perbaikan Unit</span>
+        <span style="opacity:0">🔽</span>
+      </div>
 
-    <!-- PENCARIAN & FILTER TANGGAL -->
-    <div class="filter-box-wrapper">
-      <div class="search-box">
-        🔍<input id="cari" oninput="tampil()" placeholder="Cari Nomor Unit / ID WO...">
-      </div>
-      <div class="date-filter-box">
-        <label>Dari:</label>
-        <input type="date" id="tglAwal" onchange="tampil()">
-        <label>s/d:</label>
-        <input type="date" id="tglAkhir" onchange="tampil()">
-        <button class="btn-reset-filter" onclick="resetFilterTanggal()">Reset</button>
-      </div>
-    </div>
-
-    <!-- STATISTIK PERBAIKAN -->
-    <div class="stats-summary">
-      <div class="stats-badge total active" id="btnFilterTotal" onclick="setFilterStatus('semua')">
-        Total Perbaikan: <span id="jmlSemua">0</span>
-      </div>
-      <div style="display:flex; gap:6px;">
-        <div class="stats-badge proses" id="btnFilterProses" onclick="setFilterStatus('proses')">
-          Dalam Perbaikan: <span id="jmlProses">0</span>
+      <!-- PENCARIAN & FILTER TANGGAL -->
+      <div class="filter-box-wrapper">
+        <div class="search-box">
+          🔍<input id="cari" oninput="onSearchInput()" placeholder="Cari Nomor Unit / ID WO...">
+          <span id="btnResetCari" class="btn-reset-search" onclick="hapusPencarian()">✕</span>
         </div>
-        <div class="stats-badge selesai" id="btnFilterSelesai" onclick="setFilterStatus('selesai')">
-          Selesai: <span id="jmlSelesai">0</span>
+        <div class="date-filter-box">
+          <label>Dari:</label>
+          <input type="date" id="tglAwal" onchange="tampil()">
+          <label>s/d:</label>
+          <input type="date" id="tglAkhir" onchange="tampil()">
+          <button class="btn-reset-filter" onclick="resetFilterTanggal()">Reset</button>
         </div>
       </div>
+
+      <!-- STATISTIK PERBAIKAN -->
+      <div class="stats-summary">
+        <div class="stats-badge total active" id="btnFilterTotal" onclick="setFilterStatus('semua')">
+          Total Perbaikan: <span id="jmlSemua">0</span>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <div class="stats-badge proses" id="btnFilterProses" onclick="setFilterStatus('proses')">
+            Dalam Perbaikan: <span id="jmlProses">0</span>
+          </div>
+          <div class="stats-badge selesai" id="btnFilterSelesai" onclick="setFilterStatus('selesai')">
+            Selesai: <span id="jmlSelesai">0</span>
+          </div>
+        </div>
+      </div>
     </div>
+    <!-- END STICKY TOP SECTION -->
 
     <div id="list"></div>
     
@@ -674,6 +707,30 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('rememberMe').checked = remember;
   }
 });
+
+// FUNGSI PENCARIAN & TOMBOL RESET X
+function onSearchInput() {
+  const inputCari = document.getElementById('cari');
+  const btnReset = document.getElementById('btnResetCari');
+  
+  if (inputCari.value.trim() !== '') {
+    btnReset.style.display = 'block';
+  } else {
+    btnReset.style.display = 'none';
+  }
+  
+  tampil();
+}
+
+function hapusPencarian() {
+  const inputCari = document.getElementById('cari');
+  const btnReset = document.getElementById('btnResetCari');
+  
+  inputCari.value = '';
+  btnReset.style.display = 'none';
+  inputCari.focus();
+  tampil();
+}
 
 // NOTIFIKASI POP-UP SYSTEM
 function showToast(message, title = "Pemberitahuan", type = "success", callback = null) {

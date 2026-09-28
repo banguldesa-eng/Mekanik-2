@@ -108,7 +108,7 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
   user-select: none;
 }
 
-.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-around: space-around; font-size: 11px; padding: 10px 0; z-index: 30; }
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; font-size: 11px; padding: 10px 0; z-index: 30; }
 .nav-item { text-align: center; font-size: 11px; font-weight: 600; color: #94a3b8; cursor: pointer; flex: 1; }
 .nav-item.active { color: #2563eb; }
 
@@ -401,7 +401,7 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
       <input id="noMesin" placeholder="Contoh: A001">
 
       <label class="t">Jenis Unit</label>
-      <input id="jenisMesin" placeholder="Contoh: Shacman / Excavator">
+      <input id="jenisMesin" placeholder="Contoh: Shacman / Tsingshan">
 
       <label class="t">Kerusakan / Item</label>
       <input id="item" placeholder="Contoh: Ganti Oli & Rem">
@@ -885,6 +885,7 @@ function showForgotModal(prefillUser = '', prefillPhone = '') {
   const modal = document.getElementById('modalForgot');
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
+  pushNavigationState('modalForgot');
 }
 
 function closeForgotModal() {
@@ -1009,6 +1010,7 @@ function showUpdateAccountModal(type) {
 
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
+  pushNavigationState('modalUpdateAccount');
 }
 
 function closeUpdateAccountModal() {
@@ -1164,9 +1166,22 @@ function changeUserRole(username, newRole) {
   });
 }
 
-function openBengkel() { document.getElementById('dashPage').style.display = 'none'; document.getElementById('bengkelPage').style.display = 'block'; }
-function openDash() { document.getElementById('bengkelPage').style.display = 'none'; document.getElementById('milikPage').style.display = 'none'; document.getElementById('dashPage').style.display = 'block'; }
-function openMilikku() { document.getElementById('dashPage').style.display = 'none'; document.getElementById('bengkelPage').style.display = 'none'; document.getElementById('milikPage').style.display = 'block'; }
+function openBengkel() { 
+  document.getElementById('dashPage').style.display = 'none'; 
+  document.getElementById('bengkelPage').style.display = 'block'; 
+  pushNavigationState('bengkel');
+}
+function openDash() { 
+  document.getElementById('bengkelPage').style.display = 'none'; 
+  document.getElementById('milikPage').style.display = 'none'; 
+  document.getElementById('dashPage').style.display = 'block'; 
+}
+function openMilikku() { 
+  document.getElementById('dashPage').style.display = 'none'; 
+  document.getElementById('bengkelPage').style.display = 'none'; 
+  document.getElementById('milikPage').style.display = 'block'; 
+  pushNavigationState('milik');
+}
 function logout() { currentUser = null; location.reload(); }
 
 // MODAL CONTROLS
@@ -1174,6 +1189,7 @@ function openModal() {
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('tanggal').value = today;
   document.getElementById('modal').style.display = 'flex';
+  pushNavigationState('modal');
 }
 function closeModal() { document.getElementById('modal').style.display = 'none'; }
 function closeModalSelesai() { document.getElementById('modalSelesai').style.display = 'none'; }
@@ -1406,6 +1422,7 @@ function bukaModalEdit(firebaseKey) {
   document.getElementById('judulModalEdit').innerText = isAdmin ? 'Edit Data Perbaikan (Admin)' : 'Edit Keterangan (User)';
 
   document.getElementById('modalEdit').style.display = 'flex';
+  pushNavigationState('modalEdit');
 }
 
 function simpanEditPerbaikan() {
@@ -1457,6 +1474,7 @@ function hapusPerbaikan(firebaseKey, id) {
   const modal = document.getElementById('modalHapus');
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
+  pushNavigationState('modalHapus');
 }
 
 function eksekusiHapus() {
@@ -1496,6 +1514,7 @@ function inputSelesaiKeluar(firebaseKey) {
   document.getElementById('jamKeluarInput').value = r.keluar && r.keluar !== '-' ? r.keluar : '';
 
   document.getElementById('modalSelesai').style.display = 'flex';
+  pushNavigationState('modalSelesai');
 }
 
 function inputKeluar(firebaseKey) {
@@ -1556,6 +1575,7 @@ function bukaModalExportExcel() {
   const modal = document.getElementById('modalExportExcel');
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
+  pushNavigationState('modalExportExcel');
 }
 
 function tutupModalExportExcel() {
@@ -1624,6 +1644,41 @@ function eksekusiExportExcel() {
   tutupModalExportExcel();
   showToast(`Berhasil mengunduh ${filteredData.length} data perbaikan ke file Excel.\nFile tersimpan di folder Downloads.`, 'Unduh Selesai', 'success');
 }
+
+// ==========================================
+// PENGELOLAAN NAVIGASI BACK (HISTORY API)
+// ==========================================
+
+function pushNavigationState(pageName) {
+  history.pushState({ page: pageName }, "", "");
+}
+
+window.addEventListener('popstate', function (event) {
+  const modalList = ['modal', 'modalEdit', 'modalSelesai', 'modalHapus', 'modalForgot', 'modalUpdateAccount', 'modalExportExcel'];
+  
+  // 1. Jika ada Modal yang terbuka, tutup modal tersebut dahulu
+  let modalOpen = false;
+  modalList.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && (el.style.display === 'flex' || el.classList.contains('active'))) {
+      el.style.display = 'none';
+      el.classList.remove('active');
+      modalOpen = true;
+    }
+  });
+
+  if (modalOpen) return;
+
+  // 2. Jika sedang di Halaman Daftar Perbaikan atau Milikku -> Kembali ke Halaman Depan
+  const isBengkel = document.getElementById('bengkelPage').style.display === 'block';
+  const isMilik = document.getElementById('milikPage').style.display === 'block';
+
+  if (isBengkel || isMilik) {
+    document.getElementById('bengkelPage').style.display = 'none';
+    document.getElementById('milikPage').style.display = 'none';
+    document.getElementById('dashPage').style.display = 'block';
+  }
+});
 </script>
 
 </body>

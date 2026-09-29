@@ -136,7 +136,7 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
   user-select: none;
 }
 
-.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-around; font-size: 11px; padding: 10px 0; z-index: 30; }
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-around: space-around; font-size: 11px; padding: 10px 0; z-index: 30; }
 .nav-item { text-align: center; font-size: 11px; font-weight: 600; color: #94a3b8; cursor: pointer; flex: 1; }
 .nav-item.active { color: #2563eb; }
 
@@ -236,9 +236,14 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 @media print {
   body * { visibility: hidden; }
   #printArea, #printArea * { visibility: visible; }
-  #printArea { position: absolute; left: 0; top: 0; width: 100%; }
+  #printArea { position: absolute; left: 0; top: 0; width: 100%; font-family: Arial, sans-serif; padding: 20px; }
+  .no-print { display: none !important; }
 }
+
 #printArea { display: none; }
+.wo-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+.wo-table th, .wo-table td { border: 1px solid #333; padding: 8px 10px; text-align: left; font-size: 13px; }
+.wo-table th { background-color: #f2f2f2; }
 </style>
 </head>
 <body>
@@ -310,7 +315,7 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <!-- DAFTAR PERBAIKAN -->
   <div id="bengkelPage" class="page">
     
-    <!-- STICKY TOP SECTION (HEADER, FILTER, STATISTIK TETAP DIAM SAAT SCROLL) -->
+    <!-- STICKY TOP SECTION -->
     <div class="sticky-top-section">
       <div class="header-top">
         <span onclick="openDash()" style="cursor:pointer;font-size:28px;line-height:1; margin-left:10px">‹</span> 
@@ -440,53 +445,53 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <!-- MODAL INPUT WORK ORDER BARU -->
   <div id="modal">
     <div class="modal-box">
-      <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px;margin-bottom:12px">
-        <span>Perintah Perbaikan Baru</span>
-        <span onclick="closeModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
-      </div>
+      <form id="formPerintahBaru" onsubmit="event.preventDefault(); simpanPerintah();">
+        <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px;margin-bottom:12px">
+          <span>Perintah Perbaikan Baru</span>
+          <span onclick="closeModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+        </div>
 
-      <label class="t">Tanggal Masuk</label>
-      <input type="date" id="tanggal">
+        <label class="t">Waktu Masuk (Tanggal & Jam)</label>
+        <input type="datetime-local" id="waktuMasuk">
 
-      <label class="t">Nama Pelapor / Pekerja</label>
-      <input id="nama" placeholder="Contoh: Yudha">
+        <label class="t">Waktu Mulai (Tanggal & Jam)</label>
+        <input type="datetime-local" id="waktuMulai">
 
-      <label class="t">Nomor Unit</label>
-      <input id="noMesin" placeholder="Contoh: A001">
+        <label class="t">Nama Pelapor / Pekerja</label>
+        <input id="nama" placeholder="Contoh: Yudha">
 
-      <label class="t">Jenis Unit</label>
-      <input id="jenisMesin" placeholder="Contoh: Shacman / Tsingshan">
+        <label class="t">Nomor Unit</label>
+        <input id="noMesin" placeholder="Contoh: A001" required>
 
-      <label class="t">Kerusakan / Item</label>
-      <input id="item" placeholder="Contoh: Ganti Oli & Rem">
+        <label class="t">Jenis Unit</label>
+        <input id="jenisMesin" placeholder="Contoh: Shacman / Tsingshan">
 
-      <label class="t">Ruangan / Tempat</label>
-      <select id="tempat">
-        <option value="">-- Pilih Ruangan --</option>
-        <option value="38-1">38-1</option>
-        <option value="38-2">38-2</option>
-        <option value="39-1">39-1</option>
-        <option value="39-2">39-2</option>
-        <option value="50-1">50-1</option>
-        <option value="50-2">50-2</option>
-        <option value="51-1">51-1</option>
-        <option value="51-2">51-2</option>
-        <option value="52-1">52-1</option>
-        <option value="52-2">52-2</option>
-      </select>
+        <label class="t">Kerusakan / Item</label>
+        <input id="item" placeholder="Contoh: Ganti Oli & Rem">
 
-      <label class="t">Tim Perbaikan</label>
-      <input id="tim" placeholder="Contoh : Shift Siang">
+        <label class="t">Ruangan / Tempat</label>
+        <select id="tempat" required>
+          <option value="">-- Pilih Ruangan --</option>
+          <option value="38-1">38-1</option>
+          <option value="38-2">38-2</option>
+          <option value="39-1">39-1</option>
+          <option value="39-2">39-2</option>
+          <option value="50-1">50-1</option>
+          <option value="50-2">50-2</option>
+          <option value="51-1">51-1</option>
+          <option value="51-2">51-2</option>
+          <option value="52-1">52-1</option>
+          <option value="52-2">52-2</option>
+        </select>
 
-      <div style="display:flex;gap:10px">
-        <div style="flex:1"><label class="t">Jam Masuk</label><input type="time" id="masuk" value="08:00"></div>
-        <div style="flex:1"><label class="t">Jam Mulai</label><input type="time" id="mulai" value="09:00"></div>
-      </div>
+        <label class="t">Tim Perbaikan</label>
+        <input id="tim" placeholder="Contoh : Shift Siang">
 
-      <label class="t">Keterangan Laporan</label>
-      <textarea id="laporan" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
+        <label class="t">Keterangan Laporan</label>
+        <textarea id="laporan" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
 
-      <button onclick="simpanPerintah()" style="width:100%;background:#2563eb;color:#fff;padding:14px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px">SIMPAN KE CLOUD</button>
+        <button type="submit" style="width:100%;background:#2563eb;color:#fff;padding:14px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px">SIMPAN KE CLOUD</button>
+      </form>
     </div>
   </div>
 
@@ -552,31 +557,13 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
       <!-- SEKSI SELESAI PERBAIKAN -->
       <div style="border-bottom: 1px dashed #cbd5e1; padding-bottom: 10px; margin-bottom: 10px;">
         <label class="t" style="color:#15803d">Selesai Perbaikan</label>
-        <div style="display:flex; gap:10px">
-          <div style="flex:1">
-            <label class="t">Tanggal Selesai</label>
-            <input type="date" id="tglSelesaiInput">
-          </div>
-          <div style="flex:1">
-            <label class="t">Jam Selesai</label>
-            <input type="time" id="jamSelesaiInput">
-          </div>
-        </div>
+        <input type="datetime-local" id="waktuSelesaiInput">
       </div>
 
       <!-- SEKSI KELUAR BENGKEL -->
       <div style="margin-bottom: 10px;">
         <label class="t" style="color:#b45309">Keluar Bengkel <small style="color:#64748b;font-weight:normal">(Opsional)</small></label>
-        <div style="display:flex; gap:10px">
-          <div style="flex:1">
-            <label class="t">Tanggal Keluar</label>
-            <input type="date" id="tglKeluarInput">
-          </div>
-          <div style="flex:1">
-            <label class="t">Jam Keluar</label>
-            <input type="time" id="jamKeluarInput">
-          </div>
-        </div>
+        <input type="datetime-local" id="waktuKeluarInput">
       </div>
 
       <div style="display:flex;gap:10px;margin-top:10px">
@@ -766,6 +753,46 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// HELPER REAL DATETIME LOCAL (YYYY-MM-DDThh:mm)
+function getFormattedDateTimeLocal(d = new Date()) {
+  const pad = (n) => String(n).padStart(2, '0');
+  const year = d.getFullYear();
+  const month = pad(d.getMonth() + 1);
+  const day = pad(d.getDate());
+  const hours = pad(d.getHours());
+  const minutes = pad(d.getMinutes());
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+// SISTEM PENANGANAN TOMBOL BACK NAVIGASI HP/BROWSER
+function pushNavigationState(stateName) {
+  history.pushState({ modalOrPage: stateName }, "", "#" + stateName);
+}
+
+window.addEventListener('popstate', (e) => {
+  const modals = ['modalToast', 'modalHapus', 'modalEdit', 'modalSelesai', 'modal', 'modalForgot', 'modalUpdateAccount', 'modalDeleteAccount', 'modalAdminDeleteUser', 'modalExportExcel'];
+  let modalClosed = false;
+
+  for (let mId of modals) {
+    const el = document.getElementById(mId);
+    if (el && (el.style.display === 'flex' || el.style.display === 'block')) {
+      el.style.display = 'none';
+      el.classList.remove('active');
+      modalClosed = true;
+      break;
+    }
+  }
+
+  if (!modalClosed) {
+    const bengkelPage = document.getElementById('bengkelPage');
+    const milikPage = document.getElementById('milikPage');
+
+    if ((bengkelPage && bengkelPage.style.display === 'block') || (milikPage && milikPage.style.display === 'block')) {
+      openDash();
+    }
+  }
+});
+
 // FUNGSI PENCARIAN & TOMBOL RESET X
 function onSearchInput() {
   const inputCari = document.getElementById('cari');
@@ -818,6 +845,7 @@ function showToast(message, title = "Pemberitahuan", type = "success", callback 
 
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
+  pushNavigationState('modalToast');
 }
 
 function closeToast() {
@@ -962,7 +990,6 @@ function login() {
       if (!u.role) u.role = 'user';
       currentUser = u;
 
-      // PROSES INGAT AKUN / SIMPAN DATA LOGIN
       if (rememberMe) {
         localStorage.setItem('iwip_saved_user', uInput);
         localStorage.setItem('iwip_saved_pass', pInput);
@@ -1085,7 +1112,6 @@ function simpanSandiBaru() {
       if (currentUser && currentUser.user === targetResetUser) {
         currentUser.pass = newPass;
       }
-      // UPDATE PASSWORD PADA STORAGE LOKAL
       if (localStorage.getItem('iwip_saved_user') === targetResetUser) {
         localStorage.setItem('iwip_saved_pass', newPass);
       }
@@ -1205,7 +1231,6 @@ function simpanKataSandiBaru() {
       showToast('Gagal memperbarui kata sandi: ' + err.message, 'Error', 'danger');
     } else {
       currentUser.pass = newPass;
-      // KELOLA PERUBAHAN PASWORD PADA STORAGE LOKAL
       if (localStorage.getItem('iwip_saved_user') === currentUser.user) {
         localStorage.setItem('iwip_saved_pass', newPass);
       }
@@ -1397,8 +1422,9 @@ function logout() { currentUser = null; location.reload(); }
 
 // MODAL CONTROLS
 function openModal() {
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('tanggal').value = today;
+  const currentDateTime = getFormattedDateTimeLocal();
+  document.getElementById('waktuMasuk').value = currentDateTime;
+  document.getElementById('waktuMulai').value = currentDateTime;
   document.getElementById('modal').style.display = 'flex';
   pushNavigationState('modal');
 }
@@ -1457,21 +1483,25 @@ function genId() {
 }
 
 function simpanPerintah() {
-  const tgl = document.getElementById('tanggal').value;
+  const waktuMasukVal = document.getElementById('waktuMasuk').value;
+  const waktuMulaiVal = document.getElementById('waktuMulai').value;
   const unit = document.getElementById('noMesin').value;
   const rm = document.getElementById('tempat').value;
   const pkrj = document.getElementById('nama').value;
 
-  if (!tgl) { showToast('Pilih Tanggal Masuk!', 'Data Belum Lengkap', 'warning'); return; }
+  if (!waktuMasukVal) { showToast('Pilih Waktu Masuk!', 'Data Belum Lengkap', 'warning'); return; }
   if (!unit) { showToast('Nomor Unit wajib diisi!', 'Data Belum Lengkap', 'warning'); return; }
   if (!rm) { showToast('Pilih Ruangan!', 'Data Belum Lengkap', 'warning'); return; }
 
   showLoading('Menyimpan Perintah...', 'Mengunggah ke database server...');
 
+  const [tglMasuk, jamMasuk] = waktuMasukVal.split('T');
+  const [tglMulai, jamMulai] = waktuMulaiVal ? waktuMulaiVal.split('T') : [tglMasuk, jamMasuk];
+
   let o = {
     id: genId(),
     nama: pkrj || (currentUser ? currentUser.name : 'Petugas'),
-    tanggal: tgl,
+    tanggal: tglMasuk,
     nomorMesin: unit,
     jenisMesin: document.getElementById('jenisMesin').value || '-',
     item: document.getElementById('item').value || '-',
@@ -1479,14 +1509,14 @@ function simpanPerintah() {
     tim: document.getElementById('tim').value || 'Bagian Mekanik 2',
     bengkel: 'RIM汽修厂一车间',
     laporan: document.getElementById('laporan').value || '',
-    masuk: document.getElementById('masuk').value || '08:00',
-    mulai: document.getElementById('mulai').value || '09:00',
+    masuk: jamMasuk || '08:00',
+    mulai: jamMulai || '09:00',
     selesai: "",
     tglSelesai: "",
     keluar: "",
     tglKeluar: "",
-    waktuLapor: tgl + ' ' + (document.getElementById('masuk').value || '08:00'),
-    waktuMulai: tgl + ' ' + (document.getElementById('mulai').value || '09:00'),
+    waktuLapor: `${tglMasuk} ${jamMasuk}`,
+    waktuMulai: `${tglMulai} ${jamMulai}`,
     status: 'Menunggu Selesai Perbaikan',
     durasi: 0
   };
@@ -1496,10 +1526,15 @@ function simpanPerintah() {
     if (err) showToast('Gagal menyimpan ke Firebase: ' + err.message, 'Error', 'danger');
     else {
       closeModal();
-      document.getElementById('noMesin').value = '';
-      document.getElementById('jenisMesin').value = '';
-      document.getElementById('item').value = '';
-      document.getElementById('laporan').value = '';
+      
+      // RESET FORM SETELAH SIMPAN
+      document.getElementById('formPerintahBaru').reset();
+      
+      // Kembalikan default waktu datetime-local ke waktu sekarang
+      const currentDateTime = getFormattedDateTimeLocal();
+      document.getElementById('waktuMasuk').value = currentDateTime;
+      document.getElementById('waktuMulai').value = currentDateTime;
+
       showToast('Perintah perbaikan baru berhasil disimpan!', 'Berhasil', 'success');
     }
   });
@@ -1511,7 +1546,6 @@ function resetFilterTanggal() {
   tampil();
 }
 
-// FUNGSI UNTUK MERUBAH TAB STATUS (TOTAL / DALAM PERBAIKAN / SELESAI)
 function setFilterStatus(status) {
   currentStatusFilter = status;
   
@@ -1569,7 +1603,6 @@ function tampil() {
   listEl.innerHTML = f.map(x => {
     const isSelesai = !!(x.selesai && x.selesai !== '-');
     
-    // Tampilan Waktu Selesai & Keluar beserta Tanggal jika tersedia
     let textSelesai = x.selesai && x.selesai !== '-' ? `${x.tglSelesai ? x.tglSelesai + ' ' : ''}${x.selesai}` : 'Belum selesai';
     let textKeluar = x.keluar && x.keluar !== '-' ? `${x.tglKeluar ? x.tglKeluar + ' ' : ''}${x.keluar}` : '-';
 
@@ -1582,7 +1615,7 @@ function tampil() {
           : '<span class="badge badge-blue">' + x.status + '</span>'}
       </div>
       <div class="info-grid">
-        <div class="l" style="color:#2563eb">Tanggal Masuk</div><div class="v" style="color:#2563eb">${x.tanggal || '-'}</div>
+        <div class="l" style="color:#2563eb">Tanggal Masuk</div><div class="v" style="color:#2563eb">${x.tanggal || '-'} ${x.masuk || ''}</div>
         <div class="l">Pelapor</div><div class="v">${x.nama || '-'}</div>
         <div class="l">Nomor Unit</div><div class="v">${x.nomorMesin}</div>
         <div class="l">Jenis Unit</div><div class="v">${x.jenisMesin || '-'}</div>
@@ -1605,396 +1638,68 @@ function tampil() {
   }).join('');
 }
 
-// FUNGSI PRINT / CETAK WO KE FORM FISIK
-function cetakWO(firebaseKey) {
-  let item = db.find(x => x.firebaseKey === firebaseKey);
+// LOGIKA PEMBAHARUAN EDIT & STATUS WO
+function inputSelesaiKeluar(key) {
+  const item = db.find(x => x.firebaseKey === key);
   if (!item) return;
 
-  let textSelesai = item.selesai && item.selesai !== '-' ? `${item.tglSelesai || item.tanggal} ${item.selesai}` : 'Belum Selesai';
-  let textKeluar = item.keluar && item.keluar !== '-' ? `${item.tglKeluar || item.tanggal} ${item.keluar}` : 'Belum Keluar';
+  document.getElementById('editId').value = key;
+  const currentDt = getFormattedDateTimeLocal();
 
-  let printContent = `
-    <div style="padding: 24px; font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto; border: 2px solid #0f172a; border-radius: 8px; color: #0f172a;">
-      <div style="text-align: center; border-bottom: 2px double #0f172a; padding-bottom: 12px; margin-bottom: 16px;">
-        <h2 style="margin: 0; font-size: 22px; text-transform: uppercase;">PT. INDONESIA WEDABAY INDUSTRIAL PARK</h2>
-        <h3 style="margin: 4px 0 0; font-size: 16px; color: #2563eb;">SISTEM PERBAIKAN MEKANIK 2 (${item.bengkel || 'RIM汽修厂一车间'})</h3>
-        <p style="margin: 4px 0 0; font-size: 12px; color: #64748b;">FORMULIR PERINTAH KERJA / WORK ORDER (WO)</p>
-      </div>
-
-      <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; margin-bottom: 16px; background: #f1f5f9; padding: 10px; border-radius: 6px;">
-        <span>NO. WO: ${item.id}</span>
-        <span>STATUS: ${item.status || '-'}</span>
-      </div>
-
-      <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 20px;">
-        <tr>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; width: 30%; background: #f8fafc;">Tanggal Masuk</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.tanggal || '-'}</td>
-        </tr>
-        <tr>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Nama Pelapor</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.nama || '-'}</td>
-        </tr>
-        <tr>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Nomor Unit</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; color: #2563eb;">${item.nomorMesin}</td>
-        </tr>
-        <tr>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Jenis Unit</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.jenisMesin || '-'}</td>
-        </tr>
-        <tr>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Ruangan / Tempat</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.tempat || '-'}</td>
-        </tr>
-        <tr>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Kerusakan / Item</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.item || '-'}</td>
-        </tr>
-        <tr>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Tim Perbaikan</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.tim || '-'}</td>
-        </tr>
-        <tr>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Waktu Mulai</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.waktuMulai || '-'}</td>
-        </tr>
-        <tr>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Waktu Selesai</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1;">${textSelesai}</td>
-        </tr>
-        <tr>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Waktu Keluar</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1;">${textKeluar}</td>
-        </tr>
-        <tr>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Durasi Pengerjaan</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.durasi ? Math.floor(item.durasi / 60) + ' Jam ' + (item.durasi % 60) + ' Menit' : '-'}</td>
-        </tr>
-        <tr>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; background: #f8fafc;">Keterangan Laporan</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1;">${item.laporan || '-'}</td>
-        </tr>
-      </table>
-
-      <div style="display: flex; justify-content: space-between; margin-top: 40px; text-align: center; font-size: 12px;">
-        <div style="width: 30%;">
-          <p>Pelapor / Pengaju</p>
-          <br><br><br>
-          <p style="font-weight: bold; border-top: 1px solid #0f172a; padding-top: 4px;">( ${item.nama || '.................'} )</p>
-        </div>
-        <div style="width: 30%;">
-          <p>Mekanik / Tim Kerja</p>
-          <br><br><br>
-          <p style="font-weight: bold; border-top: 1px solid #0f172a; padding-top: 4px;">( ${item.tim || '.................'} )</p>
-        </div>
-        <div style="width: 30%;">
-          <p>Supervisor / Penanggung Jawab</p>
-          <br><br><br>
-          <p style="font-weight: bold; border-top: 1px solid #0f172a; padding-top: 4px;">( .................................... )</p>
-        </div>
-      </div>
-    </div>
-  `;
-
-  const printContainer = document.getElementById('printArea');
-  printContainer.innerHTML = printContent;
-  printContainer.style.display = 'block';
-
-  window.print();
-
-  setTimeout(() => {
-    printContainer.style.display = 'none';
-  }, 500);
-}
-
-function bukaModalEdit(firebaseKey) {
-  if (!currentUser) return;
-
-  let item = db.find(x => x.firebaseKey === firebaseKey);
-  if (!item) return;
-
-  const isAdmin = currentUser.role === 'admin';
-
-  document.getElementById('e_firebaseKey').value = firebaseKey;
-  document.getElementById('e_tanggal').value = item.tanggal || '';
-  document.getElementById('e_nama').value = item.nama || '';
-  document.getElementById('e_noMesin').value = item.nomorMesin || '';
-  document.getElementById('e_jenisMesin').value = item.jenisMesin || '';
-  document.getElementById('e_item').value = item.item || '';
-  document.getElementById('e_tempat').value = item.tempat || '38-1';
-  document.getElementById('e_tim').value = item.tim || '';
-  document.getElementById('e_laporan').value = item.laporan || '';
-
-  document.getElementById('e_tanggal').disabled = !isAdmin;
-  document.getElementById('e_nama').disabled = !isAdmin;
-  document.getElementById('e_noMesin').disabled = !isAdmin;
-  document.getElementById('e_jenisMesin').disabled = !isAdmin;
-  document.getElementById('e_item').disabled = !isAdmin;
-  document.getElementById('e_tempat').disabled = !isAdmin;
-  document.getElementById('e_tim').disabled = !isAdmin;
-
-  document.getElementById('judulModalEdit').innerText = isAdmin ? 'Edit Data Perbaikan (Admin)' : 'Edit Keterangan (User)';
-
-  document.getElementById('modalEdit').style.display = 'flex';
-  pushNavigationState('modalEdit');
-}
-
-function simpanEditPerbaikan() {
-  if (!currentUser) return;
-
-  const firebaseKey = document.getElementById('e_firebaseKey').value;
-  const isAdmin = currentUser.role === 'admin';
-
-  let updateData = {};
-
-  if (isAdmin) {
-    updateData = {
-      tanggal: document.getElementById('e_tanggal').value,
-      nama: document.getElementById('e_nama').value,
-      nomorMesin: document.getElementById('e_noMesin').value,
-      jenisMesin: document.getElementById('e_jenisMesin').value,
-      item: document.getElementById('e_item').value,
-      tempat: document.getElementById('e_tempat').value,
-      tim: document.getElementById('e_tim').value,
-      laporan: document.getElementById('e_laporan').value
-    };
-  } else {
-    updateData = {
-      laporan: document.getElementById('e_laporan').value
-    };
+  let defaultSelesai = currentDt;
+  if (item.tglSelesai && item.selesai && item.selesai !== '-') {
+    defaultSelesai = `${item.tglSelesai}T${item.selesai}`;
   }
 
-  showLoading('Memperbarui Data...', 'Mengirim pembaruan...');
-
-  dbRef.child(firebaseKey).update(updateData, (err) => {
-    hideLoading();
-    if (err) {
-      showToast('Gagal mengupdate data: ' + err.message, 'Error', 'danger');
-    } else {
-      closeModalEdit();
-      showToast('Data perbaikan berhasil diperbarui!', 'Berhasil', 'success');
-    }
-  });
-}
-
-function hapusPerbaikan(firebaseKey, id) {
-  if (!currentUser || currentUser.role !== 'admin') {
-    showToast('Akses ditolak! Fitur ini hanya untuk Admin.', 'Akses Ditolak', 'danger');
-    return;
+  let defaultKeluar = '';
+  if (item.tglKeluar && item.keluar && item.keluar !== '-') {
+    defaultKeluar = `${item.tglKeluar}T${item.keluar}`;
   }
 
-  document.getElementById('hapusFirebaseKey').value = firebaseKey;
-  document.getElementById('hapusWOId').innerText = id;
-  const modal = document.getElementById('modalHapus');
-  modal.style.display = 'flex';
-  setTimeout(() => modal.classList.add('active'), 10);
-  pushNavigationState('modalHapus');
-}
-
-function eksekusiHapus() {
-  const firebaseKey = document.getElementById('hapusFirebaseKey').value;
-  if (!firebaseKey) return;
-
-  showLoading('Menghapus Data...', 'Menghapus record database...');
-
-  dbRef.child(firebaseKey).remove((err) => {
-    hideLoading();
-    if (err) {
-      showToast('Gagal menghapus data: ' + err.message, 'Error', 'danger');
-    } else {
-      closeModalHapus();
-      showToast('Data berhasil dihapus dari database.', 'Terhapus', 'success');
-    }
-  });
-}
-
-function inputSelesaiKeluar(firebaseKey) {
-  let r = db.find(x => x.firebaseKey === firebaseKey);
-  if (!r) return;
-
-  const now = new Date();
-  const dateNow = now.toISOString().split('T')[0];
-  const timeNow = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
-
-  document.getElementById('editId').value = firebaseKey;
-  document.getElementById('judulModalSelesai').innerText = 'Update Perbaikan: ' + r.id;
-  
-  // Set Tanggal & Jam Selesai
-  document.getElementById('tglSelesaiInput').value = r.tglSelesai ? r.tglSelesai : (r.tanggal || dateNow);
-  document.getElementById('jamSelesaiInput').value = r.selesai && r.selesai !== '-' ? r.selesai : timeNow;
-  
-  // Set Tanggal & Jam Keluar
-  document.getElementById('tglKeluarInput').value = r.tglKeluar ? r.tglKeluar : dateNow;
-  document.getElementById('jamKeluarInput').value = r.keluar && r.keluar !== '-' ? r.keluar : '';
+  document.getElementById('waktuSelesaiInput').value = defaultSelesai;
+  document.getElementById('waktuKeluarInput').value = defaultKeluar;
 
   document.getElementById('modalSelesai').style.display = 'flex';
   pushNavigationState('modalSelesai');
 }
 
-function inputKeluar(firebaseKey) {
-  inputSelesaiKeluar(firebaseKey);
+function inputKeluar(key) {
+  inputSelesaiKeluar(key);
 }
 
 function simpanSelesaiKeluar() {
-  let firebaseKey = document.getElementById('editId').value;
-  let tglS = document.getElementById('tglSelesaiInput').value;
-  let jamS = document.getElementById('jamSelesaiInput').value;
-  let tglK = document.getElementById('tglKeluarInput').value;
-  let jamK = document.getElementById('jamKeluarInput').value;
+  const key = document.getElementById('editId').value;
+  const waktuSelesaiVal = document.getElementById('waktuSelesaiInput').value;
+  const waktuKeluarVal = document.getElementById('waktuKeluarInput').value;
 
-  if (!tglS || !jamS) { showToast('Harap isi Tanggal dan Jam Selesai Perbaikan!', 'Peringatan', 'warning'); return; }
+  if (!key) return;
 
-  let r = db.find(x => x.firebaseKey === firebaseKey);
-  if (!r) return;
+  let updateData = {};
 
-  // Hitung durasi presisi dengan memperhitungkan beda hari/tanggal
-  let durasiMenit = 0;
-  if (tglS && jamS && r.tanggal && r.mulai) {
-    let startDateTime = new Date(`${r.tanggal}T${r.mulai}:00`);
-    let endDateTime = new Date(`${tglS}T${jamS}:00`);
-    let diffMs = endDateTime - startDateTime;
-    if (diffMs > 0) {
-      durasiMenit = Math.floor(diffMs / 60000);
-    }
+  if (waktuSelesaiVal) {
+    const [tglS, jamS] = waktuSelesaiVal.split('T');
+    updateData.tglSelesai = tglS;
+    updateData.selesai = jamS;
+    updateData.status = 'Selesai Perbaikan';
   }
 
-  showLoading('Memperbarui Status...', 'Menyimpan waktu perbaikan...');
+  if (waktuKeluarVal) {
+    const [tglK, jamK] = waktuKeluarVal.split('T');
+    updateData.tglKeluar = tglK;
+    updateData.keluar = jamK;
+  }
 
-  dbRef.child(firebaseKey).update({
-    tglSelesai: tglS,
-    selesai: jamS,
-    tglKeluar: jamK ? tglK : "",
-    keluar: jamK ? jamK : "-",
-    durasi: durasiMenit,
-    status: jamK ? "Sudah Keluar" : "Selesai - Belum Keluar"
-  }, (err) => {
+  showLoading('Memperbarui Data...', 'Menyimpan status ke server...');
+
+  dbRef.child(key).update(updateData, (err) => {
     hideLoading();
-    if (err) showToast('Gagal update Firebase!', 'Error', 'danger');
+    if (err) showToast('Gagal memperbarui status: ' + err.message, 'Error', 'danger');
     else {
       closeModalSelesai();
       showToast('Status perbaikan berhasil diperbarui!', 'Berhasil', 'success');
     }
   });
 }
-
-// LOGIKA MODAL FILTER EXPORT EXCEL
-function bukaModalExportExcel() {
-  if (db.length === 0) { 
-    showToast('Database masih kosong, tidak ada data yang bisa diexport!', 'Informasi', 'info'); 
-    return; 
-  }
-  document.getElementById('exp_tglAwal').value = '';
-  document.getElementById('exp_tglAkhir').value = '';
-  
-  const modal = document.getElementById('modalExportExcel');
-  modal.style.display = 'flex';
-  setTimeout(() => modal.classList.add('active'), 10);
-  pushNavigationState('modalExportExcel');
-}
-
-function tutupModalExportExcel() {
-  const modal = document.getElementById('modalExportExcel');
-  modal.classList.remove('active');
-  setTimeout(() => modal.style.display = 'none', 150);
-}
-
-function eksekusiExportExcel() {
-  let tAwal = document.getElementById('exp_tglAwal').value;
-  let tAkhir = document.getElementById('exp_tglAkhir').value;
-
-  let filteredData = db.filter(x => {
-    if (tAwal && tAkhir) {
-      return x.tanggal >= tAwal && x.tanggal <= tAkhir;
-    } else if (tAwal) {
-      return x.tanggal >= tAwal;
-    } else if (tAkhir) {
-      return x.tanggal <= tAkhir;
-    }
-    return true;
-  });
-
-  if (filteredData.length === 0) {
-    showToast('Tidak ada data perbaikan pada rentang tanggal yang dipilih!', 'Data Kosong', 'warning');
-    return;
-  }
-
-  let dataExcel = filteredData.map(x => ({
-    ID: x.id,
-    TanggalMasuk: x.tanggal,
-    NamaPelapor: x.nama,
-    NomorMesin: x.nomorMesin,
-    JenisMesin: x.jenisMesin,
-    Ruangan: x.tempat,
-    MemperbaikiItem: x.item,
-    Tim: x.tim,
-    Bengkel: x.bengkel,
-    WaktuLapor: x.waktuLapor,
-    WaktuMulai: x.waktuMulai,
-    Masuk: x.masuk,
-    Mulai: x.mulai,
-    TanggalSelesai: x.tglSelesai || '-',
-    JamSelesai: x.selesai || '-',
-    TanggalKeluar: x.tglKeluar || '-',
-    JamKeluar: x.keluar || '-',
-    DurasiMenit: x.durasi,
-    Status: x.status,
-    Keterangan: x.laporan
-  }));
-
-  let ws = XLSX.utils.json_to_sheet(dataExcel);
-  let wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Perbaikan");
-  
-  let fileName = "Database_Perbaikan_IWIP.xlsx";
-  if (tAwal && tAkhir) {
-    fileName = `Database_Perbaikan_${tAwal}_sd_${tAkhir}.xlsx`;
-  } else if (tAwal) {
-    fileName = `Database_Perbaikan_Mulai_${tAwal}.xlsx`;
-  } else if (tAkhir) {
-    fileName = `Database_Perbaikan_Sampaip_${tAkhir}.xlsx`;
-  }
-
-  XLSX.writeFile(wb, fileName);
-  tutupModalExportExcel();
-  showToast(`Berhasil mengunduh ${filteredData.length} data perbaikan ke file Excel.\nFile tersimpan di folder Downloads.`, 'Unduh Selesai', 'success');
-}
-
-// ==========================================
-// PENGELOLAAN NAVIGASI BACK (HISTORY API)
-// ==========================================
-
-function pushNavigationState(pageName) {
-  history.pushState({ page: pageName }, "", "");
-}
-
-window.addEventListener('popstate', function (event) {
-  const modalList = ['modal', 'modalEdit', 'modalSelesai', 'modalHapus', 'modalForgot', 'modalUpdateAccount', 'modalDeleteAccount', 'modalAdminDeleteUser', 'modalExportExcel'];
-  
-  // 1. Jika ada Modal yang terbuka, tutup modal tersebut dahulu
-  let modalOpen = false;
-  modalList.forEach(id => {
-    const el = document.getElementById(id);
-    if (el && (el.style.display === 'flex' || el.classList.contains('active'))) {
-      el.style.display = 'none';
-      el.classList.remove('active');
-      modalOpen = true;
-    }
-  });
-
-  if (modalOpen) return;
-
-  // 2. Jika sedang di Halaman Daftar Perbaikan atau Milikku -> Kembali ke Halaman Depan
-  const isBengkel = document.getElementById('bengkelPage').style.display === 'block';
-  const isMilik = document.getElementById('milikPage').style.display === 'block';
-
-  if (isBengkel || isMilik) {
-    document.getElementById('bengkelPage').style.display = 'none';
-    document.getElementById('milikPage').style.display = 'none';
-    document.getElementById('dashPage').style.display = 'block';
-  }
-});
 </script>
-
 </body>
 </html>

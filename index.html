@@ -136,7 +136,7 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
   user-select: none;
 }
 
-.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-around: space-around; font-size: 11px; padding: 10px 0; z-index: 30; }
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; font-size: 11px; padding: 10px 0; z-index: 30; }
 .nav-item { text-align: center; font-size: 11px; font-weight: 600; color: #94a3b8; cursor: pointer; flex: 1; }
 .nav-item.active { color: #2563eb; }
 
@@ -1556,6 +1556,239 @@ function setFilterStatus(status) {
   tampil();
 }
 
+function openModalSelesai(key) {
+  const item = db.find(x => x.firebaseKey === key);
+  if (!item) return;
+
+  document.getElementById('editId').value = key;
+
+  const currentDt = getFormattedDateTimeLocal();
+  document.getElementById('waktuSelesaiInput').value = item.tglSelesai && item.selesai ? `${item.tglSelesai}T${item.selesai}` : currentDt;
+  document.getElementById('waktuKeluarInput').value = item.tglKeluar && item.keluar ? `${item.tglKeluar}T${item.keluar}` : '';
+
+  document.getElementById('modalSelesai').style.display = 'flex';
+  pushNavigationState('modalSelesai');
+}
+
+function simpanSelesaiKeluar() {
+  const key = document.getElementById('editId').value;
+  const selVal = document.getElementById('waktuSelesaiInput').value;
+  const kelVal = document.getElementById('waktuKeluarInput').value;
+
+  if (!selVal) {
+    showToast('Waktu selesai perbaikan wajib diisi!', 'Peringatan', 'warning');
+    return;
+  }
+
+  const [tglS, jamS] = selVal.split('T');
+  let updateData = {
+    tglSelesai: tglS,
+    selesai: jamS,
+    status: 'Selesai Perbaikan'
+  };
+
+  if (kelVal) {
+    const [tglK, jamK] = kelVal.split('T');
+    updateData.tglKeluar = tglK;
+    updateData.keluar = jamK;
+  }
+
+  showLoading('Memperbarui Status...', 'Menyimpan waktu selesai...');
+
+  dbRef.child(key).update(updateData, (err) => {
+    hideLoading();
+    if (err) showToast('Gagal memperbarui status: ' + err.message, 'Error', 'danger');
+    else {
+      closeModalSelesai();
+      showToast('Status perbaikan berhasil diperbarui!', 'Berhasil', 'success');
+    }
+  });
+}
+
+function openModalEdit(key) {
+  const item = db.find(x => x.firebaseKey === key);
+  if (!item) return;
+
+  document.getElementById('e_firebaseKey').value = key;
+  document.getElementById('e_tanggal').value = item.tanggal || '';
+  document.getElementById('e_nama').value = item.nama || '';
+  document.getElementById('e_noMesin').value = item.nomorMesin || '';
+  document.getElementById('e_jenisMesin').value = item.jenisMesin || '';
+  document.getElementById('e_item').value = item.item || '';
+  document.getElementById('e_tempat').value = item.tempat || '38-1';
+  document.getElementById('e_tim').value = item.tim || '';
+  document.getElementById('e_laporan').value = item.laporan || '';
+
+  document.getElementById('modalEdit').style.display = 'flex';
+  pushNavigationState('modalEdit');
+}
+
+function simpanEditPerbaikan() {
+  const key = document.getElementById('e_firebaseKey').value;
+  if (!key) return;
+
+  let updateObj = {
+    tanggal: document.getElementById('e_tanggal').value,
+    nama: document.getElementById('e_nama').value,
+    nomorMesin: document.getElementById('e_noMesin').value,
+    jenisMesin: document.getElementById('e_jenisMesin').value,
+    item: document.getElementById('e_item').value,
+    tempat: document.getElementById('e_tempat').value,
+    tim: document.getElementById('e_tim').value,
+    laporan: document.getElementById('e_laporan').value
+  };
+
+  showLoading('Memperbarui Data...', 'Menyimpan perubahan ke cloud...');
+
+  dbRef.child(key).update(updateObj, (err) => {
+    hideLoading();
+    if (err) showToast('Gagal mengedit data: ' + err.message, 'Error', 'danger');
+    else {
+      closeModalEdit();
+      showToast('Data perbaikan berhasil diperbarui!', 'Berhasil', 'success');
+    }
+  });
+}
+
+function confirmHapus(key, idWO) {
+  document.getElementById('hapusFirebaseKey').value = key;
+  document.getElementById('hapusWOId').innerText = idWO;
+
+  const modal = document.getElementById('modalHapus');
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('active'), 10);
+  pushNavigationState('modalHapus');
+}
+
+function eksekusiHapus() {
+  const key = document.getElementById('hapusFirebaseKey').value;
+  if (!key) return;
+
+  showLoading('Menghapus Data...', 'Menghapus perintah perbaikan...');
+
+  dbRef.child(key).remove((err) => {
+    hideLoading();
+    if (err) showToast('Gagal menghapus data: ' + err.message, 'Error', 'danger');
+    else {
+      closeModalHapus();
+      showToast('Data perbaikan berhasil dihapus!', 'Berhasil', 'success');
+    }
+  });
+}
+
+function cetakWO(key) {
+  const item = db.find(x => x.firebaseKey === key);
+  if (!item) return;
+
+  const printArea = document.getElementById('printArea');
+  printArea.innerHTML = `
+    <div style="text-align:center;margin-bottom:20px;border-bottom:2px solid #000;padding-bottom:10px">
+      <h2 style="margin:0;font-size:22px">PERINTAH PERBAIKAN UNIT (WORK ORDER)</h2>
+      <h3 style="margin:4px 0 0;font-size:16px;color:#444">MEKANIK 2 - PT IWIP</h3>
+    </div>
+    
+    <table class="wo-table">
+      <tr><th width="30%">ID Work Order</th><td><b>${item.id}</b></td></tr>
+      <tr><th>Tanggal / Jam Masuk</th><td>${item.tanggal || '-'} ${item.masuk || ''}</td></tr>
+      <tr><th>Nama Pelapor</th><td>${item.nama || '-'}</td></tr>
+      <tr><th>Nomor Unit</th><td><b>${item.nomorMesin}</b></td></tr>
+      <tr><th>Jenis Unit</th><td>${item.jenisMesin || '-'}</td></tr>
+      <tr><th>Kerusakan / Item</th><td>${item.item || '-'}</td></tr>
+      <tr><th>Ruangan / Tempat</th><td>${item.tempat || '-'}</td></tr>
+      <tr><th>Tim Perbaikan</th><td>${item.tim || '-'}</td></tr>
+      <tr><th>Status Perbaikan</th><td><b>${item.status}</b></td></tr>
+      <tr><th>Selesai Perbaikan</th><td>${item.selesai ? (item.tglSelesai || '') + ' ' + item.selesai : 'Belum Selesai'}</td></tr>
+      <tr><th>Keluar Bengkel</th><td>${item.keluar ? (item.tglKeluar || '') + ' ' + item.keluar : '-'}</td></tr>
+      <tr><th>Laporan / Catatan</th><td>${item.laporan || '-'}</td></tr>
+    </table>
+
+    <div style="margin-top:40px;display:flex;justify-content:space-between;text-align:center">
+      <div style="width:40%">
+        <p>Pelapor / Pekerja</p>
+        <br><br><br>
+        <p><b>( ${item.nama || '......................'} )</b></p>
+      </div>
+      <div style="width:40%">
+        <p>Penanggung Jawab / Admin</p>
+        <br><br><br>
+        <p><b>( ...................... )</b></p>
+      </div>
+    </div>
+  `;
+
+  window.print();
+}
+
+// EXPORT DATA KE EXCEL
+function bukaModalExportExcel() {
+  const modal = document.getElementById('modalExportExcel');
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('active'), 10);
+  pushNavigationState('modalExportExcel');
+}
+
+function tutupModalExportExcel() {
+  const modal = document.getElementById('modalExportExcel');
+  modal.classList.remove('active');
+  setTimeout(() => modal.style.display = 'none', 150);
+}
+
+function eksekusiExportExcel() {
+  const tAwal = document.getElementById('exp_tglAwal').value;
+  const tAkhir = document.getElementById('exp_tglAkhir').value;
+
+  let exportData = db.filter(x => {
+    if (tAwal && tAkhir) return x.tanggal >= tAwal && x.tanggal <= tAkhir;
+    if (tAwal) return x.tanggal >= tAwal;
+    if (tAkhir) return x.tanggal <= tAkhir;
+    return true;
+  });
+
+  if (exportData.length === 0) {
+    showToast('Tidak ada data perbaikan pada rentang tanggal tersebut!', 'Data Kosong', 'warning');
+    return;
+  }
+
+  showLoading('Mengunduh Excel...', 'Menyiapkan berkas spreadsheet...');
+
+  let formattedRows = exportData.map((x, idx) => ({
+    "No": idx + 1,
+    "ID Work Order": x.id,
+    "Tanggal Masuk": x.tanggal || '-',
+    "Jam Masuk": x.masuk || '-',
+    "Pelapor": x.nama || '-',
+    "Nomor Unit": x.nomorMesin || '-',
+    "Jenis Unit": x.jenisMesin || '-',
+    "Kerusakan / Item": x.item || '-',
+    "Ruangan / Tempat": x.tempat || '-',
+    "Tim Perbaikan": x.tim || '-',
+    "Status": x.status || '-',
+    "Tanggal Selesai": x.tglSelesai || '-',
+    "Jam Selesai": x.selesai || '-',
+    "Tanggal Keluar": x.tglKeluar || '-',
+    "Jam Keluar": x.keluar || '-',
+    "Catatan Laporan": x.laporan || '-'
+  }));
+
+  setTimeout(() => {
+    try {
+      const worksheet = XLSX.utils.json_to_sheet(formattedRows);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Data Perbaikan");
+
+      const fileName = `Data_Perbaikan_Mekanik2_${tAwal || 'All'}_sd_${tAkhir || 'All'}.xlsx`;
+      XLSX.writeFile(workbook, fileName);
+
+      hideLoading();
+      tutupModalExportExcel();
+      showToast('File Excel berhasil diunduh ke perangkat Anda!', 'Berhasil Export', 'success');
+    } catch (e) {
+      hideLoading();
+      showToast('Gagal mengunduh file Excel: ' + e.message, 'Error', 'danger');
+    }
+  }, 500);
+}
+
 function tampil() {
   let c = document.getElementById('cari')?.value.toLowerCase() || '';
   let tglAwal = document.getElementById('tglAwal')?.value || '';
@@ -1622,83 +1855,19 @@ function tampil() {
         <div class="l">Kerusakan / Item</div><div class="v">${x.item || '-'}</div>
         <div class="l">Ruangan</div><div class="v" style="color:#2563eb;font-weight:700">${x.tempat || '-'}</div>
         <div class="l">Tim Kerja</div><div class="v">${x.tim}</div>
-        <div class="l">Waktu Mulai</div><div class="v">${x.waktuMulai}</div>
-        <div class="l">Waktu Selesai</div><div class="v" style="color:${x.selesai ? '#16a34a' : '#94a3b8'}">${textSelesai}</div>
-        <div class="l">Waktu Keluar</div><div class="v" style="color:${x.keluar && x.keluar !== '-' ? '#ef4444' : '#94a3b8'}">${textKeluar} ${x.durasi ? '(' + Math.floor(x.durasi / 60) + 'j ' + (x.durasi % 60) + 'm)' : ''}</div>
-        <div class="l">Keterangan</div><div class="v">${x.laporan || '-'}</div>
+        <div class="l">Selesai</div><div class="v" style="color:${isSelesai ? '#15803d' : '#94a3b8'}">${textSelesai}</div>
+        <div class="l">Keluar</div><div class="v">${textKeluar}</div>
+        ${x.laporan ? `<div class="l">Catatan</div><div class="v" style="color:#64748b">${x.laporan}</div>` : ''}
       </div>
       <div class="btn-row">
-        <button onclick="cetakWO('${x.firebaseKey}')" class="secondary">🖨️ Cetak WO</button>
-        ${!x.selesai ? `<button onclick="inputSelesaiKeluar('${x.firebaseKey}')">Selesai Perbaikan</button>` : ''}
-        ${x.selesai && (!x.keluar || x.keluar === '-') ? `<button onclick="inputKeluar('${x.firebaseKey}')" class="danger">Input Keluar Bengkel</button>` : ''}
-        ${!isSelesai ? `<button onclick="bukaModalEdit('${x.firebaseKey}')" class="warning">✏️ Edit</button>` : ''}
-        ${!isSelesai && isAdmin ? `<button onclick="hapusPerbaikan('${x.firebaseKey}', '${x.id}')" class="danger">🗑️ Hapus</button>` : ''}
+        <button class="secondary" onclick="cetakWO('${x.firebaseKey}')">🖨️ Cetak WO</button>
+        <button class="warning" onclick="openModalEdit('${x.firebaseKey}')">✏️ Edit</button>
+        <button onclick="openModalSelesai('${x.firebaseKey}')">⏱️ Selesai / Keluar</button>
+        ${isAdmin ? `<button class="danger" onclick="confirmHapus('${x.firebaseKey}', '${x.id}')">🗑️ Hapus</button>` : ''}
       </div>
-    </div>`;
+    </div>
+    `;
   }).join('');
-}
-
-// LOGIKA PEMBAHARUAN EDIT & STATUS WO
-function inputSelesaiKeluar(key) {
-  const item = db.find(x => x.firebaseKey === key);
-  if (!item) return;
-
-  document.getElementById('editId').value = key;
-  const currentDt = getFormattedDateTimeLocal();
-
-  let defaultSelesai = currentDt;
-  if (item.tglSelesai && item.selesai && item.selesai !== '-') {
-    defaultSelesai = `${item.tglSelesai}T${item.selesai}`;
-  }
-
-  let defaultKeluar = '';
-  if (item.tglKeluar && item.keluar && item.keluar !== '-') {
-    defaultKeluar = `${item.tglKeluar}T${item.keluar}`;
-  }
-
-  document.getElementById('waktuSelesaiInput').value = defaultSelesai;
-  document.getElementById('waktuKeluarInput').value = defaultKeluar;
-
-  document.getElementById('modalSelesai').style.display = 'flex';
-  pushNavigationState('modalSelesai');
-}
-
-function inputKeluar(key) {
-  inputSelesaiKeluar(key);
-}
-
-function simpanSelesaiKeluar() {
-  const key = document.getElementById('editId').value;
-  const waktuSelesaiVal = document.getElementById('waktuSelesaiInput').value;
-  const waktuKeluarVal = document.getElementById('waktuKeluarInput').value;
-
-  if (!key) return;
-
-  let updateData = {};
-
-  if (waktuSelesaiVal) {
-    const [tglS, jamS] = waktuSelesaiVal.split('T');
-    updateData.tglSelesai = tglS;
-    updateData.selesai = jamS;
-    updateData.status = 'Selesai Perbaikan';
-  }
-
-  if (waktuKeluarVal) {
-    const [tglK, jamK] = waktuKeluarVal.split('T');
-    updateData.tglKeluar = tglK;
-    updateData.keluar = jamK;
-  }
-
-  showLoading('Memperbarui Data...', 'Menyimpan status ke server...');
-
-  dbRef.child(key).update(updateData, (err) => {
-    hideLoading();
-    if (err) showToast('Gagal memperbarui status: ' + err.message, 'Error', 'danger');
-    else {
-      closeModalSelesai();
-      showToast('Status perbaikan berhasil diperbarui!', 'Berhasil', 'success');
-    }
-  });
 }
 </script>
 </body>

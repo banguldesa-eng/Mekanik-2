@@ -95,6 +95,10 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 .stats-badge.selesai { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
 .stats-badge.selesai.active { background: #15803d; color: #ffffff; }
 
+/* STYLE BARU UNTUK BADGE PENDING */
+.stats-badge.pending { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
+.stats-badge.pending.active { background: #475569; color: #ffffff; }
+
 .stats-badge:hover { opacity: 0.85; transform: translateY(-1px); }
 
 /* CARDS & BADGES */
@@ -104,6 +108,8 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 .badge-blue { background: #e0f2fe; color: #0369a1; }
 .badge-green { background: #dcfce7; color: #15803d; }
 .badge-orange { background: #fef3c7; color: #b45309; }
+/* Badge Abu-abu untuk Pending */
+.badge-gray { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
 
 .info-grid { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; font-size: 13px; }
 .info-grid .l { color: #64748b; font-weight: 500; }
@@ -141,7 +147,7 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 .nav-item.active { color: #2563eb; }
 
 /* MODALS GENERAL */
-#modal, #modalSelesai, #modalEdit, #modalHapus, #modalToast, #modalForgot, #modalUpdateAccount, #modalExportExcel, #modalDeleteAccount, #modalAdminDeleteUser { 
+#modal, #modalSelesai, #modalEdit, #modalHapus, #modalToast, #modalForgot, #modalUpdateAccount, #modalExportExcel, #modalDeleteAccount, #modalAdminDeleteUser, #modalCustomConfirm { 
   position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: none; align-items: flex-end; justify-content: center; z-index: 150; backdrop-filter: blur(4px); 
 }
 #modalSelesai { z-index: 160; }
@@ -153,6 +159,8 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 #modalAdminDeleteUser { z-index: 197; align-items: center; padding: 20px; }
 #modalExportExcel { z-index: 198; align-items: center; padding: 20px; }
 #modalToast { z-index: 200; align-items: center; padding: 20px; }
+/* MODAL KONFIRMASI UNIVERSAL - Z-INDEX PALING TINGGI */
+#modalCustomConfirm { z-index: 210; align-items: center; padding: 20px; }
 
 .modal-box { background: #fff; width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; border-radius: 24px 24px 0 0; padding: 20px; box-shadow: 0 -10px 25px rgba(0,0,0,0.1); }
 .modal-box input, .modal-box select, .modal-box textarea { width: 100%; padding: 10px 12px; margin: 4px 0 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
@@ -166,17 +174,23 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   background: #ffffff; width: 100%; max-width: 360px; border-radius: 24px; padding: 24px; text-align: center; 
   box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25); transform: scale(0.9); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); 
 }
-#modalToast.active .modal-confirm-box, #modalHapus.active .modal-confirm-box, #modalForgot.active .modal-confirm-box, #modalUpdateAccount.active .modal-confirm-box, #modalDeleteAccount.active .modal-confirm-box, #modalAdminDeleteUser.active .modal-confirm-box, #modalExportExcel.active .modal-confirm-box { transform: scale(1); }
+#modalToast.active .modal-confirm-box, #modalHapus.active .modal-confirm-box, #modalForgot.active .modal-confirm-box, #modalUpdateAccount.active .modal-confirm-box, #modalDeleteAccount.active .modal-confirm-box, #modalAdminDeleteUser.active .modal-confirm-box, #modalExportExcel.active .modal-confirm-box, #modalCustomConfirm.active .modal-confirm-box { transform: scale(1); }
 
 .icon-wrapper { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; }
 .icon-success { background: #dcfce7; color: #16a34a; }
 .icon-danger { background: #fee2e2; color: #ef4444; }
 .icon-warning { background: #fef3c7; color: #d97706; }
 .icon-info { background: #e0f2fe; color: #0284c7; }
+/* IKON KHUSUS UNTUK PENDING & PLAY */
+.icon-pending { background: #f1f5f9; color: #475569; border: 2px solid #cbd5e1; }
+.icon-play { background: #dcfce7; color: #16a34a; border: 2px solid #bbf7d0; }
 
 .btn-cancel { flex: 1; background: #f1f5f9; color: #475569; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; }
 .btn-delete { flex: 1; background: #ef4444; color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
 .btn-primary { width: 100%; background: #2563eb; color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+/* TOMBOL KHUSUS MODAL PENDING & PLAY */
+.btn-pending { flex: 1; background: linear-gradient(135deg, #64748b, #475569); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(71, 85, 105, 0.35); display:flex; align-items:center; justify-content:center; gap:6px; }
+.btn-play { flex: 1; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35); display:flex; align-items:center; justify-content:center; gap:6px; }
 
 /* USER MANAGEMENT STYLE */
 .user-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
@@ -344,14 +358,18 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
       <!-- STATISTIK PERBAIKAN -->
       <div class="stats-summary">
         <div class="stats-badge total active" id="btnFilterTotal" onclick="setFilterStatus('semua')">
-          Total Perbaikan: <span id="jmlSemua">0</span>
+          Total: <span id="jmlSemua">0</span>
         </div>
-        <div style="display:flex; gap:6px;">
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
           <div class="stats-badge proses" id="btnFilterProses" onclick="setFilterStatus('proses')">
-            Dalam Perbaikan: <span id="jmlProses">0</span>
+            Proses: <span id="jmlProses">0</span>
           </div>
           <div class="stats-badge selesai" id="btnFilterSelesai" onclick="setFilterStatus('selesai')">
             Selesai: <span id="jmlSelesai">0</span>
+          </div>
+          <!-- MENU BARU: PENDING -->
+          <div class="stats-badge pending" id="btnFilterPending" onclick="setFilterStatus('pending')">
+            Pending: <span id="jmlPending">0</span>
           </div>
         </div>
       </div>
@@ -544,6 +562,18 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
       <textarea id="e_laporan" rows="2"></textarea>
 
       <button onclick="simpanEditPerbaikan()" style="width:100%;background:#f59e0b;color:#fff;padding:14px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px">UPDATE DATA</button>
+      
+      <!-- TOMBOL BARU: SET PENDING -->
+      <div style="margin-top:10px; border-top:1px dashed #e2e8f0; padding-top:10px;">
+         <button onclick="setPendingViaEdit()" style="width:100%; background:linear-gradient(135deg, #64748b, #475569); color:#fff; padding:12px; border:none; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:8px; box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);">
+            ⏸️ Set Pending (Alat Kosong)
+         </button>
+         
+         <!-- TOMBOL BARU: LANJUT PERBAIKAN (ALAT ADA) -->
+         <button onclick="resumeRepairViaEdit()" style="width:100%; background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; padding:12px; border:none; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);">
+            ▶️ Lanjut Perbaikan (Alat Ada)
+         </button>
+      </div>
     </div>
   </div>
 
@@ -716,6 +746,19 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
     </div>
   </div>
 
+  <!-- MODAL KONFIRMASI UNIVERSAL (MODERN) -->
+  <div id="modalCustomConfirm">
+    <div class="modal-confirm-box">
+      <div id="ccIcon" class="icon-wrapper icon-info">ℹ️</div>
+      <h3 id="ccTitle" style="margin:0 0 8px;color:#0f172a;font-size:18px;font-weight:800">Konfirmasi</h3>
+      <p id="ccMessage" style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.5;word-break:break-word;"></p>
+      <div style="display:flex;gap:10px">
+        <button class="btn-cancel" onclick="closeCustomConfirm(false)">Batal</button>
+        <button id="ccConfirmBtn" class="btn-primary" onclick="closeCustomConfirm(true)">Ya, Lanjutkan</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -742,6 +785,55 @@ let db = [];
 let allUsers = {};
 let toastCallback = null;
 let currentStatusFilter = 'semua';
+
+// CALLBACK UNTUK MODAL KONFIRMASI UNIVERSAL
+let customConfirmCallback = null;
+
+// FUNGSI MODAL KONFIRMASI UNIVERSAL (MODERN)
+function showCustomConfirm(options) {
+  const modal = document.getElementById('modalCustomConfirm');
+  const icon = document.getElementById('ccIcon');
+  const title = document.getElementById('ccTitle');
+  const message = document.getElementById('ccMessage');
+  const confirmBtn = document.getElementById('ccConfirmBtn');
+
+  // Set ikon
+  icon.className = 'icon-wrapper';
+  icon.innerHTML = options.icon || 'ℹ️';
+  if (options.iconClass) {
+    icon.classList.add(options.iconClass);
+  } else {
+    icon.classList.add('icon-info');
+  }
+
+  title.innerText = options.title || 'Konfirmasi';
+  message.innerHTML = options.message || '';
+
+  // Set style tombol konfirmasi
+  confirmBtn.className = 'btn-primary';
+  if (options.confirmClass) {
+    confirmBtn.className = options.confirmClass;
+  }
+  confirmBtn.innerText = options.confirmText || 'Ya, Lanjutkan';
+
+  customConfirmCallback = options.onConfirm || null;
+
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('active'), 10);
+  pushNavigationState('modalCustomConfirm');
+}
+
+function closeCustomConfirm(confirmed) {
+  const modal = document.getElementById('modalCustomConfirm');
+  modal.classList.remove('active');
+  setTimeout(() => {
+    modal.style.display = 'none';
+    if (confirmed && typeof customConfirmCallback === 'function') {
+      customConfirmCallback();
+    }
+    customConfirmCallback = null;
+  }, 150);
+}
 
 // MUAT DATA LOGIN TERPANTAU DENGAN LOCALSTORAGE SAAT SISTEM DIAWAL
 document.addEventListener("DOMContentLoaded", () => {
@@ -773,7 +865,7 @@ function pushNavigationState(stateName) {
 }
 
 window.addEventListener('popstate', (e) => {
-  const modals = ['modalToast', 'modalHapus', 'modalEdit', 'modalSelesai', 'modal', 'modalForgot', 'modalUpdateAccount', 'modalDeleteAccount', 'modalAdminDeleteUser', 'modalExportExcel'];
+  const modals = ['modalToast', 'modalHapus', 'modalEdit', 'modalSelesai', 'modal', 'modalForgot', 'modalUpdateAccount', 'modalDeleteAccount', 'modalAdminDeleteUser', 'modalExportExcel', 'modalCustomConfirm'];
   let modalClosed = false;
 
   for (let mId of modals) {
@@ -1555,6 +1647,7 @@ function setFilterStatus(status) {
   document.getElementById('btnFilterTotal')?.classList.toggle('active', status === 'semua');
   document.getElementById('btnFilterProses')?.classList.toggle('active', status === 'proses');
   document.getElementById('btnFilterSelesai')?.classList.toggle('active', status === 'selesai');
+  document.getElementById('btnFilterPending')?.classList.toggle('active', status === 'pending');
 
   tampil();
 }
@@ -1649,6 +1742,58 @@ function simpanEditPerbaikan() {
     else {
       closeModalEdit();
       showToast('Data perbaikan berhasil diperbarui!', 'Berhasil', 'success');
+    }
+  });
+}
+
+// FUNGSI BARU: SET STATUS PENDING DENGAN MODAL MODERN
+function setPendingViaEdit() {
+  const key = document.getElementById('e_firebaseKey').value;
+  if (!key) return;
+
+  showCustomConfirm({
+    title: 'Tandai Sebagai Pending?',
+    message: 'Perbaikan ini akan ditandai <b>Pending (Alat Kosong)</b> karena alat/suku cadang belum tersedia. Perbaikan akan dihentikan sementara hingga alat tersedia.',
+    icon: '⏸️',
+    iconClass: 'icon-pending',
+    confirmText: 'Ya, Tandai Pending',
+    confirmClass: 'btn-pending',
+    onConfirm: () => {
+      showLoading('Mengubah Status...', 'Menandai sebagai Pending...');
+      dbRef.child(key).update({ status: 'Pending' }, (err) => {
+        hideLoading();
+        if (err) showToast('Gagal update status: ' + err.message, 'Error', 'danger');
+        else {
+          closeModalEdit();
+          showToast('Status berhasil diubah menjadi PENDING!', 'Berhasil', 'success');
+        }
+      });
+    }
+  });
+}
+
+// FUNGSI BARU: LANJUT PERBAIKAN DENGAN MODAL MODERN
+function resumeRepairViaEdit() {
+  const key = document.getElementById('e_firebaseKey').value;
+  if (!key) return;
+
+  showCustomConfirm({
+    title: 'Lanjutkan Perbaikan?',
+    message: 'Alat/suku cadang sudah tersedia. Status akan dikembalikan ke <b>Dalam Perbaikan</b> dan proses perbaikan dapat dilanjutkan.',
+    icon: '▶️',
+    iconClass: 'icon-play',
+    confirmText: 'Ya, Lanjutkan',
+    confirmClass: 'btn-play',
+    onConfirm: () => {
+      showLoading('Melanjutkan Perbaikan...', 'Mengupdate status...');
+      dbRef.child(key).update({ status: 'Dalam Perbaikan' }, (err) => {
+        hideLoading();
+        if (err) showToast('Gagal update status: ' + err.message, 'Error', 'danger');
+        else {
+          closeModalEdit();
+          showToast('Perbaikan dilanjutkan! Status kembali normal.', 'Berhasil', 'success');
+        }
+      });
     }
   });
 }
@@ -1819,10 +1964,17 @@ function tampil() {
   if (document.getElementById('jmlProses')) document.getElementById('jmlProses').innerText = countProses;
   if (document.getElementById('jmlSelesai')) document.getElementById('jmlSelesai').innerText = countSelesai;
 
+  // HITUNG JUMLAH PENDING
+  let countPending = dataFilteredBase.filter(x => x.status && x.status.toLowerCase().includes('pending')).length;
+  if (document.getElementById('jmlPending')) document.getElementById('jmlPending').innerText = countPending;
+
   let f = dataFilteredBase.filter(x => {
     let isDone = !!(x.selesai && x.selesai !== '-');
-    if (currentStatusFilter === 'proses') return !isDone;
+    let isPending = x.status && x.status.toLowerCase().includes('pending');
+
+    if (currentStatusFilter === 'proses') return !isDone && !isPending;
     if (currentStatusFilter === 'selesai') return isDone;
+    if (currentStatusFilter === 'pending') return isPending;
     return true;
   });
 
@@ -1838,17 +1990,26 @@ function tampil() {
 
   listEl.innerHTML = f.map(x => {
     const isSelesai = !!(x.selesai && x.selesai !== '-');
+    const isPending = x.status && x.status.toLowerCase().includes('pending');
     
     let textSelesai = x.selesai && x.selesai !== '-' ? `${x.tglSelesai ? x.tglSelesai + ' ' : ''}${x.selesai}` : 'Belum selesai';
     let textKeluar = x.keluar && x.keluar !== '-' ? `${x.tglKeluar ? x.tglKeluar + ' ' : ''}${x.keluar}` : '-';
+
+    // Tentukan Badge
+    let badgeHtml = '';
+    if (isSelesai) {
+      badgeHtml = (x.keluar && x.keluar !== '-') ? '<span class="badge badge-green">Sudah Keluar</span>' : '<span class="badge badge-orange">Selesai - Belum Keluar</span>';
+    } else if (isPending) {
+      badgeHtml = '<span class="badge badge-gray">Pending (Alat Kosong)</span>';
+    } else {
+      badgeHtml = '<span class="badge badge-blue">' + x.status + '</span>';
+    }
 
     return `
     <div class="card-order">
       <div class="order-id">
         <span>${x.id}</span>
-        ${x.selesai ? 
-          (x.keluar && x.keluar !== '-' ? '<span class="badge badge-green">Sudah Keluar</span>' : '<span class="badge badge-orange">Selesai - Belum Keluar</span>') 
-          : '<span class="badge badge-blue">' + x.status + '</span>'}
+        ${badgeHtml}
       </div>
       <div class="info-grid">
         <div class="l" style="color:#2563eb">Tanggal Masuk</div><div class="v" style="color:#2563eb">${x.tanggal || '-'} ${x.masuk || ''}</div>

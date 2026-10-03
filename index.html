@@ -1481,8 +1481,8 @@ function handleProfileImage(input) {
     const file = input.files[0];
     
     // Cek ukuran file (maksimal 200KB untuk performa Firebase)
-    if (file.size > 200 * 1024) {
-      showToast('Ukuran foto terlalu besar! Maksimal 200KB.', 'Gagal Upload', 'danger');
+    if (file.size > 2000 * 1024) {
+      showToast('Ukuran foto terlalu besar! Maksimal 2000KB.', 'Gagal Upload', 'danger');
       return;
     }
 

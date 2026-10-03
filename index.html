@@ -258,6 +258,40 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 .wo-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
 .wo-table th, .wo-table td { border: 1px solid #333; padding: 8px 10px; text-align: left; font-size: 13px; }
 .wo-table th { background-color: #f2f2f2; }
+
+/* === FITUR FOTO PROFIL BARU === */
+.profile-pic-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+.profile-pic-container:hover {
+  border-color: #2563eb;
+  transform: scale(1.05);
+}
+.profile-pic-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.profile-edit-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 10px;
+  text-align: center;
+  padding: 4px 0;
+  font-weight: 700;
+}
 </style>
 </head>
 <body>
@@ -389,8 +423,19 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <!-- HALAMAN MILIKKU -->
   <div id="milikPage" class="page">
     <div class="header-top"><span>Milikku</span></div>
+    
+    <!-- BAGIAN PROFIL DENGAN FOTO -->
     <div class="box" style="text-align:center;padding:24px">
-      <div style="font-size:56px;margin-bottom:8px">👤</div>
+      
+      <!-- INPUT FILE TERSEMBUNYI UNTUK UPLOAD FOTO -->
+      <input type="file" id="profilePicInput" accept="image/*" style="display:none" onchange="handleProfileImage(this)">
+      
+      <!-- CONTAINER FOTO YANG BISA DIKLIK -->
+      <div class="profile-pic-container" onclick="document.getElementById('profilePicInput').click()" title="Klik untuk ganti foto">
+        <img id="milikAvatar" src="" alt="Foto Profil" class="profile-pic-img">
+        <div class="profile-edit-overlay">Ubah Foto</div>
+      </div>
+
       <b id="milikName" style="font-size:18px;color:#0f172a"></b><br>
       <small id="milikNIK" style="color:#64748b;font-size:13px"></small><br>
       <small id="milikPhone" style="color:#64748b;font-size:12px;display:block;margin-top:2px"></small>
@@ -1430,12 +1475,57 @@ function eksekusiAdminHapusUser() {
   });
 }
 
+// FUNGSI BARU: HANDLE FOTO PROFIL
+function handleProfileImage(input) {
+  if (input.files && input.files[0]) {
+    const file = input.files[0];
+    
+    // Cek ukuran file (maksimal 200KB untuk performa Firebase)
+    if (file.size > 200 * 1024) {
+      showToast('Ukuran foto terlalu besar! Maksimal 200KB.', 'Gagal Upload', 'danger');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const base64String = e.target.result;
+      
+      // Tampilkan preview langsung
+      document.getElementById('milikAvatar').src = base64String;
+      
+      // Simpan ke database
+      showLoading('Menyimpan Foto...', 'Mengunggah ke cloud...');
+      
+      usersRef.child(currentUser.user).update({ photo: base64String }, (err) => {
+        hideLoading();
+        if (err) {
+          showToast('Gagal menyimpan foto: ' + err.message, 'Error', 'danger');
+        } else {
+          // Update local state
+          currentUser.photo = base64String;
+          showToast('Foto profil berhasil diperbarui!', 'Berhasil', 'success');
+        }
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
 function updateMilikkuUI() {
   if (!currentUser) return;
   document.getElementById('milikName').innerText = currentUser.name || currentUser.user;
   document.getElementById('milikNIK').innerText = 'ID: ' + currentUser.user;
   document.getElementById('milikPhone').innerText = 'HP: ' + (currentUser.phone || '-');
   document.getElementById('milikRole').innerText = 'Akses: ' + (currentUser.role === 'admin' ? 'Administrator' : 'User Biasa');
+  
+  // UPDATE FOTO PROFIL
+  const imgEl = document.getElementById('milikAvatar');
+  if (currentUser.photo) {
+    imgEl.src = currentUser.photo;
+  } else {
+    // Default avatar jika belum ada foto
+    imgEl.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.name || currentUser.user) + '&background=random&size=128';
+  }
 }
 
 function goDash(u) {

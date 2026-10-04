@@ -299,6 +299,50 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   padding: 4px 0;
   font-weight: 700;
 }
+
+/* === DESAIN MODERN PEMILIH RUANGAN === */
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 kolom */
+  gap: 10px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.room-option {
+  background: #f1f5f9;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 12px 4px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.room-option:hover {
+  background: #e2e8f0;
+}
+
+/* Tampilan saat dipilih */
+.room-option.active {
+  background: #eff6ff;
+  border-color: #2563eb;
+  color: #2563eb;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+/* Input tersembunyi agar tetap bisa submit form */
+.hidden-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  width: 0;
+}
 </style>
 </head>
 <body>
@@ -543,19 +587,14 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
         <input id="item" placeholder="Contoh: Ganti Oli & Rem">
 
         <label class="t">Ruangan / Tempat</label>
-        <select id="tempat" required>
-          <option value="">-- Pilih Ruangan --</option>
-          <option value="38-1">38-1</option>
-          <option value="38-2">38-2</option>
-          <option value="39-1">39-1</option>
-          <option value="39-2">39-2</option>
-          <option value="50-1">50-1</option>
-          <option value="50-2">50-2</option>
-          <option value="51-1">51-1</option>
-          <option value="51-2">51-2</option>
-          <option value="52-1">52-1</option>
-          <option value="52-2">52-2</option>
-        </select>
+        <!-- Input Tersembunyi untuk menyimpan nilai (agar validasi form tetap jalan) -->
+        <input type="text" id="tempat" class="hidden-input" required>
+        
+        <!-- Grid Tombol Modern -->
+        <div class="room-grid" id="roomSelectorContainer">
+          <!-- Tombol akan digenerate oleh Javascript -->
+        </div>
+        <small id="roomError" style="color:#ef4444;font-size:11px;display:none;margin-top:-5px;margin-bottom:5px;">* Silakan pilih ruangan</small>
 
         <label class="t">Tim Perbaikan</label>
         <input id="tim" placeholder="Contoh : Shift Siang">
@@ -903,6 +942,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('pass').value = savedPass;
     document.getElementById('rememberMe').checked = remember;
   }
+  
+  // Render Room Grid Saat Load
+  renderRoomGrid();
 });
 
 // HELPER REAL DATETIME LOCAL (YYYY-MM-DDThh:mm)
@@ -1679,6 +1721,45 @@ function genId() {
   return 'WX' + d.getFullYear() + m + Math.floor(100000 + Math.random() * 900000);
 }
 
+// === LOGIKA GRID RUANGAN MODERN ===
+const roomList = [
+  "38-1", "38-2", 
+  "39-1", "39-2", 
+  "50-1", "50-2", 
+  "51-1", "51-2", 
+  "52-1", "52-2"
+];
+
+function renderRoomGrid() {
+  const container = document.getElementById('roomSelectorContainer');
+  if (!container) return;
+
+  container.innerHTML = ''; // Bersihkan isi lama
+  
+  roomList.forEach(room => {
+    const div = document.createElement('div');
+    div.className = 'room-option';
+    div.innerText = room;
+    
+    // Event Klik
+    div.onclick = function() {
+      // Hapus kelas active dari semua tombol
+      document.querySelectorAll('.room-option').forEach(el => el.classList.remove('active'));
+      
+      // Tambah kelas active ke tombol yang diklik
+      this.classList.add('active');
+      
+      // Masukkan nilai ke input tersembunyi
+      document.getElementById('tempat').value = room;
+      
+      // Sembunyikan pesan error jika ada
+      document.getElementById('roomError').style.display = 'none';
+    };
+    
+    container.appendChild(div);
+  });
+}
+
 function simpanPerintah() {
   const waktuMasukVal = document.getElementById('waktuMasuk').value;
   const waktuMulaiVal = document.getElementById('waktuMulai').value;
@@ -1688,7 +1769,13 @@ function simpanPerintah() {
 
   if (!waktuMasukVal) { showToast('Pilih Waktu Masuk!', 'Data Belum Lengkap', 'warning'); return; }
   if (!unit) { showToast('Nomor Unit wajib diisi!', 'Data Belum Lengkap', 'warning'); return; }
-  if (!rm) { showToast('Pilih Ruangan!', 'Data Belum Lengkap', 'warning'); return; }
+  
+  // Validasi Ruangan Manual
+  if (!rm) { 
+    document.getElementById('roomError').style.display = 'block';
+    showToast('Silakan pilih Ruangan!', 'Data Belum Lengkap', 'warning'); 
+    return; 
+  }
 
   showLoading('Menyimpan Perintah...', 'Mengunggah ke database server...');
 
@@ -1726,6 +1813,9 @@ function simpanPerintah() {
       
       // RESET FORM SETELAH SIMPAN
       document.getElementById('formPerintahBaru').reset();
+      
+      // Reset Grid Ruangan
+      document.querySelectorAll('.room-option').forEach(el => el.classList.remove('active'));
       
       // Kembalikan default waktu datetime-local ke waktu sekarang
       const currentDateTime = getFormattedDateTimeLocal();

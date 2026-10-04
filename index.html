@@ -154,7 +154,7 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 .nav-item.active { color: #2563eb; }
 
 /* MODALS GENERAL */
-#modal, #modalSelesai, #modalEdit, #modalHapus, #modalToast, #modalForgot, #modalUpdateAccount, #modalExportExcel, #modalDeleteAccount, #modalAdminDeleteUser, #modalCustomConfirm { 
+#modal, #modalSelesai, #modalEdit, #modalHapus, #modalToast, #modalForgot, #modalUpdateAccount, #modalExportExcel, #modalDeleteAccount, #modalAdminDeleteUser, #modalCustomConfirm, #modalInfoApp { 
   position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: none; align-items: flex-end; justify-content: center; z-index: 150; backdrop-filter: blur(4px); 
 }
 #modalSelesai { z-index: 160; }
@@ -166,6 +166,7 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 #modalAdminDeleteUser { z-index: 197; align-items: center; padding: 20px; }
 #modalExportExcel { z-index: 198; align-items: center; padding: 20px; }
 #modalToast { z-index: 200; align-items: center; padding: 20px; }
+#modalInfoApp { z-index: 205; align-items: center; padding: 20px; } /* Z-INDEX BARU UNTUK INFO APP */
 /* MODAL KONFIRMASI UNIVERSAL - Z-INDEX PALING TINGGI */
 #modalCustomConfirm { z-index: 210; align-items: center; padding: 20px; }
 
@@ -181,7 +182,7 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   background: #ffffff; width: 100%; max-width: 360px; border-radius: 24px; padding: 24px; text-align: center; 
   box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25); transform: scale(0.9); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); 
 }
-#modalToast.active .modal-confirm-box, #modalHapus.active .modal-confirm-box, #modalForgot.active .modal-confirm-box, #modalUpdateAccount.active .modal-confirm-box, #modalDeleteAccount.active .modal-confirm-box, #modalAdminDeleteUser.active .modal-confirm-box, #modalExportExcel.active .modal-confirm-box, #modalCustomConfirm.active .modal-confirm-box { transform: scale(1); }
+#modalToast.active .modal-confirm-box, #modalHapus.active .modal-confirm-box, #modalForgot.active .modal-confirm-box, #modalUpdateAccount.active .modal-confirm-box, #modalDeleteAccount.active .modal-confirm-box, #modalAdminDeleteUser.active .modal-confirm-box, #modalExportExcel.active .modal-confirm-box, #modalCustomConfirm.active .modal-confirm-box, #modalInfoApp.active .modal-confirm-box { transform: scale(1); }
 
 .icon-wrapper { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; }
 .icon-success { background: #dcfce7; color: #16a34a; }
@@ -505,6 +506,13 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
           <span>🔒 Ubah Kata Sandi</span>
           <span>›</span>
         </button>
+        
+        <!-- MENU BARU: INFO APLIKASI -->
+        <button onclick="showInfoApp()" style="background:#f1f5f9;color:#0f172a;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between">
+          <span>ℹ️ Info Aplikasi</span>
+          <span>›</span>
+        </button>
+
         <button onclick="showDeleteAccountModal()" style="background:#fef2f2;color:#ef4444;padding:12px;border:1px solid #fecaca;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between">
           <span>🗑️ Hapus Akun</span>
           <span>›</span>
@@ -837,6 +845,31 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
     </div>
   </div>
 
+  <!-- MODAL INFO APLIKASI (BARU) -->
+  <div id="modalInfoApp">
+    <div class="modal-confirm-box">
+      <div class="icon-wrapper icon-info">📱</div>
+      <h3 style="margin:0 0 8px;color:#0f172a;font-size:18px;font-weight:800">Info Aplikasi</h3>
+      <div style="background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:16px;text-align:left">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+          <span style="color:#64748b;font-size:13px">Versi Saat Ini</span>
+          <span id="infoAppVersion" style="font-weight:700;color:#2563eb;font-size:13px">-</span>
+        </div>
+        <div style="display:flex;justify-content:space-between">
+          <span style="color:#64748b;font-size:13px">Status Server</span>
+          <span style="font-weight:700;color:#16a34a;font-size:13px">Online</span>
+        </div>
+      </div>
+      <p style="margin:0 0 16px;color:#64748b;font-size:12px;line-height:1.4">
+        Aplikasi ini menggunakan sistem update otomatis. Tekan tombol di bawah untuk memaksa pemuatan ulang sumber daya terbaru dari server.
+      </p>
+      <div style="display:flex;gap:8px">
+        <button class="btn-cancel" onclick="closeInfoApp()">Tutup</button>
+        <button class="btn-primary" onclick="forceCheckUpdate()">🔄 Periksa Pembaruan</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL KONFIRMASI UNIVERSAL (MODERN) -->
   <div id="modalCustomConfirm">
     <div class="modal-confirm-box">
@@ -854,8 +887,36 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 
 <script>
 // === FITUR UPDATE TANPA BUILD: VERSION TRACKER ===
-const APP_VERSION = "1.0.1"; // 👉 UBAH ANGKA INI SETIAP KALI ANDA UPDATE KODE
-console.log("Aplikasi Mekanik 2 Versi:", APP_VERSION);
+// 👉 PENTING: GANTI ANGKA INI SETIAP KALI ANDA MENGEDIT KODE DI SERVER
+const APP_VERSION = "1.0.4"; 
+
+function checkForUpdate() {
+    const lastVersion = localStorage.getItem('app_last_version');
+    if (!lastVersion || lastVersion !== APP_VERSION) {
+        console.log("Versi berubah! Memuat ulang sumber daya...");
+        localStorage.setItem('app_last_version', APP_VERSION);
+        // Paksa reload halaman (true artinya reload paksa dari server, bukan cache)
+        window.location.reload(true); 
+    }
+}
+
+// Fungsi untuk dipanggil manual dari menu Info Aplikasi
+function forceCheckUpdate() {
+    closeInfoApp();
+    showLoading('Memeriksa Pembaruan...', 'Menghubungkan ke server...');
+    
+    setTimeout(() => {
+        hideLoading();
+        // Kita set localStorage ke null agar trigger checkForUpdate bekerja
+        localStorage.removeItem('app_last_version');
+        showToast('Pembaruan tersedia! Aplikasi akan dimuat ulang.', 'Info', 'success', () => {
+             window.location.reload(true);
+        });
+    }, 1500);
+}
+
+// Jalankan cek versi segera
+checkForUpdate();
 // ================================================
 
 // 1. KONFIGURASI FIREBASE SDK v8
@@ -964,7 +1025,7 @@ function pushNavigationState(stateName) {
 }
 
 window.addEventListener('popstate', (e) => {
-  const modals = ['modalToast', 'modalHapus', 'modalEdit', 'modalSelesai', 'modal', 'modalForgot', 'modalUpdateAccount', 'modalDeleteAccount', 'modalAdminDeleteUser', 'modalExportExcel', 'modalCustomConfirm'];
+  const modals = ['modalToast', 'modalHapus', 'modalEdit', 'modalSelesai', 'modal', 'modalForgot', 'modalUpdateAccount', 'modalDeleteAccount', 'modalAdminDeleteUser', 'modalExportExcel', 'modalCustomConfirm', 'modalInfoApp'];
   let modalClosed = false;
 
   for (let mId of modals) {
@@ -2228,6 +2289,22 @@ function tampil() {
     `;
   }).join('');
 }
+
+// === FUNGSI BARU: INFO APLIKASI ===
+function showInfoApp() {
+  document.getElementById('infoAppVersion').innerText = APP_VERSION;
+  const modal = document.getElementById('modalInfoApp');
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('active'), 10);
+  pushNavigationState('modalInfoApp');
+}
+
+function closeInfoApp() {
+  const modal = document.getElementById('modalInfoApp');
+  modal.classList.remove('active');
+  setTimeout(() => modal.style.display = 'none', 150);
+}
+// =======================================
 </script>
 </body>
 </html>

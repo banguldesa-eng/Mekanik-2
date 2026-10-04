@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<!-- === FITUR UPDATE TANPA BUILD: ANTI-CACHE META TAGS === -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<!-- ======================================================== -->
+
 <title>MEKANIK 2 - Sistem Perbaikan IWIP (Firebase)</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
@@ -807,6 +814,11 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 </div>
 
 <script>
+// === FITUR UPDATE TANPA BUILD: VERSION TRACKER ===
+const APP_VERSION = "1.0.1"; // 👉 UBAH ANGKA INI SETIAP KALI ANDA UPDATE KODE
+console.log("Aplikasi Mekanik 2 Versi:", APP_VERSION);
+// ================================================
+
 // 1. KONFIGURASI FIREBASE SDK v8
 const firebaseConfig = {
   apiKey: "AIzaSyDKyUcHEUE8HIhpL9s85122MIbn9q2GMkg",

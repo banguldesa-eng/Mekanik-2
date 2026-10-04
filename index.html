@@ -4,39 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-
 <!-- === FITUR UPDATE TANPA BUILD: ANTI-CACHE META TAGS === -->
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
-
-<script>
-
-// === FITUR UPDATE TANPA BUILD: VERSION TRACKER ===
-const APP_VERSION = "1.0.2"; // <--- GANTI ANGKA INI SETIAP KALI ANDA UPDATE KODE DI SERVER
-console.log("Aplikasi Mekanik 2 Versi:", APP_VERSION);
-
-// Fungsi untuk memaksa reload jika versi berubah (Opsional, tapi efektif)
-function checkForUpdate() {
-    const lastVersion = localStorage.getItem('app_last_version');
-    if (lastVersion && lastVersion !== APP_VERSION) {
-        console.log("Versi berubah! Memuat ulang sumber daya...");
-        localStorage.setItem('app_last_version', APP_VERSION);
-        // Paksa reload halaman untuk mengambil JS/CSS terbaru
-        window.location.reload(true); 
-    } else {
-        localStorage.setItem('app_last_version', APP_VERSION);
-    }
-}
-
-// Panggil saat aplikasi mulai
-document.addEventListener("DOMContentLoaded", () => {
-    checkForUpdate();
-    // ... kode login Anda yang lain ...
-});
-// ================================================
-
-</script>
 <!-- ======================================================== -->
 
 <title>MEKANIK 2 - Sistem Perbaikan IWIP (Firebase)</title>

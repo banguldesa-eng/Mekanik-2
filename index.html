@@ -32,7 +32,6 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 .btn-green { width: 100%; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; border: none; border-radius: 12px; padding: 14px; font-weight: 700; font-size: 15px; cursor: pointer; transition: opacity 0.2s; margin-top: 10px; }
 .btn-green:active { opacity: 0.9; }
 
-/* REMEMBER ME OPTION */
 .remember-box { display: flex; align-items: center; justify-content: space-between; margin: 8px 0 12px; font-size: 12px; color: #64748b; }
 .remember-box label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-weight: 600; }
 .remember-box input[type="checkbox"] { accent-color: #16a34a; width: 15px; height: 15px; cursor: pointer; }
@@ -40,36 +39,13 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 /* APP PAGES */
 .page { display: none; padding-bottom: 80px; min-height: 100vh; background: #f8fafc; }
 
-/* CONTAINER STICKY HEADER & FILTER DI HALAMAN BENGKEL */
-.sticky-top-section {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
-}
-
+.sticky-top-section { position: sticky; top: 0; z-index: 100; background: #ffffff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03); }
 .header-top { background: #ffffff; padding: 16px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 16px; }
 
-/* SEARCH & FILTER BOX */
 .filter-box-wrapper { margin: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
 .search-box { position: relative; padding: 10px 32px 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; display: flex; align-items: center; gap: 8px; }
 .search-box input { border: none; background: transparent; width: 100%; outline: none; font-size: 14px; }
-
-/* TOMBOL RESET X DI KOLOM SEARCH */
-.btn-reset-search {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #94a3b8;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  display: none;
-  user-select: none;
-}
+.btn-reset-search { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; font-weight: 700; cursor: pointer; display: none; user-select: none; }
 .btn-reset-search:hover { color: #ef4444; }
 
 .date-filter-box { display: flex; align-items: center; gap: 6px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 8px 10px; }
@@ -77,45 +53,24 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 .date-filter-box input[type="date"] { border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; padding: 4px 6px; font-size: 11px; outline: none; color: #0f172a; flex: 1; min-width: 0; }
 .btn-reset-filter { background: #f1f5f9; border: 1px solid #cbd5e1; color: #64748b; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
 
-/* STATS SUMMARY IN BENGKEL PAGE */
 .stats-summary { display: flex; align-items: center; justify-content: space-between; padding: 0 16px 12px; font-size: 12px; font-weight: 600; color: #64748b; flex-wrap: wrap; gap: 6px; }
-.stats-badge { 
-  padding: 4px 10px; 
-  border-radius: 12px; 
-  font-weight: 700; 
-  font-size: 11px; 
-  display: inline-flex; 
-  align-items: center; 
-  gap: 4px; 
-  cursor: pointer; 
-  user-select: none;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
-}
-
+.stats-badge { padding: 4px 10px; border-radius: 12px; font-weight: 700; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; user-select: none; transition: all 0.2s ease; border: 1px solid transparent; }
 .stats-badge.total { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
 .stats-badge.total.active { background: #2563eb; color: #ffffff; }
-
 .stats-badge.proses { background: #fef3c7; color: #d97706; border-color: #fde68a; }
 .stats-badge.proses.active { background: #d97706; color: #ffffff; }
-
 .stats-badge.selesai { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
 .stats-badge.selesai.active { background: #15803d; color: #ffffff; }
-
-/* STYLE BARU UNTUK BADGE PENDING */
 .stats-badge.pending { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
 .stats-badge.pending.active { background: #475569; color: #ffffff; }
-
 .stats-badge:hover { opacity: 0.85; transform: translateY(-1px); }
 
-/* CARDS & BADGES */
 .card-order { background: #ffffff; padding: 16px; margin: 12px 16px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
 .order-id { font-weight: 800; font-size: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-block; }
 .badge-blue { background: #e0f2fe; color: #0369a1; }
 .badge-green { background: #dcfce7; color: #15803d; }
 .badge-orange { background: #fef3c7; color: #b45309; }
-/* Badge Abu-abu untuk Pending */
 .badge-gray { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
 
 .info-grid { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; font-size: 13px; }
@@ -128,35 +83,13 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 .btn-row button.danger { border-color: #ef4444; color: #ef4444; }
 .btn-row button.secondary { border-color: #64748b; color: #475569; }
 
-/* NAVIGATION & DRAGGABLE FAB */
-.fab { 
-  position: fixed; 
-  bottom: 80px; 
-  right: 20px; 
-  background: #2563eb; 
-  color: #fff; 
-  border: none; 
-  border-radius: 30px; 
-  padding: 12px 20px; 
-  display: flex; 
-  align-items: center; 
-  gap: 8px; 
-  box-shadow: 0 10px 20px rgba(37,99,235,0.4); 
-  font-weight: 700; 
-  cursor: move; 
-  z-index: 99; 
-  touch-action: none; 
-  user-select: none;
-}
+.fab { position: fixed; bottom: 80px; right: 20px; background: #2563eb; color: #fff; border: none; border-radius: 30px; padding: 12px 20px; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 20px rgba(37,99,235,0.4); font-weight: 700; cursor: move; z-index: 99; touch-action: none; user-select: none; }
 
 .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; font-size: 11px; padding: 10px 0; z-index: 30; }
 .nav-item { text-align: center; font-size: 11px; font-weight: 600; color: #94a3b8; cursor: pointer; flex: 1; }
 .nav-item.active { color: #2563eb; }
 
-/* MODALS GENERAL */
-#modal, #modalSelesai, #modalEdit, #modalHapus, #modalToast, #modalForgot, #modalUpdateAccount, #modalExportExcel, #modalDeleteAccount, #modalAdminDeleteUser, #modalCustomConfirm, #modalInfoApp { 
-  position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: none; align-items: flex-end; justify-content: center; z-index: 150; backdrop-filter: blur(4px); 
-}
+#modal, #modalSelesai, #modalEdit, #modalHapus, #modalToast, #modalForgot, #modalUpdateAccount, #modalExportExcel, #modalDeleteAccount, #modalAdminDeleteUser, #modalCustomConfirm, #modalInfoApp { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: none; align-items: flex-end; justify-content: center; z-index: 150; backdrop-filter: blur(4px); }
 #modalSelesai { z-index: 160; }
 #modalEdit { z-index: 170; }
 #modalHapus { z-index: 180; align-items: center; padding: 20px; }
@@ -166,8 +99,7 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 #modalAdminDeleteUser { z-index: 197; align-items: center; padding: 20px; }
 #modalExportExcel { z-index: 198; align-items: center; padding: 20px; }
 #modalToast { z-index: 200; align-items: center; padding: 20px; }
-#modalInfoApp { z-index: 205; align-items: center; padding: 20px; } /* Z-INDEX BARU UNTUK INFO APP */
-/* MODAL KONFIRMASI UNIVERSAL - Z-INDEX PALING TINGGI */
+#modalInfoApp { z-index: 205; align-items: center; padding: 20px; } 
 #modalCustomConfirm { z-index: 210; align-items: center; padding: 20px; }
 
 .modal-box { background: #fff; width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; border-radius: 24px 24px 0 0; padding: 20px; box-shadow: 0 -10px 25px rgba(0,0,0,0.1); }
@@ -177,11 +109,7 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-top: 4px; }
 .box { background: #fff; padding: 16px; border-radius: 12px; margin: 16px; border: 1px solid #e2e8f0; }
 
-/* MODAL CONFIRM & TOAST CUSTOM */
-.modal-confirm-box { 
-  background: #ffffff; width: 100%; max-width: 360px; border-radius: 24px; padding: 24px; text-align: center; 
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25); transform: scale(0.9); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); 
-}
+.modal-confirm-box { background: #ffffff; width: 100%; max-width: 360px; border-radius: 24px; padding: 24px; text-align: center; box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25); transform: scale(0.9); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
 #modalToast.active .modal-confirm-box, #modalHapus.active .modal-confirm-box, #modalForgot.active .modal-confirm-box, #modalUpdateAccount.active .modal-confirm-box, #modalDeleteAccount.active .modal-confirm-box, #modalAdminDeleteUser.active .modal-confirm-box, #modalExportExcel.active .modal-confirm-box, #modalCustomConfirm.active .modal-confirm-box, #modalInfoApp.active .modal-confirm-box { transform: scale(1); }
 
 .icon-wrapper { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; }
@@ -189,18 +117,15 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 .icon-danger { background: #fee2e2; color: #ef4444; }
 .icon-warning { background: #fef3c7; color: #d97706; }
 .icon-info { background: #e0f2fe; color: #0284c7; }
-/* IKON KHUSUS UNTUK PENDING & PLAY */
 .icon-pending { background: #f1f5f9; color: #475569; border: 2px solid #cbd5e1; }
 .icon-play { background: #dcfce7; color: #16a34a; border: 2px solid #bbf7d0; }
 
 .btn-cancel { flex: 1; background: #f1f5f9; color: #475569; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; }
 .btn-delete { flex: 1; background: #ef4444; color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
 .btn-primary { width: 100%; background: #2563eb; color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
-/* TOMBOL KHUSUS MODAL PENDING & PLAY */
 .btn-pending { flex: 1; background: linear-gradient(135deg, #64748b, #475569); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(71, 85, 105, 0.35); display:flex; align-items:center; justify-content:center; gap:6px; }
 .btn-play { flex: 1; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35); display:flex; align-items:center; justify-content:center; gap:6px; }
 
-/* USER MANAGEMENT STYLE */
 .user-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
 .user-item:last-child { border-bottom: none; }
 .user-info { font-size: 13px; }
@@ -211,149 +136,56 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 .btn-del-user { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; border-radius: 6px; padding: 4px 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
 .btn-del-user:hover { background: #ef4444; color: #fff; }
 
-/* OVERLAY RUN LOADING SYSTEM */
-#loadingOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.75);
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 300;
-  backdrop-filter: blur(5px);
-  color: #ffffff;
-  text-align: center;
-  padding: 20px;
-}
+#loadingOverlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 300; backdrop-filter: blur(5px); color: #ffffff; text-align: center; padding: 20px; }
+.spinner { width: 48px; height: 48px; border: 5px solid rgba(255, 255, 255, 0.2); border-top-color: #22c55e; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+.loading-subtext { font-size: 12px; color: #94a3b8; max-width: 260px; line-height: 1.4; }
 
-.spinner {
-  width: 48px;
-  height: 48px;
-  border: 5px solid rgba(255, 255, 255, 0.2);
-  border-top-color: #22c55e;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin-bottom: 16px;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.loading-text {
-  font-weight: 700;
-  font-size: 16px;
-  margin-bottom: 4px;
-}
-
-.loading-subtext {
-  font-size: 12px;
-  color: #94a3b8;
-  max-width: 260px;
-  line-height: 1.4;
-}
-
-/* DESAIN CETAKAN DOKUMEN WORK ORDER */
 @media print {
   body * { visibility: hidden; }
   #printArea, #printArea * { visibility: visible; }
   #printArea { position: absolute; left: 0; top: 0; width: 100%; font-family: Arial, sans-serif; padding: 20px; }
   .no-print { display: none !important; }
 }
-
 #printArea { display: none; }
 .wo-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
 .wo-table th, .wo-table td { border: 1px solid #333; padding: 8px 10px; text-align: left; font-size: 13px; }
 .wo-table th { background-color: #f2f2f2; }
 
-/* === FITUR FOTO PROFIL BARU === */
-.profile-pic-container {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 12px;
-  cursor: pointer;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid #e2e8f0;
-  transition: all 0.3s ease;
-}
-.profile-pic-container:hover {
-  border-color: #2563eb;
-  transform: scale(1.05);
-}
-.profile-pic-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.profile-edit-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-  font-size: 10px;
-  text-align: center;
-  padding: 4px 0;
-  font-weight: 700;
-}
+.profile-pic-container { position: relative; width: 100px; height: 100px; margin: 0 auto 12px; cursor: pointer; border-radius: 50%; overflow: hidden; border: 3px solid #e2e8f0; transition: all 0.3s ease; }
+.profile-pic-container:hover { border-color: #2563eb; transform: scale(1.05); }
+.profile-pic-img { width: 100%; height: 100%; object-fit: cover; }
+.profile-edit-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.6); color: #fff; font-size: 10px; text-align: center; padding: 4px 0; font-weight: 700; }
 
-/* === DESAIN MODERN PEMILIH RUANGAN === */
-.room-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 kolom */
-  gap: 10px;
-  margin-top: 8px;
-  margin-bottom: 12px;
-}
+.room-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px; margin-bottom: 12px; }
+.room-option { background: #f1f5f9; border: 2px solid transparent; border-radius: 12px; padding: 12px 4px; text-align: center; font-weight: 700; font-size: 14px; color: #475569; cursor: pointer; transition: all 0.2s ease; user-select: none; }
+.room-option:hover { background: #e2e8f0; }
+.room-option.active { background: #eff6ff; border-color: #2563eb; color: #2563eb; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15); }
+.hidden-input { position: absolute; opacity: 0; pointer-events: none; height: 0; width: 0; }
 
-.room-option {
-  background: #f1f5f9;
-  border: 2px solid transparent;
-  border-radius: 12px;
-  padding: 12px 4px;
-  text-align: center;
-  font-weight: 700;
-  font-size: 14px;
-  color: #475569;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  user-select: none;
-}
-
-.room-option:hover {
-  background: #e2e8f0;
-}
-
-/* Tampilan saat dipilih */
-.room-option.active {
-  background: #eff6ff;
-  border-color: #2563eb;
-  color: #2563eb;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
-}
-
-/* Input tersembunyi agar tetap bisa submit form */
-.hidden-input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  height: 0;
-  width: 0;
-}
+/* ========================================= */
+/* === CSS KHUSUS HALAMAN CHAT (BARU) === */
+/* ========================================= */
+.chat-page-layout { display: flex; flex-direction: column; height: calc(100vh - 50px); background: #e5ddd5; }
+.chat-header-sticky { background: #0f172a; color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.chat-messages-area { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background-image: url('https://user-images.githubusercontent.com/15075759/28719111-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-repeat: repeat; background-blend-mode: soft-light; }
+.chat-bubble { max-width: 80%; padding: 8px 12px; border-radius: 12px; font-size: 13px; position: relative; line-height: 1.4; box-shadow: 0 1px 2px rgba(0,0,0,0.1); word-wrap: break-word; }
+.chat-bubble.other { align-self: flex-start; background: #ffffff; border-top-left-radius: 2px; }
+.chat-bubble.me { align-self: flex-end; background: #dcf8c6; border-top-right-radius: 2px; }
+.chat-sender-name { font-size: 10px; font-weight: 700; color: #2563eb; margin-bottom: 2px; display: block; }
+.chat-meta { display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin-top: 4px; font-size: 10px; color: #999; }
+.chat-input-bar { background: #f0f2f5; padding: 8px 12px; display: flex; align-items: center; gap: 8px; border-top: 1px solid #e2e8f0; }
+.chat-input-field { flex: 1; border: none; border-radius: 20px; padding: 10px 14px; font-size: 14px; outline: none; background: #fff; }
+.btn-send-chat { background: #2563eb; color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; box-shadow: 0 2px 5px rgba(37,99,235,0.3); }
+.btn-send-chat:active { transform: scale(0.95); }
 </style>
 </head>
 <body>
 
-<!-- AREA KHUSUS UNTUK FUNGSI PRINT / CETAK WORK ORDER -->
 <div id="printArea"></div>
-
 <div class="app-container">
 
-  <!-- OVERLAY LOADING SAAT LOGIN / KONEKSI JELEK -->
   <div id="loadingOverlay">
     <div class="spinner"></div>
     <div id="loadingText" class="loading-text">Memproses Login...</div>
@@ -368,16 +200,10 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
       <div style="text-align:center;color:#64748b;font-size:12px;margin:6px 0 18px">Masuk dengan akun terdaftar</div>
       <div class="i-group">👤<input id="user" placeholder="NIK / Username"></div>
       <div class="i-group">🔒<input id="pass" type="password" placeholder="Password"><span onclick="togglePass('pass')" style="cursor:pointer">👁️</span></div>
-      
-      <!-- REMEMBER ME CHECKBOX & LUPA SANDI -->
       <div class="remember-box">
-        <label>
-          <input type="checkbox" id="rememberMe" checked>
-          <span>Ingat Saya</span>
-        </label>
+        <label><input type="checkbox" id="rememberMe" checked><span>Ingat Saya</span></label>
         <a onclick="showForgotModal()" style="color:#2563eb;font-weight:600;cursor:pointer">Lupa Sandi?</a>
       </div>
-
       <button class="btn-green" onclick="login()">Masuk Sekarang →</button>
       <div style="text-align:center;margin-top:14px;font-size:13px;color:#64748b">Belum punya akun? <a onclick="showReg()" style="color:#16a34a;font-weight:700;cursor:pointer">Daftar Akun</a></div>
     </div>
@@ -406,68 +232,48 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
         <p style="font-size:13px;font-weight:700;margin:0;color:#1e293b;line-height:1.3">Daftar<br>Perbaikan<br>Unit</p>
       </div>
     </div>
-
+    <!-- PERBAIKAN: TOMBOL CHAT DITAMBAHKAN DI SINI -->
     <div class="bottom-nav">
-      <div class="nav-item active">🏠<br>Halaman Depan</div>
+      <div class="nav-item active">🏠<br>Depan</div>
+      <div class="nav-item" onclick="openChatPage()">💬<br>Chat</div>
       <div class="nav-item" onclick="openMilikku()">👤<br>Milikku</div>
     </div>
   </div>
 
   <!-- DAFTAR PERBAIKAN -->
   <div id="bengkelPage" class="page">
-    
-    <!-- STICKY TOP SECTION -->
     <div class="sticky-top-section">
       <div class="header-top">
         <span onclick="openDash()" style="cursor:pointer;font-size:28px;line-height:1; margin-left:10px">‹</span> 
         <span>Daftar Perbaikan Unit</span>
         <span style="opacity:0">🔽</span>
       </div>
-	  
-
-	 
-      <!-- PENCARIAN & FILTER TANGGAL -->
       <div class="filter-box-wrapper">
         <div class="search-box">
           🔍<input id="cari" oninput="onSearchInput()" placeholder="Cari Nomor Unit / ID WO...">
           <span id="btnResetCari" class="btn-reset-search" onclick="hapusPencarian()">✕</span>
         </div>
         <div class="date-filter-box">
-          <label>Dari:</label>
-          <input type="date" id="tglAwal" onchange="tampil()">
-          <label>s/d:</label>
-          <input type="date" id="tglAkhir" onchange="tampil()">
+          <label>Dari:</label><input type="date" id="tglAwal" onchange="tampil()">
+          <label>s/d:</label><input type="date" id="tglAkhir" onchange="tampil()">
           <button class="btn-reset-filter" onclick="resetFilterTanggal()">Reset</button>
         </div>
       </div>
-
-      <!-- STATISTIK PERBAIKAN -->
       <div class="stats-summary">
-        <div class="stats-badge total active" id="btnFilterTotal" onclick="setFilterStatus('semua')">
-          Total: <span id="jmlSemua">0</span>
-        </div>
+        <div class="stats-badge total active" id="btnFilterTotal" onclick="setFilterStatus('semua')">Total: <span id="jmlSemua">0</span></div>
         <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          <div class="stats-badge proses" id="btnFilterProses" onclick="setFilterStatus('proses')">
-            Proses: <span id="jmlProses">0</span>
-          </div>
-          <div class="stats-badge selesai" id="btnFilterSelesai" onclick="setFilterStatus('selesai')">
-            Selesai: <span id="jmlSelesai">0</span>
-          </div>
-          <!-- MENU BARU: PENDING -->
-          <div class="stats-badge pending" id="btnFilterPending" onclick="setFilterStatus('pending')">
-            Pending: <span id="jmlPending">0</span>
-          </div>
+          <div class="stats-badge proses" id="btnFilterProses" onclick="setFilterStatus('proses')">Proses: <span id="jmlProses">0</span></div>
+          <div class="stats-badge selesai" id="btnFilterSelesai" onclick="setFilterStatus('selesai')">Selesai: <span id="jmlSelesai">0</span></div>
+          <div class="stats-badge pending" id="btnFilterPending" onclick="setFilterStatus('pending')">Pending: <span id="jmlPending">0</span></div>
         </div>
       </div>
     </div>
-    <!-- END STICKY TOP SECTION -->
-
     <div id="list"></div>
-    
     <button class="fab" id="fabBtn"><span>+</span> Perintah Baru</button>
-    
+    <!-- PERBAIKAN: TOMBOL CHAT DITAMBAHKAN DI SINI -->
     <div class="bottom-nav">
-      <div class="nav-item" onclick="openDash()">🏠<br>Halaman Depan</div>
+      <div class="nav-item" onclick="openDash()">🏠<br>Depan</div>
+      <div class="nav-item" onclick="openChatPage()">💬<br>Chat</div>
       <div class="nav-item" onclick="openMilikku()">👤<br>Milikku</div>
     </div>
   </div>
@@ -475,57 +281,30 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <!-- HALAMAN MILIKKU -->
   <div id="milikPage" class="page">
     <div class="header-top"><span>Milikku</span></div>
-    
-    <!-- BAGIAN PROFIL DENGAN FOTO -->
     <div class="box" style="text-align:center;padding:24px">
-      
-      <!-- INPUT FILE TERSEMBUNYI UNTUK UPLOAD FOTO -->
       <input type="file" id="profilePicInput" accept="image/*" style="display:none" onchange="handleProfileImage(this)">
-      
-      <!-- CONTAINER FOTO YANG BISA DIKLIK -->
       <div class="profile-pic-container" onclick="document.getElementById('profilePicInput').click()" title="Klik untuk ganti foto">
         <img id="milikAvatar" src="" alt="Foto Profil" class="profile-pic-img">
         <div class="profile-edit-overlay">Ubah Foto</div>
       </div>
-
       <b id="milikName" style="font-size:18px;color:#0f172a"></b><br>
       <small id="milikNIK" style="color:#64748b;font-size:13px"></small><br>
       <small id="milikPhone" style="color:#64748b;font-size:12px;display:block;margin-top:2px"></small>
       <span id="milikRole" class="badge badge-blue" style="margin-top:6px"></span>
     </div>
-
-    <!-- PENGATURAN AKUN -->
     <div class="box">
       <div style="font-weight:700;margin-bottom:12px;color:#0f172a">⚙️ Pengaturan Akun</div>
       <div style="display:flex;flex-direction:column;gap:8px">
-        <button onclick="showUpdateAccountModal('phone')" style="background:#f1f5f9;color:#0f172a;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between">
-          <span>📱 Ubah Nomor HP</span>
-          <span>›</span>
-        </button>
-        <button onclick="showUpdateAccountModal('pass')" style="background:#f1f5f9;color:#0f172a;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between">
-          <span>🔒 Ubah Kata Sandi</span>
-          <span>›</span>
-        </button>
-        
-        <!-- MENU BARU: INFO APLIKASI -->
-        <button onclick="showInfoApp()" style="background:#f1f5f9;color:#0f172a;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between">
-          <span>ℹ️ Info Aplikasi</span>
-          <span>›</span>
-        </button>
-
-        <button onclick="showDeleteAccountModal()" style="background:#fef2f2;color:#ef4444;padding:12px;border:1px solid #fecaca;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between">
-          <span>🗑️ Hapus Akun</span>
-          <span>›</span>
-        </button>
+        <button onclick="showUpdateAccountModal('phone')" style="background:#f1f5f9;color:#0f172a;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>📱 Ubah Nomor HP</span><span>›</span></button>
+        <button onclick="showUpdateAccountModal('pass')" style="background:#f1f5f9;color:#0f172a;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>🔒 Ubah Kata Sandi</span><span>›</span></button>
+        <button onclick="showInfoApp()" style="background:#f1f5f9;color:#0f172a;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>ℹ️ Info Aplikasi</span><span>›</span></button>
+        <button onclick="showDeleteAccountModal()" style="background:#fef2f2;color:#ef4444;padding:12px;border:1px solid #fecaca;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>🗑️ Hapus Akun</span><span>›</span></button>
       </div>
     </div>
-
-    <!-- PANEL KONTROL PENGGUNA (ADMIN ONLY) -->
     <div class="box" id="adminUserControl" style="display:none">
       <div style="font-weight:700;margin-bottom:12px;color:#0f172a">⚙️ Kelola Peran & Akun Pengguna (Admin Only)</div>
       <div id="userListContainer"></div>
     </div>
-
     <div class="box">
       <div style="font-weight:700;margin-bottom:12px;color:#0f172a">📊 Database Excel (Cloud Connected)</div>
       <div style="display:flex;gap:10px">
@@ -533,9 +312,38 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
       </div>
     </div>
     <div class="box"><button onclick="logout()" style="background:#ef4444;color:#fff;padding:12px;width:100%;border:none;border-radius:10px;font-weight:700;cursor:pointer">Keluar (Logout)</button></div>
+    <!-- PERBAIKAN: TOMBOL CHAT DITAMBAHKAN DI SINI -->
     <div class="bottom-nav">
-      <div class="nav-item" onclick="openDash()">🏠<br>Halaman Depan</div>
+      <div class="nav-item" onclick="openDash()">🏠<br>Depan</div>
+      <div class="nav-item" onclick="openChatPage()">💬<br>Chat</div>
       <div class="nav-item active">👤<br>Milikku</div>
+    </div>
+  </div>
+
+  <!-- ========================================= -->
+  <!-- HALAMAN CHAT (BARU) -->
+  <!-- ========================================= -->
+  <div id="chatPage" class="page" style="padding-bottom: 0;">
+    <div class="chat-page-layout">
+      <div class="chat-header-sticky">
+        <span onclick="openDash()" style="cursor:pointer;font-size:24px;line-height:1">‹</span>
+        <div>
+          <div style="font-size:16px">Diskusi Tim Mekanik</div>
+          <div style="font-size:10px;font-weight:400;opacity:0.8" id="chatOnlineStatus">Online</div>
+        </div>
+      </div>
+      <div class="chat-messages-area" id="chatMessages">
+        <div style="text-align:center;font-size:12px;color:#666;margin-top:20px">Mulai percakapan dengan tim...</div>
+      </div>
+      <div class="chat-input-bar">
+        <input type="text" id="chatInput" class="chat-input-field" placeholder="Tulis pesan..." onkeypress="if(event.key==='Enter') sendChatMessage()">
+        <button class="btn-send-chat" onclick="sendChatMessage()">➤</button>
+      </div>
+    </div>
+    <div class="bottom-nav" style="position:absolute;bottom:0;">
+      <div class="nav-item" onclick="openDash()">🏠<br>Depan</div>
+      <div class="nav-item active">💬<br>Chat</div>
+      <div class="nav-item" onclick="openMilikku()">👤<br>Milikku</div>
     </div>
   </div>
 
@@ -546,20 +354,12 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
         <h3 style="margin:0;color:#0f172a;font-size:18px;font-weight:800">📊 Export Data Excel</h3>
         <span onclick="tutupModalExportExcel()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
       </div>
-      <p style="margin:0 0 12px;color:#64748b;font-size:12px;line-height:1.4">
-        Pilih rentang tanggal data yang ingin diunduh. Jika dikosongkan, seluruh data akan diunduh secara default.
-      </p>
-
+      <p style="margin:0 0 12px;color:#64748b;font-size:12px;line-height:1.4">Pilih rentang tanggal data yang ingin diunduh. Jika dikosongkan, seluruh data akan diunduh secara default.</p>
       <label class="t">Dari Tanggal</label>
       <input type="date" id="exp_tglAwal" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #cbd5e1;border-radius:8px">
-
       <label class="t">Sampai Tanggal</label>
       <input type="date" id="exp_tglAkhir" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid #cbd5e1;border-radius:8px">
-
-      <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:10px;border-radius:8px;margin-bottom:16px;font-size:11px;color:#64748b;line-height:1.4">
-        📁 <b>Lokasi File:</b> Otomatis tersimpan di folder <b>Downloads</b> bawaan HP / Laptop Anda.
-      </div>
-
+      <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:10px;border-radius:8px;margin-bottom:16px;font-size:11px;color:#64748b;line-height:1.4">📁 <b>Lokasi File:</b> Otomatis tersimpan di folder <b>Downloads</b> bawaan HP / Laptop Anda.</div>
       <div style="display:flex;gap:8px">
         <button class="btn-cancel" onclick="tutupModalExportExcel()">Batal</button>
         <button class="btn-primary" style="background:#16a34a;box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3)" onclick="eksekusiExportExcel()">Unduh Excel</button>
@@ -575,41 +375,18 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
           <span>Perintah Perbaikan Baru</span>
           <span onclick="closeModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
         </div>
-
-        <label class="t">Waktu Masuk (Tanggal & Jam)</label>
-        <input type="datetime-local" id="waktuMasuk">
-
-        <label class="t">Waktu Mulai (Tanggal & Jam)</label>
-        <input type="datetime-local" id="waktuMulai">
-
-        <label class="t">Nama Pelapor / Pekerja</label>
-        <input id="nama" placeholder="Contoh: Yudha">
-
-        <label class="t">Nomor Unit</label>
-        <input id="noMesin" placeholder="Contoh: A001" required>
-
-        <label class="t">Jenis Unit</label>
-        <input id="jenisMesin" placeholder="Contoh: Shacman / Tsingshan">
-
-        <label class="t">Kerusakan / Item</label>
-        <input id="item" placeholder="Contoh: Ganti Oli & Rem">
-
+        <label class="t">Waktu Masuk (Tanggal & Jam)</label><input type="datetime-local" id="waktuMasuk">
+        <label class="t">Waktu Mulai (Tanggal & Jam)</label><input type="datetime-local" id="waktuMulai">
+        <label class="t">Nama Pelapor / Pekerja</label><input id="nama" placeholder="Contoh: Yudha">
+        <label class="t">Nomor Unit</label><input id="noMesin" placeholder="Contoh: A001" required>
+        <label class="t">Jenis Unit</label><input id="jenisMesin" placeholder="Contoh: Shacman / Tsingshan">
+        <label class="t">Kerusakan / Item</label><input id="item" placeholder="Contoh: Ganti Oli & Rem">
         <label class="t">Ruangan / Tempat</label>
-        <!-- Input Tersembunyi untuk menyimpan nilai (agar validasi form tetap jalan) -->
         <input type="text" id="tempat" class="hidden-input" required>
-        
-        <!-- Grid Tombol Modern -->
-        <div class="room-grid" id="roomSelectorContainer">
-          <!-- Tombol akan digenerate oleh Javascript -->
-        </div>
+        <div class="room-grid" id="roomSelectorContainer"></div>
         <small id="roomError" style="color:#ef4444;font-size:11px;display:none;margin-top:-5px;margin-bottom:5px;">* Silakan pilih ruangan</small>
-
-        <label class="t">Tim Perbaikan</label>
-        <input id="tim" placeholder="Contoh : Shift Siang">
-
-        <label class="t">Keterangan Laporan</label>
-        <textarea id="laporan" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
-
+        <label class="t">Tim Perbaikan</label><input id="tim" placeholder="Contoh : Shift Siang">
+        <label class="t">Keterangan Laporan</label><textarea id="laporan" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
         <button type="submit" style="width:100%;background:#2563eb;color:#fff;padding:14px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px">SIMPAN KE CLOUD</button>
       </form>
     </div>
@@ -622,56 +399,24 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
         <span id="judulModalEdit">Edit Data Perbaikan</span>
         <span onclick="closeModalEdit()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
       </div>
-
       <input type="hidden" id="e_firebaseKey">
-
-      <label class="t">Tanggal Masuk</label>
-      <input type="date" id="e_tanggal">
-
-      <label class="t">Nama Pelapor / Pekerja</label>
-      <input id="e_nama">
-
-      <label class="t">Nomor Unit</label>
-      <input id="e_noMesin">
-
-      <label class="t">Jenis Unit</label>
-      <input id="e_jenisMesin">
-
-      <label class="t">Kerusakan / Item</label>
-      <input id="e_item">
-
+      <label class="t">Tanggal Masuk</label><input type="date" id="e_tanggal">
+      <label class="t">Nama Pelapor / Pekerja</label><input id="e_nama">
+      <label class="t">Nomor Unit</label><input id="e_noMesin">
+      <label class="t">Jenis Unit</label><input id="e_jenisMesin">
+      <label class="t">Kerusakan / Item</label><input id="e_item">
       <label class="t">Ruangan / Tempat</label>
       <select id="e_tempat">
-        <option value="38-1">38-1</option>
-        <option value="38-2">38-2</option>
-        <option value="39-1">39-1</option>
-        <option value="39-2">39-2</option>
-        <option value="50-1">50-1</option>
-        <option value="50-2">50-2</option>
-        <option value="51-1">51-1</option>
-        <option value="51-2">51-2</option>
-        <option value="52-1">52-1</option>
-        <option value="52-2">52-2</option>
+        <option value="38-1">38-1</option><option value="38-2">38-2</option><option value="39-1">39-1</option><option value="39-2">39-2</option>
+        <option value="50-1">50-1</option><option value="50-2">50-2</option><option value="51-1">51-1</option><option value="51-2">51-2</option>
+        <option value="52-1">52-1</option><option value="52-2">52-2</option>
       </select>
-
-      <label class="t">Tim Perbaikan</label>
-      <input id="e_tim">
-
-      <label class="t">Keterangan Laporan</label>
-      <textarea id="e_laporan" rows="2"></textarea>
-
+      <label class="t">Tim Perbaikan</label><input id="e_tim">
+      <label class="t">Keterangan Laporan</label><textarea id="e_laporan" rows="2"></textarea>
       <button onclick="simpanEditPerbaikan()" style="width:100%;background:#f59e0b;color:#fff;padding:14px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px">UPDATE DATA</button>
-      
-      <!-- TOMBOL BARU: SET PENDING -->
       <div style="margin-top:10px; border-top:1px dashed #e2e8f0; padding-top:10px;">
-         <button onclick="setPendingViaEdit()" style="width:100%; background:linear-gradient(135deg, #64748b, #475569); color:#fff; padding:12px; border:none; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:8px; box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);">
-            ⏸️ Set Pending (Alat Kosong)
-         </button>
-         
-         <!-- TOMBOL BARU: LANJUT PERBAIKAN (ALAT ADA) -->
-         <button onclick="resumeRepairViaEdit()" style="width:100%; background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; padding:12px; border:none; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);">
-            ▶️ Lanjut Perbaikan (Alat Ada)
-         </button>
+         <button onclick="setPendingViaEdit()" style="width:100%; background:linear-gradient(135deg, #64748b, #475569); color:#fff; padding:12px; border:none; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:8px; box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);">⏸️ Set Pending (Alat Kosong)</button>
+         <button onclick="resumeRepairViaEdit()" style="width:100%; background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; padding:12px; border:none; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);">▶️ Lanjut Perbaikan (Alat Ada)</button>
       </div>
     </div>
   </div>
@@ -683,21 +428,13 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
         <span id="judulModalSelesai">Update Waktu Perbaikan</span>
         <span onclick="closeModalSelesai()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
       </div>
-
       <input type="hidden" id="editId">
-
-      <!-- SEKSI SELESAI PERBAIKAN -->
       <div style="border-bottom: 1px dashed #cbd5e1; padding-bottom: 10px; margin-bottom: 10px;">
-        <label class="t" style="color:#15803d">Selesai Perbaikan</label>
-        <input type="datetime-local" id="waktuSelesaiInput">
+        <label class="t" style="color:#15803d">Selesai Perbaikan</label><input type="datetime-local" id="waktuSelesaiInput">
       </div>
-
-      <!-- SEKSI KELUAR BENGKEL -->
       <div style="margin-bottom: 10px;">
-        <label class="t" style="color:#b45309">Keluar Bengkel <small style="color:#64748b;font-weight:normal">(Opsional)</small></label>
-        <input type="datetime-local" id="waktuKeluarInput">
+        <label class="t" style="color:#b45309">Keluar Bengkel <small style="color:#64748b;font-weight:normal">(Opsional)</small></label><input type="datetime-local" id="waktuKeluarInput">
       </div>
-
       <div style="display:flex;gap:10px;margin-top:10px">
         <button onclick="closeModalSelesai()" style="flex:1;background:#f1f5f9;color:#475569;padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Batal</button>
         <button onclick="simpanSelesaiKeluar()" style="flex:1;background:#2563eb;color:#fff;padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Simpan Update</button>
@@ -712,30 +449,20 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
         <h3 style="margin:0;color:#0f172a;font-size:18px;font-weight:800">Lupa Kata Sandi</h3>
         <span onclick="closeForgotModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
       </div>
-
-      <!-- STEP 1: VERIFIKASI NOMOR HP -->
       <div id="fg_step1">
         <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Masukkan Username/NIK dan Nomor HP yang terdaftar untuk menerima Kode OTP.</p>
-        <label class="t">Username / NIK</label>
-        <input id="fg_user" placeholder="NIK / Username" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid #cbd5e1;border-radius:8px">
-        <label class="t">Nomor HP / WhatsApp</label>
-        <input id="fg_phone" placeholder="Contoh: 08123456789" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
+        <label class="t">Username / NIK</label><input id="fg_user" placeholder="NIK / Username" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid #cbd5e1;border-radius:8px">
+        <label class="t">Nomor HP / WhatsApp</label><input id="fg_phone" placeholder="Contoh: 08123456789" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
         <button class="btn-primary" onclick="kirimOtp()">Kirim Kode OTP</button>
       </div>
-
-      <!-- STEP 2: VERIFIKASI KODE OTP -->
       <div id="fg_step2" style="display:none">
         <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Kode OTP 4 digit telah dikirimkan. Masukkan kode untuk memverifikasi.</p>
-        <label class="t">Kode OTP Verifikasi</label>
-        <input id="fg_otp" placeholder="Contoh: 1234" maxlength="4" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:18px;letter-spacing:4px">
+        <label class="t">Kode OTP Verifikasi</label><input id="fg_otp" placeholder="Contoh: 1234" maxlength="4" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:18px;letter-spacing:4px">
         <button class="btn-primary" onclick="verifikasiOtp()">Verifikasi OTP</button>
       </div>
-
-      <!-- STEP 3: RESET SANDI BARU -->
       <div id="fg_step3" style="display:none">
         <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Verifikasi berhasil. Silakan buat password baru untuk akun Anda.</p>
-        <label class="t">Password Baru</label>
-        <input id="fg_newpass" type="password" placeholder="Masukkan password baru" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
+        <label class="t">Password Baru</label><input id="fg_newpass" type="password" placeholder="Masukkan password baru" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
         <button class="btn-primary" style="background:#22c55e" onclick="simpanSandiBaru()">Simpan Password Baru</button>
       </div>
     </div>
@@ -748,36 +475,21 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
         <h3 id="accModalTitle" style="margin:0;color:#0f172a;font-size:18px;font-weight:800">Pengaturan Akun</h3>
         <span onclick="closeUpdateAccountModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
       </div>
-
-      <!-- FORM UBAH NOMOR HP STEP 1 -->
       <div id="formUpdatePhoneStep1" style="display:none">
         <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Masukkan nomor HP baru. Kode OTP verifikasi akan dikirimkan ke nomor ini.</p>
-        <label class="t">Nomor HP Baru</label>
-        <input id="acc_new_phone" type="tel" placeholder="Contoh: 08123456789" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
+        <label class="t">Nomor HP Baru</label><input id="acc_new_phone" type="tel" placeholder="Contoh: 08123456789" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
         <button class="btn-primary" onclick="kirimOtpUbahHp()">Kirim Kode OTP</button>
       </div>
-
-      <!-- FORM UBAH NOMOR HP STEP 2 -->
       <div id="formUpdatePhoneStep2" style="display:none">
         <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Masukkan kode OTP 4-digit yang dikirimkan ke nomor HP baru Anda.</p>
-        <label class="t">Kode OTP Verifikasi</label>
-        <input id="acc_phone_otp" placeholder="Contoh: 1234" maxlength="4" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:18px;letter-spacing:4px">
+        <label class="t">Kode OTP Verifikasi</label><input id="acc_phone_otp" placeholder="Contoh: 1234" maxlength="4" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:18px;letter-spacing:4px">
         <button class="btn-primary" style="background:#22c55e" onclick="verifikasiDanSimpanHpBaru()">Konfirmasi OTP & Simpan</button>
       </div>
-
-      <!-- FORM UBAH KATA SANDI -->
       <div id="formUpdatePass" style="display:none">
-        <label class="t">Kata Sandi Lama</label>
-        <input id="acc_old_pass" type="password" placeholder="Masukkan sandi saat ini" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #cbd5e1;border-radius:8px">
-        
-        <label class="t">Kata Sandi Baru</label>
-        <input id="acc_new_pass" type="password" placeholder="Masukkan sandi baru" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid #cbd5e1;border-radius:8px">
-        
+        <label class="t">Kata Sandi Lama</label><input id="acc_old_pass" type="password" placeholder="Masukkan sandi saat ini" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #cbd5e1;border-radius:8px">
+        <label class="t">Kata Sandi Baru</label><input id="acc_new_pass" type="password" placeholder="Masukkan sandi baru" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid #cbd5e1;border-radius:8px">
         <button class="btn-primary" style="margin-top:4px" onclick="simpanKataSandiBaru()">Simpan Kata Sandi</button>
-        
-        <div style="text-align:center;margin-top:14px">
-          <a onclick="pindahKeLupaSandiDariModal()" style="color:#2563eb;font-size:12px;font-weight:700;cursor:pointer">Lupa Kata Sandi?</a>
-        </div>
+        <div style="text-align:center;margin-top:14px"><a onclick="pindahKeLupaSandiDariModal()" style="color:#2563eb;font-size:12px;font-weight:700;cursor:pointer">Lupa Kata Sandi?</a></div>
       </div>
     </div>
   </div>
@@ -789,13 +501,8 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
         <h3 style="margin:0;color:#ef4444;font-size:18px;font-weight:800">🗑️ Hapus Akun Saya</h3>
         <span onclick="closeDeleteAccountModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
       </div>
-      <p style="margin:0 0 12px;color:#64748b;font-size:12px;line-height:1.4">
-        Apakah Anda yakin ingin menghapus akun Anda? Tindakan ini tidak dapat dibatalkan dan akun Anda akan dihapus permanen dari sistem.
-      </p>
-
-      <label class="t">Masukkan Kata Sandi Anda</label>
-      <input type="password" id="del_confirm_pass" placeholder="Password saat ini" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
-
+      <p style="margin:0 0 12px;color:#64748b;font-size:12px;line-height:1.4">Apakah Anda yakin ingin menghapus akun Anda? Tindakan ini tidak dapat dibatalkan dan akun Anda akan dihapus permanen dari sistem.</p>
+      <label class="t">Masukkan Kata Sandi Anda</label><input type="password" id="del_confirm_pass" placeholder="Password saat ini" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
       <div style="display:flex;gap:8px">
         <button class="btn-cancel" onclick="closeDeleteAccountModal()">Batal</button>
         <button class="btn-delete" onclick="eksekusiHapusAkun()">Ya, Hapus Akun</button>
@@ -808,9 +515,7 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
     <div class="modal-confirm-box">
       <div class="icon-wrapper icon-danger">👤</div>
       <h3 style="margin:0 0 8px;color:#0f172a;font-size:18px;font-weight:800">Hapus Akun Pengguna?</h3>
-      <p style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.4">
-        Apakah Anda yakin ingin menghapus akun pengguna <br><strong id="adminDeleteUserTarget" style="color:#0f172a"></strong>? Akun yang dihapus tidak dapat dipulihkan.
-      </p>
+      <p style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.4">Apakah Anda yakin ingin menghapus akun pengguna <br><strong id="adminDeleteUserTarget" style="color:#0f172a"></strong>? Akun yang dihapus tidak dapat dipulihkan.</p>
       <input type="hidden" id="adminDeleteUserKey">
       <div style="display:flex;gap:10px">
         <button class="btn-cancel" onclick="closeAdminDeleteUserModal()">Batal</button>
@@ -824,9 +529,7 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
     <div class="modal-confirm-box">
       <div class="icon-wrapper icon-danger">🗑️</div>
       <h3 style="margin:0 0 8px;color:#0f172a;font-size:18px;font-weight:800">Hapus Data Perbaikan?</h3>
-      <p style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.4">
-        Apakah Anda yakin ingin menghapus data perbaikan ID: <br><strong id="hapusWOId" style="color:#0f172a"></strong>? Data yang dihapus tidak dapat dikembalikan.
-      </p>
+      <p style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.4">Apakah Anda yakin ingin menghapus data perbaikan ID: <br><strong id="hapusWOId" style="color:#0f172a"></strong>? Data yang dihapus tidak dapat dikembalikan.</p>
       <input type="hidden" id="hapusFirebaseKey">
       <div style="display:flex;gap:10px">
         <button class="btn-cancel" onclick="closeModalHapus()">Batal</button>
@@ -845,24 +548,16 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
     </div>
   </div>
 
-  <!-- MODAL INFO APLIKASI (BARU) -->
+  <!-- MODAL INFO APLIKASI -->
   <div id="modalInfoApp">
     <div class="modal-confirm-box">
       <div class="icon-wrapper icon-info">📱</div>
       <h3 style="margin:0 0 8px;color:#0f172a;font-size:18px;font-weight:800">Info Aplikasi</h3>
       <div style="background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:16px;text-align:left">
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
-          <span style="color:#64748b;font-size:13px">Versi Saat Ini</span>
-          <span id="infoAppVersion" style="font-weight:700;color:#2563eb;font-size:13px">-</span>
-        </div>
-        <div style="display:flex;justify-content:space-between">
-          <span style="color:#64748b;font-size:13px">Status Server</span>
-          <span style="font-weight:700;color:#16a34a;font-size:13px">Online</span>
-        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:#64748b;font-size:13px">Versi Saat Ini</span><span id="infoAppVersion" style="font-weight:700;color:#2563eb;font-size:13px">-</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:#64748b;font-size:13px">Status Server</span><span style="font-weight:700;color:#16a34a;font-size:13px">Online</span></div>
       </div>
-      <p style="margin:0 0 16px;color:#64748b;font-size:12px;line-height:1.4">
-        Aplikasi ini menggunakan sistem update otomatis. Tekan tombol di bawah untuk memaksa pemuatan ulang sumber daya terbaru dari server.
-      </p>
+      <p style="margin:0 0 16px;color:#64748b;font-size:12px;line-height:1.4">Aplikasi ini menggunakan sistem update otomatis. Tekan tombol di bawah untuk memaksa pemuatan ulang sumber daya terbaru dari server.</p>
       <div style="display:flex;gap:8px">
         <button class="btn-cancel" onclick="closeInfoApp()">Tutup</button>
         <button class="btn-primary" onclick="forceCheckUpdate()">🔄 Periksa Pembaruan</button>
@@ -870,7 +565,7 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
     </div>
   </div>
 
-  <!-- MODAL KONFIRMASI UNIVERSAL (MODERN) -->
+  <!-- MODAL KONFIRMASI UNIVERSAL -->
   <div id="modalCustomConfirm">
     <div class="modal-confirm-box">
       <div id="ccIcon" class="icon-wrapper icon-info">ℹ️</div>
@@ -886,40 +581,26 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 </div>
 
 <script>
-// === FITUR UPDATE TANPA BUILD: VERSION TRACKER ===
-// 👉 PENTING: GANTI ANGKA INI SETIAP KALI ANDA MENGEDIT KODE DI SERVER
-const APP_VERSION = "1.0.4"; 
+const APP_VERSION = "1.0.6"; // Updated Version for Chat Navigation Fix
 
 function checkForUpdate() {
     const lastVersion = localStorage.getItem('app_last_version');
     if (!lastVersion || lastVersion !== APP_VERSION) {
-        console.log("Versi berubah! Memuat ulang sumber daya...");
         localStorage.setItem('app_last_version', APP_VERSION);
-        // Paksa reload halaman (true artinya reload paksa dari server, bukan cache)
         window.location.reload(true); 
     }
 }
-
-// Fungsi untuk dipanggil manual dari menu Info Aplikasi
 function forceCheckUpdate() {
     closeInfoApp();
     showLoading('Memeriksa Pembaruan...', 'Menghubungkan ke server...');
-    
     setTimeout(() => {
         hideLoading();
-        // Kita set localStorage ke null agar trigger checkForUpdate bekerja
         localStorage.removeItem('app_last_version');
-        showToast('Pembaruan tersedia! Aplikasi akan dimuat ulang.', 'Info', 'success', () => {
-             window.location.reload(true);
-        });
+        showToast('Pembaruan tersedia! Aplikasi akan dimuat ulang.', 'Info', 'success', () => { window.location.reload(true); });
     }, 1500);
 }
-
-// Jalankan cek versi segera
 checkForUpdate();
-// ================================================
 
-// 1. KONFIGURASI FIREBASE SDK v8
 const firebaseConfig = {
   apiKey: "AIzaSyDKyUcHEUE8HIhpL9s85122MIbn9q2GMkg",
   authDomain: "mekanik2.firebaseapp.com",
@@ -930,51 +611,89 @@ const firebaseConfig = {
   appId: "1:572982608252:web:338582c6e4e73fe6e3a4f9"
 };
 
-// INITIALIZE FIREBASE
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const dbRef = firebase.database().ref('perbaikan_iwip');
 const usersRef = firebase.database().ref('users_iwip');
+const chatRef = firebase.database().ref('chat_global'); // REFERENCE BARU UNTUK CHAT
 
 let currentUser = null;
 let db = [];
 let allUsers = {};
 let toastCallback = null;
 let currentStatusFilter = 'semua';
-
-// CALLBACK UNTUK MODAL KONFIRMASI UNIVERSAL
 let customConfirmCallback = null;
 
-// FUNGSI MODAL KONFIRMASI UNIVERSAL (MODERN)
+// --- LOGIKA CHAT ---
+let chatListener = null;
+let isChatPageOpen = false;
+
+function openChatPage() {
+  document.getElementById('dashPage').style.display = 'none';
+  document.getElementById('bengkelPage').style.display = 'none';
+  document.getElementById('milikPage').style.display = 'none';
+  document.getElementById('chatPage').style.display = 'block';
+  isChatPageOpen = true;
+  loadChatMessages();
+  pushNavigationState('chat');
+}
+
+function loadChatMessages() {
+  const chatContainer = document.getElementById('chatMessages');
+  if (chatListener) chatListener.off();
+  chatContainer.innerHTML = '<div style="text-align:center;font-size:12px;color:#666;margin-top:20px">Memuat riwayat obrolan...</div>';
+  chatListener = chatRef.limitToLast(50);
+  chatListener.on('child_added', (snapshot) => {
+    const msg = snapshot.val();
+    renderSingleMessage(msg);
+    scrollToBottom();
+  });
+}
+
+function renderSingleMessage(msg) {
+  const chatContainer = document.getElementById('chatMessages');
+  if (chatContainer.innerText.includes('Memuat')) chatContainer.innerHTML = '';
+  const isMe = msg.uid === (currentUser ? currentUser.user : '');
+  const time = new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  let senderHtml = isMe ? '' : `<span class="chat-sender-name">${msg.sender}</span>`;
+  const bubbleClass = isMe ? 'chat-bubble me' : 'chat-bubble other';
+  const div = document.createElement('div');
+  div.className = bubbleClass;
+  div.innerHTML = `${senderHtml}<div>${msg.text}</div><div class="chat-meta"><span>${time}</span></div>`;
+  chatContainer.appendChild(div);
+}
+
+function sendChatMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text || !currentUser) return;
+  const msgData = {
+    uid: currentUser.user,
+    sender: currentUser.name || currentUser.user,
+    text: text,
+    timestamp: firebase.database.ServerValue.TIMESTAMP
+  };
+  chatRef.push(msgData);
+  input.value = '';
+  input.focus();
+}
+
+function scrollToBottom() {
+  const container = document.getElementById('chatMessages');
+  container.scrollTop = container.scrollHeight;
+}
+// -------------------
+
 function showCustomConfirm(options) {
   const modal = document.getElementById('modalCustomConfirm');
   const icon = document.getElementById('ccIcon');
-  const title = document.getElementById('ccTitle');
-  const message = document.getElementById('ccMessage');
-  const confirmBtn = document.getElementById('ccConfirmBtn');
-
-  // Set ikon
-  icon.className = 'icon-wrapper';
+  icon.className = 'icon-wrapper ' + (options.iconClass || 'icon-info');
   icon.innerHTML = options.icon || 'ℹ️';
-  if (options.iconClass) {
-    icon.classList.add(options.iconClass);
-  } else {
-    icon.classList.add('icon-info');
-  }
-
-  title.innerText = options.title || 'Konfirmasi';
-  message.innerHTML = options.message || '';
-
-  // Set style tombol konfirmasi
-  confirmBtn.className = 'btn-primary';
-  if (options.confirmClass) {
-    confirmBtn.className = options.confirmClass;
-  }
+  document.getElementById('ccTitle').innerText = options.title || 'Konfirmasi';
+  document.getElementById('ccMessage').innerHTML = options.message || '';
+  const confirmBtn = document.getElementById('ccConfirmBtn');
+  confirmBtn.className = options.confirmClass || 'btn-primary';
   confirmBtn.innerText = options.confirmText || 'Ya, Lanjutkan';
-
   customConfirmCallback = options.onConfirm || null;
-
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
   pushNavigationState('modalCustomConfirm');
@@ -985,119 +704,73 @@ function closeCustomConfirm(confirmed) {
   modal.classList.remove('active');
   setTimeout(() => {
     modal.style.display = 'none';
-    if (confirmed && typeof customConfirmCallback === 'function') {
-      customConfirmCallback();
-    }
+    if (confirmed && typeof customConfirmCallback === 'function') customConfirmCallback();
     customConfirmCallback = null;
   }, 150);
 }
 
-// MUAT DATA LOGIN TERPANTAU DENGAN LOCALSTORAGE SAAT SISTEM DIAWAL
 document.addEventListener("DOMContentLoaded", () => {
   const savedUser = localStorage.getItem('iwip_saved_user');
   const savedPass = localStorage.getItem('iwip_saved_pass');
-  const remember = localStorage.getItem('iwip_remember') === 'true';
-
   if (savedUser && savedPass) {
     document.getElementById('user').value = savedUser;
     document.getElementById('pass').value = savedPass;
-    document.getElementById('rememberMe').checked = remember;
+    document.getElementById('rememberMe').checked = localStorage.getItem('iwip_remember') === 'true';
   }
-  
-  // Render Room Grid Saat Load
   renderRoomGrid();
 });
 
-// HELPER REAL DATETIME LOCAL (YYYY-MM-DDThh:mm)
 function getFormattedDateTimeLocal(d = new Date()) {
   const pad = (n) => String(n).padStart(2, '0');
-  const year = d.getFullYear();
-  const month = pad(d.getMonth() + 1);
-  const day = pad(d.getDate());
-  const hours = pad(d.getHours());
-  const minutes = pad(d.getMinutes());
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
-// SISTEM PENANGANAN TOMBOL BACK NAVIGASI HP/BROWSER
-function pushNavigationState(stateName) {
-  history.pushState({ modalOrPage: stateName }, "", "#" + stateName);
-}
+function pushNavigationState(stateName) { history.pushState({ modalOrPage: stateName }, "", "#" + stateName); }
 
 window.addEventListener('popstate', (e) => {
   const modals = ['modalToast', 'modalHapus', 'modalEdit', 'modalSelesai', 'modal', 'modalForgot', 'modalUpdateAccount', 'modalDeleteAccount', 'modalAdminDeleteUser', 'modalExportExcel', 'modalCustomConfirm', 'modalInfoApp'];
   let modalClosed = false;
-
   for (let mId of modals) {
     const el = document.getElementById(mId);
     if (el && (el.style.display === 'flex' || el.style.display === 'block')) {
-      el.style.display = 'none';
-      el.classList.remove('active');
-      modalClosed = true;
-      break;
+      el.style.display = 'none'; el.classList.remove('active'); modalClosed = true; break;
     }
   }
-
   if (!modalClosed) {
     const bengkelPage = document.getElementById('bengkelPage');
     const milikPage = document.getElementById('milikPage');
-
-    if ((bengkelPage && bengkelPage.style.display === 'block') || (milikPage && milikPage.style.display === 'block')) {
+    const chatPage = document.getElementById('chatPage');
+    if ((bengkelPage && bengkelPage.style.display === 'block') || (milikPage && milikPage.style.display === 'block') || (chatPage && chatPage.style.display === 'block')) {
       openDash();
     }
   }
 });
 
-// FUNGSI PENCARIAN & TOMBOL RESET X
 function onSearchInput() {
   const inputCari = document.getElementById('cari');
   const btnReset = document.getElementById('btnResetCari');
-  
-  if (inputCari.value.trim() !== '') {
-    btnReset.style.display = 'block';
-  } else {
-    btnReset.style.display = 'none';
-  }
-  
+  btnReset.style.display = inputCari.value.trim() !== '' ? 'block' : 'none';
   tampil();
 }
 
 function hapusPencarian() {
-  const inputCari = document.getElementById('cari');
-  const btnReset = document.getElementById('btnResetCari');
-  
-  inputCari.value = '';
-  btnReset.style.display = 'none';
-  inputCari.focus();
+  document.getElementById('cari').value = '';
+  document.getElementById('btnResetCari').style.display = 'none';
+  document.getElementById('cari').focus();
   tampil();
 }
 
-// NOTIFIKASI POP-UP SYSTEM
 function showToast(message, title = "Pemberitahuan", type = "success", callback = null) {
   const modal = document.getElementById('modalToast');
   const iconBox = document.getElementById('toastIcon');
-  const titleEl = document.getElementById('toastTitle');
-  const msgEl = document.getElementById('toastMessage');
-
-  titleEl.innerText = title;
-  msgEl.innerText = message;
+  document.getElementById('toastTitle').innerText = title;
+  document.getElementById('toastMessage').innerText = message;
   toastCallback = callback;
-
   iconBox.className = "icon-wrapper";
-  if (type === 'success') {
-    iconBox.classList.add('icon-success');
-    iconBox.innerHTML = '✓';
-  } else if (type === 'danger') {
-    iconBox.classList.add('icon-danger');
-    iconBox.innerHTML = '✕';
-  } else if (type === 'warning') {
-    iconBox.classList.add('icon-warning');
-    iconBox.innerHTML = '⚠️';
-  } else {
-    iconBox.classList.add('icon-info');
-    iconBox.innerHTML = 'ℹ️';
-  }
-
+  if (type === 'success') { iconBox.classList.add('icon-success'); iconBox.innerHTML = '✓'; } 
+  else if (type === 'danger') { iconBox.classList.add('icon-danger'); iconBox.innerHTML = '✕'; } 
+  else if (type === 'warning') { iconBox.classList.add('icon-warning'); iconBox.innerHTML = '⚠️'; } 
+  else { iconBox.classList.add('icon-info'); iconBox.innerHTML = 'ℹ️'; }
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
   pushNavigationState('modalToast');
@@ -1108,27 +781,20 @@ function closeToast() {
   modal.classList.remove('active');
   setTimeout(() => {
     modal.style.display = 'none';
-    if (toastCallback) {
-      toastCallback();
-      toastCallback = null;
-    }
+    if (toastCallback) { toastCallback(); toastCallback = null; }
   }, 150);
 }
 
-// REALTIME PERBAIKAN
 dbRef.on('value', (snapshot) => {
   const data = snapshot.val();
   db = [];
   if (data) {
-    Object.keys(data).forEach(key => {
-      db.push({ firebaseKey: key, ...data[key] });
-    });
+    Object.keys(data).forEach(key => { db.push({ firebaseKey: key, ...data[key] }); });
   }
   db.sort((a, b) => b.id.localeCompare(a.id));
   tampil();
 });
 
-// REALTIME USERS
 usersRef.on('value', (snapshot) => {
   allUsers = snapshot.val() || {};
   if (currentUser && allUsers[currentUser.user]) {
@@ -1143,67 +809,38 @@ function togglePass(id) {
   el.type = el.type === 'password' ? 'text' : 'password';
 }
 
-function showReg() { 
-  document.getElementById('loginPage').style.display = 'none'; 
-  document.getElementById('regPage').style.display = 'flex'; 
-}
-function showLogin() { 
-  document.getElementById('regPage').style.display = 'none'; 
-  document.getElementById('loginPage').style.display = 'flex'; 
-}
+function showReg() { document.getElementById('loginPage').style.display = 'none'; document.getElementById('regPage').style.display = 'flex'; }
+function showLogin() { document.getElementById('regPage').style.display = 'none'; document.getElementById('loginPage').style.display = 'flex'; }
 
-// INDIKATOR OVERLAY LOADING SYSTEM
 let loginTimeout = null;
-
 function showLoading(text = "Memproses...", subtext = "Harap tunggu sebentar") {
   document.getElementById('loadingText').innerText = text;
   document.getElementById('loadingSubtext').innerText = subtext;
   document.getElementById('loadingOverlay').style.display = 'flex';
 }
-
 function hideLoading() {
   document.getElementById('loadingOverlay').style.display = 'none';
-  if (loginTimeout) {
-    clearTimeout(loginTimeout);
-    loginTimeout = null;
-  }
+  if (loginTimeout) { clearTimeout(loginTimeout); loginTimeout = null; }
 }
 
-// PENDAFTARAN
 function register() {
   const u = document.getElementById('r_user').value.trim();
   const p = document.getElementById('r_pass').value.trim();
   const n = document.getElementById('r_name').value.trim();
   const ph = document.getElementById('r_phone').value.trim();
-
-  if (!u || !p || !ph) { 
-    showToast('Harap lengkapi NIK/Username, Nomor HP, dan Password!', 'Peringatan', 'warning'); 
-    return; 
-  }
-  
+  if (!u || !p || !ph) { showToast('Harap lengkapi NIK/Username, Nomor HP, dan Password!', 'Peringatan', 'warning'); return; }
   showLoading('Mendaftarkan Akun...', 'Menyimpan data ke server...');
-
   usersRef.once('value', snapshot => {
     hideLoading();
     const users = snapshot.val();
     const isFirstUser = !users || Object.keys(users).length === 0;
-
     if (users && users[u]) {
       showToast('Username/NIK sudah terdaftar!', 'Gagal Daftar', 'danger');
     } else {
-      let assignedRole = isFirstUser ? 'admin' : 'user';
-      let uData = { user: u, pass: p, name: n || u, phone: ph, role: assignedRole };
-      
+      let uData = { user: u, pass: p, name: n || u, phone: ph, role: isFirstUser ? 'admin' : 'user' };
       usersRef.child(u).set(uData, (err) => {
-        if (err) {
-          showToast('Gagal mendaftar: ' + err.message, 'Sistem Error', 'danger');
-        } else {
-          if (isFirstUser) {
-            showToast('Pendaftaran berhasil! Anda adalah pendaftar pertama dan ditetapkan sebagai ADMINISTRATOR.', 'Selamat datang Admin!', 'success', showLogin);
-          } else {
-            showToast('Pendaftaran berhasil! Akun Anda terdaftar sebagai User Biasa.', 'Berhasil Daftar', 'success', showLogin);
-          }
-        }
+        if (err) showToast('Gagal mendaftar: ' + err.message, 'Sistem Error', 'danger');
+        else showToast(isFirstUser ? 'Pendaftaran berhasil! Anda adalah ADMINISTRATOR.' : 'Pendaftaran berhasil! Akun Anda terdaftar sebagai User Biasa.', 'Berhasil', 'success', showLogin);
       });
     }
   }, (error) => {
@@ -1212,39 +849,26 @@ function register() {
   });
 }
 
-// LOGIN DENGAN PENYIMPANAN OTOMATIS DATA LOGIN
 function login() {
   let uInput = document.getElementById('user').value.trim();
   let pInput = document.getElementById('pass').value.trim();
   let rememberMe = document.getElementById('rememberMe').checked;
-
-  if (!uInput || !pInput) { 
-    showToast('Isi Username dan Password!', 'Peringatan', 'warning'); 
-    return; 
-  }
-
+  if (!uInput || !pInput) { showToast('Isi Username dan Password!', 'Peringatan', 'warning'); return; }
   showLoading('Memproses Login...', 'Menghubungkan ke server Firebase...');
-
   let networkNoticeTimer = setTimeout(() => {
     document.getElementById('loadingText').innerText = 'Jaringan Lambat Detected...';
-    document.getElementById('loadingSubtext').innerText = 'Sedang mengupayakan koneksi ke database. Harap tunggu...';
+    document.getElementById('loadingSubtext').innerText = 'Sedang mengupayakan koneksi ke database.';
   }, 3000);
-
   loginTimeout = setTimeout(() => {
-    clearTimeout(networkNoticeTimer);
-    hideLoading();
-    showToast('Koneksi internet Anda jelek atau terputus! Silakan periksa jaringan dan coba lagi.', 'Gagal Terhubung', 'danger');
+    clearTimeout(networkNoticeTimer); hideLoading();
+    showToast('Koneksi internet Anda jelek atau terputus!', 'Gagal Terhubung', 'danger');
   }, 15000);
-
   usersRef.child(uInput).once('value', snapshot => {
-    clearTimeout(networkNoticeTimer);
-    hideLoading();
-
+    clearTimeout(networkNoticeTimer); hideLoading();
     let u = snapshot.val();
     if (u && u.pass === pInput) {
       if (!u.role) u.role = 'user';
       currentUser = u;
-
       if (rememberMe) {
         localStorage.setItem('iwip_saved_user', uInput);
         localStorage.setItem('iwip_saved_pass', pInput);
@@ -1254,22 +878,17 @@ function login() {
         localStorage.removeItem('iwip_saved_pass');
         localStorage.removeItem('iwip_remember');
       }
-
       goDash(u);
     } else {
       showToast('Username / Password salah atau belum terdaftar!', 'Akses Ditolak', 'danger');
     }
   }, (error) => {
-    clearTimeout(networkNoticeTimer);
-    hideLoading();
+    clearTimeout(networkNoticeTimer); hideLoading();
     showToast('Terjadi kesalahan jaringan: ' + error.message, 'Gagal Terhubung', 'danger');
   });
 }
 
-// LOGIKA LUPA SANDI & OTP
-let generatedOTP = null;
-let targetResetUser = null;
-
+let generatedOTP = null, targetResetUser = null;
 function showForgotModal(prefillUser = '', prefillPhone = '') {
   document.getElementById('fg_step1').style.display = 'block';
   document.getElementById('fg_step2').style.display = 'none';
@@ -1278,56 +897,33 @@ function showForgotModal(prefillUser = '', prefillPhone = '') {
   document.getElementById('fg_phone').value = prefillPhone;
   document.getElementById('fg_otp').value = '';
   document.getElementById('fg_newpass').value = '';
-  
   const modal = document.getElementById('modalForgot');
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
   pushNavigationState('modalForgot');
 }
-
 function closeForgotModal() {
   const modal = document.getElementById('modalForgot');
   modal.classList.remove('active');
   setTimeout(() => modal.style.display = 'none', 150);
 }
-
 function pindahKeLupaSandiDariModal() {
   closeUpdateAccountModal();
-  let userVal = currentUser ? currentUser.user : '';
-  let phoneVal = currentUser ? currentUser.phone : '';
-  setTimeout(() => {
-    showForgotModal(userVal, phoneVal);
-  }, 200);
+  setTimeout(() => { showForgotModal(currentUser ? currentUser.user : '', currentUser ? currentUser.phone : ''); }, 200);
 }
-
 function kirimOtp() {
   const u = document.getElementById('fg_user').value.trim();
   const ph = document.getElementById('fg_phone').value.trim();
-
-  if (!u || !ph) {
-    showToast('Isi Username/NIK dan Nomor HP!', 'Data Tidak Lengkap', 'warning');
-    return;
-  }
-
+  if (!u || !ph) { showToast('Isi Username/NIK dan Nomor HP!', 'Data Tidak Lengkap', 'warning'); return; }
   showLoading('Memverifikasi User...', 'Mengecek data terdaftar...');
-
   usersRef.child(u).once('value', snapshot => {
     hideLoading();
     const userData = snapshot.val();
-    if (!userData) {
-      showToast('Username/NIK tidak ditemukan!', 'Gagal Verifikasi', 'danger');
-      return;
-    }
-
-    if (userData.phone !== ph) {
-      showToast('Nomor HP tidak cocok dengan data terdaftar!', 'Gagal Verifikasi', 'danger');
-      return;
-    }
-
+    if (!userData) { showToast('Username/NIK tidak ditemukan!', 'Gagal Verifikasi', 'danger'); return; }
+    if (userData.phone !== ph) { showToast('Nomor HP tidak cocok dengan data terdaftar!', 'Gagal Verifikasi', 'danger'); return; }
     generatedOTP = Math.floor(1000 + Math.random() * 9000).toString();
     targetResetUser = u;
-
-    showToast(`Kode OTP Anda adalah: ${generatedOTP}\n(Gunakan kode ini untuk membuat kata sandi baru)`, 'Kode OTP Terkirim', 'info', () => {
+    showToast(`Kode OTP Anda adalah: ${generatedOTP}`, 'Kode OTP Terkirim', 'info', () => {
       document.getElementById('fg_step1').style.display = 'none';
       document.getElementById('fg_step2').style.display = 'block';
     });
@@ -1336,10 +932,8 @@ function kirimOtp() {
     showToast('Koneksi internet bermasalah!', 'Gagal', 'danger');
   });
 }
-
 function verifikasiOtp() {
-  const otpInput = document.getElementById('fg_otp').value.trim();
-  if (otpInput === generatedOTP) {
+  if (document.getElementById('fg_otp').value.trim() === generatedOTP) {
     showToast('OTP Valid! Silakan buat password baru.', 'Berhasil', 'success', () => {
       document.getElementById('fg_step2').style.display = 'none';
       document.getElementById('fg_step3').style.display = 'block';
@@ -1348,114 +942,71 @@ function verifikasiOtp() {
     showToast('Kode OTP salah! Periksa kembali kode Anda.', 'Gagal Verifikasi', 'danger');
   }
 }
-
 function simpanSandiBaru() {
   const newPass = document.getElementById('fg_newpass').value.trim();
-  if (!newPass) {
-    showToast('Masukkan password baru Anda!', 'Peringatan', 'warning');
-    return;
-  }
-
+  if (!newPass) { showToast('Masukkan password baru Anda!', 'Peringatan', 'warning'); return; }
   showLoading('Menyimpan Password...', 'Memperbarui data akun...');
-
   usersRef.child(targetResetUser).update({ pass: newPass }, (err) => {
     hideLoading();
-    if (err) {
-      showToast('Gagal mengubah password: ' + err.message, 'Error', 'danger');
-    } else {
+    if (err) showToast('Gagal mengubah password: ' + err.message, 'Error', 'danger');
+    else {
       closeForgotModal();
-      if (currentUser && currentUser.user === targetResetUser) {
-        currentUser.pass = newPass;
-      }
-      if (localStorage.getItem('iwip_saved_user') === targetResetUser) {
-        localStorage.setItem('iwip_saved_pass', newPass);
-      }
+      if (currentUser && currentUser.user === targetResetUser) currentUser.pass = newPass;
+      if (localStorage.getItem('iwip_saved_user') === targetResetUser) localStorage.setItem('iwip_saved_pass', newPass);
       showToast('Password baru berhasil disimpan!', 'Sandi Diperbarui', 'success');
     }
   });
 }
 
-// LOGIKA UBAH HP & SANDI
-let changePhoneOTP = null;
-let newPhoneCandidate = null;
-
+let changePhoneOTP = null, newPhoneCandidate = null;
 function showUpdateAccountModal(type) {
   if (!currentUser) return;
-
   const modal = document.getElementById('modalUpdateAccount');
   const title = document.getElementById('accModalTitle');
-  const formPhoneStep1 = document.getElementById('formUpdatePhoneStep1');
-  const formPhoneStep2 = document.getElementById('formUpdatePhoneStep2');
-  const formPass = document.getElementById('formUpdatePass');
-
   if (type === 'phone') {
     title.innerText = 'Ubah Nomor HP';
-    formPhoneStep1.style.display = 'block';
-    formPhoneStep2.style.display = 'none';
-    formPass.style.display = 'none';
+    document.getElementById('formUpdatePhoneStep1').style.display = 'block';
+    document.getElementById('formUpdatePhoneStep2').style.display = 'none';
+    document.getElementById('formUpdatePass').style.display = 'none';
     document.getElementById('acc_new_phone').value = currentUser.phone || '';
     document.getElementById('acc_phone_otp').value = '';
-  } else if (type === 'pass') {
+  } else {
     title.innerText = 'Ubah Kata Sandi';
-    formPhoneStep1.style.display = 'none';
-    formPhoneStep2.style.display = 'none';
-    formPass.style.display = 'block';
+    document.getElementById('formUpdatePhoneStep1').style.display = 'none';
+    document.getElementById('formUpdatePhoneStep2').style.display = 'none';
+    document.getElementById('formUpdatePass').style.display = 'block';
     document.getElementById('acc_old_pass').value = '';
     document.getElementById('acc_new_pass').value = '';
   }
-
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
   pushNavigationState('modalUpdateAccount');
 }
-
 function closeUpdateAccountModal() {
   const modal = document.getElementById('modalUpdateAccount');
   modal.classList.remove('active');
   setTimeout(() => modal.style.display = 'none', 150);
 }
-
 function kirimOtpUbahHp() {
   const newPhone = document.getElementById('acc_new_phone').value.trim();
-  if (!newPhone) {
-    showToast('Masukkan nomor HP baru yang valid!', 'Peringatan', 'warning');
-    return;
-  }
-
-  if (newPhone === currentUser.phone) {
-    showToast('Nomor HP baru tidak boleh sama dengan nomor HP saat ini!', 'Peringatan', 'warning');
-    return;
-  }
-
+  if (!newPhone) { showToast('Masukkan nomor HP baru yang valid!', 'Peringatan', 'warning'); return; }
+  if (newPhone === currentUser.phone) { showToast('Nomor HP baru tidak boleh sama dengan nomor HP saat ini!', 'Peringatan', 'warning'); return; }
   changePhoneOTP = Math.floor(1000 + Math.random() * 9000).toString();
   newPhoneCandidate = newPhone;
-
-  showToast(`Kode OTP Konfirmasi Anda: ${changePhoneOTP}\n(Masukkan kode ini untuk verifikasi perubahan nomor HP)`, 'Kode OTP Terkirim', 'info', () => {
+  showToast(`Kode OTP Konfirmasi Anda: ${changePhoneOTP}`, 'Kode OTP Terkirim', 'info', () => {
     document.getElementById('formUpdatePhoneStep1').style.display = 'none';
     document.getElementById('formUpdatePhoneStep2').style.display = 'block';
   });
 }
-
 function verifikasiDanSimpanHpBaru() {
   const inputOtp = document.getElementById('acc_phone_otp').value.trim();
-
-  if (!inputOtp) {
-    showToast('Masukkan kode OTP verifikasi!', 'Peringatan', 'warning');
-    return;
-  }
-
-  if (inputOtp !== changePhoneOTP) {
-    showToast('Kode OTP yang Anda masukkan salah!', 'Gagal Verifikasi', 'danger');
-    return;
-  }
-
+  if (!inputOtp) { showToast('Masukkan kode OTP verifikasi!', 'Peringatan', 'warning'); return; }
+  if (inputOtp !== changePhoneOTP) { showToast('Kode OTP yang Anda masukkan salah!', 'Gagal Verifikasi', 'danger'); return; }
   showLoading('Menyimpan Nomor HP...', 'Mengintegrasikan dengan akun...');
-
   usersRef.child(currentUser.user).update({ phone: newPhoneCandidate }, (err) => {
     hideLoading();
-    if (err) {
-      showToast('Gagal memperbarui nomor HP: ' + err.message, 'Error', 'danger');
-    } else {
+    if (err) showToast('Gagal memperbarui nomor HP: ' + err.message, 'Error', 'danger');
+    else {
       currentUser.phone = newPhoneCandidate;
       updateMilikkuUI();
       closeUpdateAccountModal();
@@ -1463,39 +1014,24 @@ function verifikasiDanSimpanHpBaru() {
     }
   });
 }
-
 function simpanKataSandiBaru() {
   const oldPass = document.getElementById('acc_old_pass').value.trim();
   const newPass = document.getElementById('acc_new_pass').value.trim();
-
-  if (!oldPass || !newPass) {
-    showToast('Isi kata sandi lama dan kata sandi baru!', 'Peringatan', 'warning');
-    return;
-  }
-
-  if (oldPass !== currentUser.pass) {
-    showToast('Kata sandi lama yang Anda masukkan salah!', 'Gagal Verifikasi', 'danger');
-    return;
-  }
-
+  if (!oldPass || !newPass) { showToast('Isi kata sandi lama dan kata sandi baru!', 'Peringatan', 'warning'); return; }
+  if (oldPass !== currentUser.pass) { showToast('Kata sandi lama yang Anda masukkan salah!', 'Gagal Verifikasi', 'danger'); return; }
   showLoading('Memperbarui Sandi...', 'Menyimpan kata sandi baru...');
-
   usersRef.child(currentUser.user).update({ pass: newPass }, (err) => {
     hideLoading();
-    if (err) {
-      showToast('Gagal memperbarui kata sandi: ' + err.message, 'Error', 'danger');
-    } else {
+    if (err) showToast('Gagal memperbarui kata sandi: ' + err.message, 'Error', 'danger');
+    else {
       currentUser.pass = newPass;
-      if (localStorage.getItem('iwip_saved_user') === currentUser.user) {
-        localStorage.setItem('iwip_saved_pass', newPass);
-      }
+      if (localStorage.getItem('iwip_saved_user') === currentUser.user) localStorage.setItem('iwip_saved_pass', newPass);
       closeUpdateAccountModal();
       showToast('Kata sandi berhasil diperbarui!', 'Berhasil', 'success');
     }
   });
 }
 
-// LOGIKA HAPUS AKUN MANDIRI
 function showDeleteAccountModal() {
   if (!currentUser) return;
   document.getElementById('del_confirm_pass').value = '';
@@ -1504,119 +1040,71 @@ function showDeleteAccountModal() {
   setTimeout(() => modal.classList.add('active'), 10);
   pushNavigationState('modalDeleteAccount');
 }
-
 function closeDeleteAccountModal() {
   const modal = document.getElementById('modalDeleteAccount');
   modal.classList.remove('active');
   setTimeout(() => modal.style.display = 'none', 150);
 }
-
 function eksekusiHapusAkun() {
   const confirmPass = document.getElementById('del_confirm_pass').value.trim();
-
-  if (!confirmPass) {
-    showToast('Masukkan kata sandi untuk mengonfirmasi penghapusan akun!', 'Konfirmasi Diperlukan', 'warning');
-    return;
-  }
-
-  if (confirmPass !== currentUser.pass) {
-    showToast('Kata sandi yang Anda masukkan salah!', 'Gagal Konfirmasi', 'danger');
-    return;
-  }
-
+  if (!confirmPass) { showToast('Masukkan kata sandi untuk mengonfirmasi penghapusan akun!', 'Konfirmasi Diperlukan', 'warning'); return; }
+  if (confirmPass !== currentUser.pass) { showToast('Kata sandi yang Anda masukkan salah!', 'Gagal Konfirmasi', 'danger'); return; }
   showLoading('Menghapus Akun...', 'Menghapus data dari server...');
-
-  let targetUserKey = currentUser.user;
-
-  usersRef.child(targetUserKey).remove((err) => {
+  usersRef.child(currentUser.user).remove((err) => {
     hideLoading();
-    if (err) {
-      showToast('Gagal menghapus akun: ' + err.message, 'Error', 'danger');
-    } else {
+    if (err) showToast('Gagal menghapus akun: ' + err.message, 'Error', 'danger');
+    else {
       closeDeleteAccountModal();
       localStorage.removeItem('iwip_saved_user');
       localStorage.removeItem('iwip_saved_pass');
       localStorage.removeItem('iwip_remember');
-      
-      showToast('Akun Anda berhasil dihapus dari database.', 'Akun Terhapus', 'success', () => {
-        logout();
-      });
+      showToast('Akun Anda berhasil dihapus dari database.', 'Akun Terhapus', 'success', () => { logout(); });
     }
   });
 }
 
-// LOGIKA ADMIN HAPUS AKUN USER BIASA
 function confirmAdminDeleteUser(targetUser, userName) {
-  if (!currentUser || currentUser.role !== 'admin') {
-    showToast('Hanya Admin yang dapat menghapus akun pengguna!', 'Akses Ditolak', 'danger');
-    return;
-  }
-
-  if (targetUser === currentUser.user) {
-    showToast('Anda tidak dapat menghapus akun Anda sendiri dari menu ini!', 'Peringatan', 'warning');
-    return;
-  }
-
+  if (!currentUser || currentUser.role !== 'admin') { showToast('Hanya Admin yang dapat menghapus akun pengguna!', 'Akses Ditolak', 'danger'); return; }
+  if (targetUser === currentUser.user) { showToast('Anda tidak dapat menghapus akun Anda sendiri dari menu ini!', 'Peringatan', 'warning'); return; }
   document.getElementById('adminDeleteUserKey').value = targetUser;
   document.getElementById('adminDeleteUserTarget').innerText = `${userName || targetUser} (${targetUser})`;
-
   const modal = document.getElementById('modalAdminDeleteUser');
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
   pushNavigationState('modalAdminDeleteUser');
 }
-
 function closeAdminDeleteUserModal() {
   const modal = document.getElementById('modalAdminDeleteUser');
   modal.classList.remove('active');
   setTimeout(() => modal.style.display = 'none', 150);
 }
-
 function eksekusiAdminHapusUser() {
   const targetUser = document.getElementById('adminDeleteUserKey').value;
-
   if (!targetUser) return;
-
-  showLoading('Menghapus Akun User...', 'Mengahapus pengguna dari database...');
-
+  showLoading('Menghapus Akun User...', 'Menghapus pengguna dari database...');
   usersRef.child(targetUser).remove((err) => {
     hideLoading();
-    if (err) {
-      showToast('Gagal menghapus akun user: ' + err.message, 'Error', 'danger');
-    } else {
+    if (err) showToast('Gagal menghapus akun user: ' + err.message, 'Error', 'danger');
+    else {
       closeAdminDeleteUserModal();
       showToast(`Akun pengguna (${targetUser}) berhasil dihapus!`, 'Berhasil Dihapus', 'success');
     }
   });
 }
 
-// FUNGSI BARU: HANDLE FOTO PROFIL
 function handleProfileImage(input) {
   if (input.files && input.files[0]) {
     const file = input.files[0];
-    
-    // Cek ukuran file (maksimal 200KB untuk performa Firebase)
-    if (file.size > 2000 * 1024) {
-      showToast('Ukuran foto terlalu besar! Maksimal 2000KB.', 'Gagal Upload', 'danger');
-      return;
-    }
-
+    if (file.size > 2000 * 1024) { showToast('Ukuran foto terlalu besar! Maksimal 2000KB.', 'Gagal Upload', 'danger'); return; }
     const reader = new FileReader();
     reader.onload = function(e) {
       const base64String = e.target.result;
-      
-      // Tampilkan preview langsung
       document.getElementById('milikAvatar').src = base64String;
-      
-      // Simpan ke database
       showLoading('Menyimpan Foto...', 'Mengunggah ke cloud...');
-      
       usersRef.child(currentUser.user).update({ photo: base64String }, (err) => {
         hideLoading();
-        if (err) {
-          showToast('Gagal menyimpan foto: ' + err.message, 'Error', 'danger');
-        } else {
-          // Update local state
+        if (err) showToast('Gagal menyimpan foto: ' + err.message, 'Error', 'danger');
+        else {
           currentUser.photo = base64String;
           showToast('Foto profil berhasil diperbarui!', 'Berhasil', 'success');
         }
@@ -1632,15 +1120,8 @@ function updateMilikkuUI() {
   document.getElementById('milikNIK').innerText = 'ID: ' + currentUser.user;
   document.getElementById('milikPhone').innerText = 'HP: ' + (currentUser.phone || '-');
   document.getElementById('milikRole').innerText = 'Akses: ' + (currentUser.role === 'admin' ? 'Administrator' : 'User Biasa');
-  
-  // UPDATE FOTO PROFIL
   const imgEl = document.getElementById('milikAvatar');
-  if (currentUser.photo) {
-    imgEl.src = currentUser.photo;
-  } else {
-    // Default avatar jika belum ada foto
-    imgEl.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.name || currentUser.user) + '&background=random&size=128';
-  }
+  imgEl.src = currentUser.photo ? currentUser.photo : 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.name || currentUser.user) + '&background=random&size=128';
 }
 
 function goDash(u) {
@@ -1650,29 +1131,22 @@ function goDash(u) {
   document.getElementById('dashPage').style.display = 'block';
   document.getElementById('bengkelPage').style.display = 'none';
   document.getElementById('milikPage').style.display = 'none';
-  
+  document.getElementById('chatPage').style.display = 'none';
   updateMilikkuUI();
-
   if (u.role === 'admin') {
     document.getElementById('adminUserControl').style.display = 'block';
     renderUserManagement();
   } else {
     document.getElementById('adminUserControl').style.display = 'none';
   }
-
   tampil();
 }
 
 function renderUserManagement() {
   const container = document.getElementById('userListContainer');
   if (!container || !currentUser || currentUser.role !== 'admin') return;
-
   const keys = Object.keys(allUsers);
-  if (keys.length === 0) {
-    container.innerHTML = '<div style="font-size:12px;color:#94a3b8">Belum ada pengguna lain.</div>';
-    return;
-  }
-
+  if (keys.length === 0) { container.innerHTML = '<div style="font-size:12px;color:#94a3b8">Belum ada pengguna lain.</div>'; return; }
   container.innerHTML = keys.map(k => {
     const usr = allUsers[k];
     const isSelf = currentUser.user === usr.user;
@@ -1687,7 +1161,7 @@ function renderUserManagement() {
             <option value="user" ${usr.role === 'user' ? 'selected' : ''}>User</option>
             <option value="admin" ${usr.role === 'admin' ? 'selected' : ''}>Admin</option>
           </select>
-          ${!isSelf ? `<button class="btn-del-user" onclick="confirmAdminDeleteUser('${usr.user}', '${usr.name || usr.user}')" title="Hapus Akun User">🗑️ Hapus</button>` : ''}
+          ${!isSelf ? `<button class="btn-del-user" onclick="confirmAdminDeleteUser('${usr.user}', '${usr.name || usr.user}')">🗑️ Hapus</button>` : ''}
         </div>
       </div>
     `;
@@ -1702,25 +1176,22 @@ function changeUserRole(username, newRole) {
   });
 }
 
-function openBengkel() { 
-  document.getElementById('dashPage').style.display = 'none'; 
-  document.getElementById('bengkelPage').style.display = 'block'; 
-  pushNavigationState('bengkel');
-}
+function openBengkel() { document.getElementById('dashPage').style.display = 'none'; document.getElementById('bengkelPage').style.display = 'block'; pushNavigationState('bengkel'); }
 function openDash() { 
   document.getElementById('bengkelPage').style.display = 'none'; 
   document.getElementById('milikPage').style.display = 'none'; 
+  document.getElementById('chatPage').style.display = 'none';
   document.getElementById('dashPage').style.display = 'block'; 
 }
 function openMilikku() { 
   document.getElementById('dashPage').style.display = 'none'; 
   document.getElementById('bengkelPage').style.display = 'none'; 
+  document.getElementById('chatPage').style.display = 'none';
   document.getElementById('milikPage').style.display = 'block'; 
   pushNavigationState('milik');
 }
 function logout() { currentUser = null; location.reload(); }
 
-// MODAL CONTROLS
 function openModal() {
   const currentDateTime = getFormattedDateTimeLocal();
   document.getElementById('waktuMasuk').value = currentDateTime;
@@ -1737,10 +1208,8 @@ function closeModalHapus() {
   setTimeout(() => modal.style.display = 'none', 150);
 }
 
-// DRAGGABLE FAB
 const fab = document.getElementById('fabBtn');
 let isDragging = false, startX, startY, fabX, fabY, moved = false;
-
 function onStart(e) {
   isDragging = true; moved = false;
   const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -1750,7 +1219,6 @@ function onStart(e) {
   fab.style.right = 'auto'; fab.style.bottom = 'auto';
   fab.style.left = fabX + 'px'; fab.style.top = fabY + 'px';
 }
-
 function onMove(e) {
   if (!isDragging) return;
   const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -1761,13 +1229,11 @@ function onMove(e) {
   let newY = Math.max(10, Math.min(fabY + dy, window.innerHeight - fab.offsetHeight - 10));
   fab.style.left = newX + 'px'; fab.style.top = newY + 'px';
 }
-
 function onEnd() {
   if (!isDragging) return;
   isDragging = false;
   if (!moved) openModal();
 }
-
 fab.addEventListener('touchstart', onStart, {passive: true});
 window.addEventListener('touchmove', onMove, {passive: true});
 window.addEventListener('touchend', onEnd);
@@ -1775,48 +1241,27 @@ fab.addEventListener('mousedown', onStart);
 window.addEventListener('mousemove', onMove);
 window.addEventListener('mouseup', onEnd);
 
-// FIREBASE DATABASE OPERATIONS
 function genId() {
   const d = new Date();
   const m = String(d.getMonth() + 1).padStart(2, '0');
   return 'WX' + d.getFullYear() + m + Math.floor(100000 + Math.random() * 900000);
 }
 
-// === LOGIKA GRID RUANGAN MODERN ===
-const roomList = [
-  "38-1", "38-2", 
-  "39-1", "39-2", 
-  "50-1", "50-2", 
-  "51-1", "51-2", 
-  "52-1", "52-2"
-];
-
+const roomList = ["38-1", "38-2", "39-1", "39-2", "50-1", "50-2", "51-1", "51-2", "52-1", "52-2"];
 function renderRoomGrid() {
   const container = document.getElementById('roomSelectorContainer');
   if (!container) return;
-
-  container.innerHTML = ''; // Bersihkan isi lama
-  
+  container.innerHTML = '';
   roomList.forEach(room => {
     const div = document.createElement('div');
     div.className = 'room-option';
     div.innerText = room;
-    
-    // Event Klik
     div.onclick = function() {
-      // Hapus kelas active dari semua tombol
       document.querySelectorAll('.room-option').forEach(el => el.classList.remove('active'));
-      
-      // Tambah kelas active ke tombol yang diklik
       this.classList.add('active');
-      
-      // Masukkan nilai ke input tersembunyi
       document.getElementById('tempat').value = room;
-      
-      // Sembunyikan pesan error jika ada
       document.getElementById('roomError').style.display = 'none';
     };
-    
     container.appendChild(div);
   });
 }
@@ -1827,94 +1272,52 @@ function simpanPerintah() {
   const unit = document.getElementById('noMesin').value;
   const rm = document.getElementById('tempat').value;
   const pkrj = document.getElementById('nama').value;
-
   if (!waktuMasukVal) { showToast('Pilih Waktu Masuk!', 'Data Belum Lengkap', 'warning'); return; }
   if (!unit) { showToast('Nomor Unit wajib diisi!', 'Data Belum Lengkap', 'warning'); return; }
-  
-  // Validasi Ruangan Manual
-  if (!rm) { 
-    document.getElementById('roomError').style.display = 'block';
-    showToast('Silakan pilih Ruangan!', 'Data Belum Lengkap', 'warning'); 
-    return; 
-  }
-
+  if (!rm) { document.getElementById('roomError').style.display = 'block'; showToast('Silakan pilih Ruangan!', 'Data Belum Lengkap', 'warning'); return; }
   showLoading('Menyimpan Perintah...', 'Mengunggah ke database server...');
-
   const [tglMasuk, jamMasuk] = waktuMasukVal.split('T');
   const [tglMulai, jamMulai] = waktuMulaiVal ? waktuMulaiVal.split('T') : [tglMasuk, jamMasuk];
-
   let o = {
-    id: genId(),
-    nama: pkrj || (currentUser ? currentUser.name : 'Petugas'),
-    tanggal: tglMasuk,
-    nomorMesin: unit,
-    jenisMesin: document.getElementById('jenisMesin').value || '-',
-    item: document.getElementById('item').value || '-',
-    tempat: rm,
-    tim: document.getElementById('tim').value || 'Bagian Mekanik 2',
-    bengkel: 'RIM汽修厂一车间',
-    laporan: document.getElementById('laporan').value || '',
-    masuk: jamMasuk || '08:00',
-    mulai: jamMulai || '09:00',
-    selesai: "",
-    tglSelesai: "",
-    keluar: "",
-    tglKeluar: "",
-    waktuLapor: `${tglMasuk} ${jamMasuk}`,
-    waktuMulai: `${tglMulai} ${jamMulai}`,
-    status: 'Menunggu Selesai Perbaikan',
-    durasi: 0
+    id: genId(), nama: pkrj || (currentUser ? currentUser.name : 'Petugas'), tanggal: tglMasuk, nomorMesin: unit,
+    jenisMesin: document.getElementById('jenisMesin').value || '-', item: document.getElementById('item').value || '-',
+    tempat: rm, tim: document.getElementById('tim').value || 'Bagian Mekanik 2', bengkel: 'RIM汽修厂一车间',
+    laporan: document.getElementById('laporan').value || '', masuk: jamMasuk || '08:00', mulai: jamMulai || '09:00',
+    selesai: "", tglSelesai: "", keluar: "", tglKeluar: "", waktuLapor: `${tglMasuk} ${jamMasuk}`,
+    waktuMulai: `${tglMulai} ${jamMulai}`, status: 'Menunggu Selesai Perbaikan', durasi: 0
   };
-
   dbRef.push(o, (err) => {
     hideLoading();
     if (err) showToast('Gagal menyimpan ke Firebase: ' + err.message, 'Error', 'danger');
     else {
       closeModal();
-      
-      // RESET FORM SETELAH SIMPAN
       document.getElementById('formPerintahBaru').reset();
-      
-      // Reset Grid Ruangan
       document.querySelectorAll('.room-option').forEach(el => el.classList.remove('active'));
-      
-      // Kembalikan default waktu datetime-local ke waktu sekarang
       const currentDateTime = getFormattedDateTimeLocal();
       document.getElementById('waktuMasuk').value = currentDateTime;
       document.getElementById('waktuMulai').value = currentDateTime;
-
       showToast('Perintah perbaikan baru berhasil disimpan!', 'Berhasil', 'success');
     }
   });
 }
 
-function resetFilterTanggal() {
-  document.getElementById('tglAwal').value = '';
-  document.getElementById('tglAkhir').value = '';
-  tampil();
-}
-
+function resetFilterTanggal() { document.getElementById('tglAwal').value = ''; document.getElementById('tglAkhir').value = ''; tampil(); }
 function setFilterStatus(status) {
   currentStatusFilter = status;
-  
   document.getElementById('btnFilterTotal')?.classList.toggle('active', status === 'semua');
   document.getElementById('btnFilterProses')?.classList.toggle('active', status === 'proses');
   document.getElementById('btnFilterSelesai')?.classList.toggle('active', status === 'selesai');
   document.getElementById('btnFilterPending')?.classList.toggle('active', status === 'pending');
-
   tampil();
 }
 
 function openModalSelesai(key) {
   const item = db.find(x => x.firebaseKey === key);
   if (!item) return;
-
   document.getElementById('editId').value = key;
-
   const currentDt = getFormattedDateTimeLocal();
   document.getElementById('waktuSelesaiInput').value = item.tglSelesai && item.selesai ? `${item.tglSelesai}T${item.selesai}` : currentDt;
   document.getElementById('waktuKeluarInput').value = item.tglKeluar && item.keluar ? `${item.tglKeluar}T${item.keluar}` : '';
-
   document.getElementById('modalSelesai').style.display = 'flex';
   pushNavigationState('modalSelesai');
 }
@@ -1923,41 +1326,21 @@ function simpanSelesaiKeluar() {
   const key = document.getElementById('editId').value;
   const selVal = document.getElementById('waktuSelesaiInput').value;
   const kelVal = document.getElementById('waktuKeluarInput').value;
-
-  if (!selVal) {
-    showToast('Waktu selesai perbaikan wajib diisi!', 'Peringatan', 'warning');
-    return;
-  }
-
+  if (!selVal) { showToast('Waktu selesai perbaikan wajib diisi!', 'Peringatan', 'warning'); return; }
   const [tglS, jamS] = selVal.split('T');
-  let updateData = {
-    tglSelesai: tglS,
-    selesai: jamS,
-    status: 'Selesai Perbaikan'
-  };
-
-  if (kelVal) {
-    const [tglK, jamK] = kelVal.split('T');
-    updateData.tglKeluar = tglK;
-    updateData.keluar = jamK;
-  }
-
+  let updateData = { tglSelesai: tglS, selesai: jamS, status: 'Selesai Perbaikan' };
+  if (kelVal) { const [tglK, jamK] = kelVal.split('T'); updateData.tglKeluar = tglK; updateData.keluar = jamK; }
   showLoading('Memperbarui Status...', 'Menyimpan waktu selesai...');
-
   dbRef.child(key).update(updateData, (err) => {
     hideLoading();
     if (err) showToast('Gagal memperbarui status: ' + err.message, 'Error', 'danger');
-    else {
-      closeModalSelesai();
-      showToast('Status perbaikan berhasil diperbarui!', 'Berhasil', 'success');
-    }
+    else { closeModalSelesai(); showToast('Status perbaikan berhasil diperbarui!', 'Berhasil', 'success'); }
   });
 }
 
 function openModalEdit(key) {
   const item = db.find(x => x.firebaseKey === key);
   if (!item) return;
-
   document.getElementById('e_firebaseKey').value = key;
   document.getElementById('e_tanggal').value = item.tanggal || '';
   document.getElementById('e_nama').value = item.nama || '';
@@ -1967,7 +1350,6 @@ function openModalEdit(key) {
   document.getElementById('e_tempat').value = item.tempat || '38-1';
   document.getElementById('e_tim').value = item.tim || '';
   document.getElementById('e_laporan').value = item.laporan || '';
-
   document.getElementById('modalEdit').style.display = 'flex';
   pushNavigationState('modalEdit');
 }
@@ -1975,77 +1357,49 @@ function openModalEdit(key) {
 function simpanEditPerbaikan() {
   const key = document.getElementById('e_firebaseKey').value;
   if (!key) return;
-
   let updateObj = {
-    tanggal: document.getElementById('e_tanggal').value,
-    nama: document.getElementById('e_nama').value,
-    nomorMesin: document.getElementById('e_noMesin').value,
-    jenisMesin: document.getElementById('e_jenisMesin').value,
-    item: document.getElementById('e_item').value,
-    tempat: document.getElementById('e_tempat').value,
-    tim: document.getElementById('e_tim').value,
-    laporan: document.getElementById('e_laporan').value
+    tanggal: document.getElementById('e_tanggal').value, nama: document.getElementById('e_nama').value,
+    nomorMesin: document.getElementById('e_noMesin').value, jenisMesin: document.getElementById('e_jenisMesin').value,
+    item: document.getElementById('e_item').value, tempat: document.getElementById('e_tempat').value,
+    tim: document.getElementById('e_tim').value, laporan: document.getElementById('e_laporan').value
   };
-
   showLoading('Memperbarui Data...', 'Menyimpan perubahan ke cloud...');
-
   dbRef.child(key).update(updateObj, (err) => {
     hideLoading();
     if (err) showToast('Gagal mengedit data: ' + err.message, 'Error', 'danger');
-    else {
-      closeModalEdit();
-      showToast('Data perbaikan berhasil diperbarui!', 'Berhasil', 'success');
-    }
+    else { closeModalEdit(); showToast('Data perbaikan berhasil diperbarui!', 'Berhasil', 'success'); }
   });
 }
 
-// FUNGSI BARU: SET STATUS PENDING DENGAN MODAL MODERN
 function setPendingViaEdit() {
   const key = document.getElementById('e_firebaseKey').value;
   if (!key) return;
-
   showCustomConfirm({
-    title: 'Tandai Sebagai Pending?',
-    message: 'Perbaikan ini akan ditandai <b>Pending (Alat Kosong)</b> karena alat/suku cadang belum tersedia. Perbaikan akan dihentikan sementara hingga alat tersedia.',
-    icon: '⏸️',
-    iconClass: 'icon-pending',
-    confirmText: 'Ya, Tandai Pending',
-    confirmClass: 'btn-pending',
+    title: 'Tandai Sebagai Pending?', message: 'Perbaikan ini akan ditandai <b>Pending (Alat Kosong)</b>.',
+    icon: '⏸️', iconClass: 'icon-pending', confirmText: 'Ya, Tandai Pending', confirmClass: 'btn-pending',
     onConfirm: () => {
       showLoading('Mengubah Status...', 'Menandai sebagai Pending...');
       dbRef.child(key).update({ status: 'Pending' }, (err) => {
         hideLoading();
         if (err) showToast('Gagal update status: ' + err.message, 'Error', 'danger');
-        else {
-          closeModalEdit();
-          showToast('Status berhasil diubah menjadi PENDING!', 'Berhasil', 'success');
-        }
+        else { closeModalEdit(); showToast('Status berhasil diubah menjadi PENDING!', 'Berhasil', 'success'); }
       });
     }
   });
 }
 
-// FUNGSI BARU: LANJUT PERBAIKAN DENGAN MODAL MODERN
 function resumeRepairViaEdit() {
   const key = document.getElementById('e_firebaseKey').value;
   if (!key) return;
-
   showCustomConfirm({
-    title: 'Lanjutkan Perbaikan?',
-    message: 'Alat/suku cadang sudah tersedia. Status akan dikembalikan ke <b>Dalam Perbaikan</b> dan proses perbaikan dapat dilanjutkan.',
-    icon: '▶️',
-    iconClass: 'icon-play',
-    confirmText: 'Ya, Lanjutkan',
-    confirmClass: 'btn-play',
+    title: 'Lanjutkan Perbaikan?', message: 'Status akan dikembalikan ke <b>Dalam Perbaikan</b>.',
+    icon: '▶️', iconClass: 'icon-play', confirmText: 'Ya, Lanjutkan', confirmClass: 'btn-play',
     onConfirm: () => {
       showLoading('Melanjutkan Perbaikan...', 'Mengupdate status...');
       dbRef.child(key).update({ status: 'Dalam Perbaikan' }, (err) => {
         hideLoading();
         if (err) showToast('Gagal update status: ' + err.message, 'Error', 'danger');
-        else {
-          closeModalEdit();
-          showToast('Perbaikan dilanjutkan! Status kembali normal.', 'Berhasil', 'success');
-        }
+        else { closeModalEdit(); showToast('Perbaikan dilanjutkan! Status kembali normal.', 'Berhasil', 'success'); }
       });
     }
   });
@@ -2054,7 +1408,6 @@ function resumeRepairViaEdit() {
 function confirmHapus(key, idWO) {
   document.getElementById('hapusFirebaseKey').value = key;
   document.getElementById('hapusWOId').innerText = idWO;
-
   const modal = document.getElementById('modalHapus');
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
@@ -2064,30 +1417,23 @@ function confirmHapus(key, idWO) {
 function eksekusiHapus() {
   const key = document.getElementById('hapusFirebaseKey').value;
   if (!key) return;
-
   showLoading('Menghapus Data...', 'Menghapus perintah perbaikan...');
-
   dbRef.child(key).remove((err) => {
     hideLoading();
     if (err) showToast('Gagal menghapus data: ' + err.message, 'Error', 'danger');
-    else {
-      closeModalHapus();
-      showToast('Data perbaikan berhasil dihapus!', 'Berhasil', 'success');
-    }
+    else { closeModalHapus(); showToast('Data perbaikan berhasil dihapus!', 'Berhasil', 'success'); }
   });
 }
 
 function cetakWO(key) {
   const item = db.find(x => x.firebaseKey === key);
   if (!item) return;
-
   const printArea = document.getElementById('printArea');
   printArea.innerHTML = `
     <div style="text-align:center;margin-bottom:20px;border-bottom:2px solid #000;padding-bottom:10px">
       <h2 style="margin:0;font-size:22px">PERINTAH PERBAIKAN UNIT (WORK ORDER)</h2>
       <h3 style="margin:4px 0 0;font-size:16px;color:#444">MEKANIK 2 - PT IWIP</h3>
     </div>
-    
     <table class="wo-table">
       <tr><th width="30%">ID Work Order</th><td><b>${item.id}</b></td></tr>
       <tr><th>Tanggal / Jam Masuk</th><td>${item.tanggal || '-'} ${item.masuk || ''}</td></tr>
@@ -2102,91 +1448,53 @@ function cetakWO(key) {
       <tr><th>Keluar Bengkel</th><td>${item.keluar ? (item.tglKeluar || '') + ' ' + item.keluar : '-'}</td></tr>
       <tr><th>Laporan / Catatan</th><td>${item.laporan || '-'}</td></tr>
     </table>
-
     <div style="margin-top:40px;display:flex;justify-content:space-between;text-align:center">
-      <div style="width:40%">
-        <p>Pelapor / Pekerja</p>
-        <br><br><br>
-        <p><b>( ${item.nama || '......................'} )</b></p>
-      </div>
-      <div style="width:40%">
-        <p>Penanggung Jawab / Admin</p>
-        <br><br><br>
-        <p><b>( ...................... )</b></p>
-      </div>
+      <div style="width:40%"><p>Pelapor / Pekerja</p><br><br><br><p><b>( ${item.nama || '......................'} )</b></p></div>
+      <div style="width:40%"><p>Penanggung Jawab / Admin</p><br><br><br><p><b>( ...................... )</b></p></div>
     </div>
   `;
-
   window.print();
 }
 
-// EXPORT DATA KE EXCEL
 function bukaModalExportExcel() {
   const modal = document.getElementById('modalExportExcel');
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
   pushNavigationState('modalExportExcel');
 }
-
 function tutupModalExportExcel() {
   const modal = document.getElementById('modalExportExcel');
   modal.classList.remove('active');
   setTimeout(() => modal.style.display = 'none', 150);
 }
-
 function eksekusiExportExcel() {
   const tAwal = document.getElementById('exp_tglAwal').value;
   const tAkhir = document.getElementById('exp_tglAkhir').value;
-
   let exportData = db.filter(x => {
     if (tAwal && tAkhir) return x.tanggal >= tAwal && x.tanggal <= tAkhir;
     if (tAwal) return x.tanggal >= tAwal;
     if (tAkhir) return x.tanggal <= tAkhir;
     return true;
   });
-
-  if (exportData.length === 0) {
-    showToast('Tidak ada data perbaikan pada rentang tanggal tersebut!', 'Data Kosong', 'warning');
-    return;
-  }
-
+  if (exportData.length === 0) { showToast('Tidak ada data perbaikan pada rentang tanggal tersebut!', 'Data Kosong', 'warning'); return; }
   showLoading('Mengunduh Excel...', 'Menyiapkan berkas spreadsheet...');
-
   let formattedRows = exportData.map((x, idx) => ({
-    "No": idx + 1,
-    "ID Work Order": x.id,
-    "Tanggal Masuk": x.tanggal || '-',
-    "Jam Masuk": x.masuk || '-',
-    "Pelapor": x.nama || '-',
-    "Nomor Unit": x.nomorMesin || '-',
-    "Jenis Unit": x.jenisMesin || '-',
-    "Kerusakan / Item": x.item || '-',
-    "Ruangan / Tempat": x.tempat || '-',
-    "Tim Perbaikan": x.tim || '-',
-    "Status": x.status || '-',
-    "Tanggal Selesai": x.tglSelesai || '-',
-    "Jam Selesai": x.selesai || '-',
-    "Tanggal Keluar": x.tglKeluar || '-',
-    "Jam Keluar": x.keluar || '-',
-    "Catatan Laporan": x.laporan || '-'
+    "No": idx + 1, "ID Work Order": x.id, "Tanggal Masuk": x.tanggal || '-', "Jam Masuk": x.masuk || '-',
+    "Pelapor": x.nama || '-', "Nomor Unit": x.nomorMesin || '-', "Jenis Unit": x.jenisMesin || '-',
+    "Kerusakan / Item": x.item || '-', "Ruangan / Tempat": x.tempat || '-', "Tim Perbaikan": x.tim || '-',
+    "Status": x.status || '-', "Tanggal Selesai": x.tglSelesai || '-', "Jam Selesai": x.selesai || '-',
+    "Tanggal Keluar": x.tglKeluar || '-', "Jam Keluar": x.keluar || '-', "Catatan Laporan": x.laporan || '-'
   }));
-
   setTimeout(() => {
     try {
       const worksheet = XLSX.utils.json_to_sheet(formattedRows);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Data Perbaikan");
-
       const fileName = `Data_Perbaikan_Mekanik2_${tAwal || 'All'}_sd_${tAkhir || 'All'}.xlsx`;
       XLSX.writeFile(workbook, fileName);
-
-      hideLoading();
-      tutupModalExportExcel();
+      hideLoading(); tutupModalExportExcel();
       showToast('File Excel berhasil diunduh ke perangkat Anda!', 'Berhasil Export', 'success');
-    } catch (e) {
-      hideLoading();
-      showToast('Gagal mengunduh file Excel: ' + e.message, 'Error', 'danger');
-    }
+    } catch (e) { hideLoading(); showToast('Gagal mengunduh file Excel: ' + e.message, 'Error', 'danger'); }
   }, 500);
 }
 
@@ -2194,76 +1502,46 @@ function tampil() {
   let c = document.getElementById('cari')?.value.toLowerCase() || '';
   let tglAwal = document.getElementById('tglAwal')?.value || '';
   let tglAkhir = document.getElementById('tglAkhir')?.value || '';
-
   let dataFilteredBase = db.filter(x => {
     let matchCari = !c || x.nomorMesin.toLowerCase().includes(c) || x.id.toLowerCase().includes(c);
     let matchTgl = true;
-
-    if (tglAwal && tglAkhir) {
-      matchTgl = x.tanggal >= tglAwal && x.tanggal <= tglAkhir;
-    } else if (tglAwal) {
-      matchTgl = x.tanggal >= tglAwal;
-    } else if (tglAkhir) {
-      matchTgl = x.tanggal <= tglAkhir;
-    }
-
+    if (tglAwal && tglAkhir) matchTgl = x.tanggal >= tglAwal && x.tanggal <= tglAkhir;
+    else if (tglAwal) matchTgl = x.tanggal >= tglAwal;
+    else if (tglAkhir) matchTgl = x.tanggal <= tglAkhir;
     return matchCari && matchTgl;
   });
-
   let countProses = dataFilteredBase.filter(x => !x.selesai || x.selesai === '-').length;
   let countSelesai = dataFilteredBase.filter(x => x.selesai && x.selesai !== '-').length;
-  
   if (document.getElementById('jmlSemua')) document.getElementById('jmlSemua').innerText = dataFilteredBase.length;
   if (document.getElementById('jmlProses')) document.getElementById('jmlProses').innerText = countProses;
   if (document.getElementById('jmlSelesai')) document.getElementById('jmlSelesai').innerText = countSelesai;
-
-  // HITUNG JUMLAH PENDING
   let countPending = dataFilteredBase.filter(x => x.status && x.status.toLowerCase().includes('pending')).length;
   if (document.getElementById('jmlPending')) document.getElementById('jmlPending').innerText = countPending;
 
   let f = dataFilteredBase.filter(x => {
     let isDone = !!(x.selesai && x.selesai !== '-');
     let isPending = x.status && x.status.toLowerCase().includes('pending');
-
     if (currentStatusFilter === 'proses') return !isDone && !isPending;
     if (currentStatusFilter === 'selesai') return isDone;
     if (currentStatusFilter === 'pending') return isPending;
     return true;
   });
-
   const listEl = document.getElementById('list');
   if (!listEl) return;
-
-  if (f.length === 0) {
-    listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8">Tidak ada data perbaikan</div>';
-    return;
-  }
-
+  if (f.length === 0) { listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8">Tidak ada data perbaikan</div>'; return; }
   const isAdmin = currentUser && currentUser.role === 'admin';
-
   listEl.innerHTML = f.map(x => {
     const isSelesai = !!(x.selesai && x.selesai !== '-');
     const isPending = x.status && x.status.toLowerCase().includes('pending');
-    
     let textSelesai = x.selesai && x.selesai !== '-' ? `${x.tglSelesai ? x.tglSelesai + ' ' : ''}${x.selesai}` : 'Belum selesai';
     let textKeluar = x.keluar && x.keluar !== '-' ? `${x.tglKeluar ? x.tglKeluar + ' ' : ''}${x.keluar}` : '-';
-
-    // Tentukan Badge
     let badgeHtml = '';
-    if (isSelesai) {
-      badgeHtml = (x.keluar && x.keluar !== '-') ? '<span class="badge badge-green">Sudah Keluar</span>' : '<span class="badge badge-orange">Selesai - Belum Keluar</span>';
-    } else if (isPending) {
-      badgeHtml = '<span class="badge badge-gray">Pending (Alat Kosong)</span>';
-    } else {
-      badgeHtml = '<span class="badge badge-blue">' + x.status + '</span>';
-    }
-
+    if (isSelesai) badgeHtml = (x.keluar && x.keluar !== '-') ? '<span class="badge badge-green">Sudah Keluar</span>' : '<span class="badge badge-orange">Selesai - Belum Keluar</span>';
+    else if (isPending) badgeHtml = '<span class="badge badge-gray">Pending (Alat Kosong)</span>';
+    else badgeHtml = '<span class="badge badge-blue">' + x.status + '</span>';
     return `
     <div class="card-order">
-      <div class="order-id">
-        <span>${x.id}</span>
-        ${badgeHtml}
-      </div>
+      <div class="order-id"><span>${x.id}</span>${badgeHtml}</div>
       <div class="info-grid">
         <div class="l" style="color:#2563eb">Tanggal Masuk</div><div class="v" style="color:#2563eb">${x.tanggal || '-'} ${x.masuk || ''}</div>
         <div class="l">Pelapor</div><div class="v">${x.nama || '-'}</div>
@@ -2284,13 +1562,10 @@ function tampil() {
         ${isAdmin ? `<button class="danger" onclick="confirmHapus('${x.firebaseKey}', '${x.id}')">🗑️ Hapus</button>` : ''}
         ` : ''}
       </div>
-
-    </div>
-    `;
+    </div>`;
   }).join('');
 }
 
-// === FUNGSI BARU: INFO APLIKASI ===
 function showInfoApp() {
   document.getElementById('infoAppVersion').innerText = APP_VERSION;
   const modal = document.getElementById('modalInfoApp');
@@ -2298,13 +1573,11 @@ function showInfoApp() {
   setTimeout(() => modal.classList.add('active'), 10);
   pushNavigationState('modalInfoApp');
 }
-
 function closeInfoApp() {
   const modal = document.getElementById('modalInfoApp');
   modal.classList.remove('active');
   setTimeout(() => modal.style.display = 'none', 150);
 }
-// =======================================
 </script>
 </body>
 </html>

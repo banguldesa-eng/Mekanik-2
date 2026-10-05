@@ -53,8 +53,42 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 .date-filter-box input[type="date"] { border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; padding: 4px 6px; font-size: 11px; outline: none; color: #0f172a; flex: 1; min-width: 0; }
 .btn-reset-filter { background: #f1f5f9; border: 1px solid #cbd5e1; color: #64748b; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
 
-.stats-summary { display: flex; align-items: center; justify-content: space-between; padding: 0 16px 12px; font-size: 12px; font-weight: 600; color: #64748b; flex-wrap: wrap; gap: 6px; }
-.stats-badge { padding: 4px 10px; border-radius: 12px; font-weight: 700; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; user-select: none; transition: all 0.2s ease; border: 1px solid transparent; }
+/* --- PERUBAHAN CSS UNTUK MENU SCROLLABLE --- */
+.stats-summary { 
+    display: flex; 
+    align-items: center; 
+    /* Hapus justify-content: space-between agar bisa scroll */
+    padding: 0 16px 12px; 
+    font-size: 12px; 
+    font-weight: 600; 
+    color: #64748b; 
+    /* Tambahkan properti scroll */
+    overflow-x: auto; 
+    white-space: nowrap; 
+    gap: 8px;
+    /* Sembunyikan scrollbar tapi tetap bisa scroll */
+    scrollbar-width: none; /* Firefox */
+}
+.stats-summary::-webkit-scrollbar { 
+    display: none; /* Chrome/Safari */
+}
+
+.stats-badge { 
+    padding: 6px 12px; 
+    border-radius: 20px; 
+    font-weight: 700; 
+    font-size: 12px; 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 4px; 
+    cursor: pointer; 
+    user-select: none; 
+    transition: all 0.2s ease; 
+    border: 1px solid transparent; 
+    /* Pastikan tidak menyusut */
+    flex-shrink: 0; 
+}
+
 .stats-badge.total { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
 .stats-badge.total.active { background: #2563eb; color: #ffffff; }
 .stats-badge.proses { background: #fef3c7; color: #d97706; border-color: #fde68a; }
@@ -263,14 +297,13 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
           <button class="btn-reset-filter" onclick="resetFilterTanggal()">Reset</button>
         </div>
       </div>
+      <!-- MENU FILTER YANG BISA DIGESER -->
       <div class="stats-summary">
         <div class="stats-badge total active" id="btnFilterTotal" onclick="setFilterStatus('semua')">Total: <span id="jmlSemua">0</span></div>
-        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          <div class="stats-badge proses" id="btnFilterProses" onclick="setFilterStatus('proses')">Proses: <span id="jmlProses">0</span></div>
-          <div class="stats-badge selesai" id="btnFilterSelesai" onclick="setFilterStatus('selesai')">Selesai: <span id="jmlSelesai">0</span></div>
-          <div class="stats-badge belum_keluar" id="btnFilterBelumKeluar" onclick="setFilterStatus('belum_keluar')">Belum Keluar: <span id="jmlBelumKeluar">0</span></div>
-          <div class="stats-badge pending" id="btnFilterPending" onclick="setFilterStatus('pending')">Pending: <span id="jmlPending">0</span></div>
-        </div>
+        <div class="stats-badge proses" id="btnFilterProses" onclick="setFilterStatus('proses')">Proses: <span id="jmlProses">0</span></div>
+        <div class="stats-badge selesai" id="btnFilterSelesai" onclick="setFilterStatus('selesai')">Selesai: <span id="jmlSelesai">0</span></div>
+        <div class="stats-badge belum_keluar" id="btnFilterBelumKeluar" onclick="setFilterStatus('belum_keluar')">Belum Keluar: <span id="jmlBelumKeluar">0</span></div>
+        <div class="stats-badge pending" id="btnFilterPending" onclick="setFilterStatus('pending')">Pending: <span id="jmlPending">0</span></div>
       </div>
     </div>
     <div id="list"></div>
@@ -586,7 +619,7 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 </div>
 
 <script>
-const APP_VERSION = "1.0.7"; // Updated Version for Belum Keluar Feature
+const APP_VERSION = "1.0.8"; // Updated Version for Scrollable Menu
 
 function checkForUpdate() {
     const lastVersion = localStorage.getItem('app_last_version');

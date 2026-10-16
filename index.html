@@ -18,60 +18,82 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <style>
+/* --- VARIABEL WARNA UNTUK DARK MODE --- */
+:root {
+    --bg-body: #f4f6f9;
+    --bg-card: #ffffff;
+    --text-main: #1e293b;
+    --text-sub: #64748b;
+    --border-color: #e2e8f0;
+    --input-bg: #f1f5f9;
+    --shadow-color: rgba(0,0,0,0.05);
+    --nav-bg: #ffffff;
+    --chat-bg: #e5ddd5;
+    --modal-bg: #ffffff;
+}
+
+[data-theme="dark"] {
+    --bg-body: #0f172a;
+    --bg-card: #1e293b;
+    --text-main: #f1f5f9;
+    --text-sub: #94a3b8;
+    --border-color: #334155;
+    --input-bg: #334155;
+    --shadow-color: rgba(0,0,0,0.3);
+    --nav-bg: #1e293b;
+    --chat-bg: #0f172a; /* Chat background lebih gelap */
+    --modal-bg: #1e293b;
+}
+
 * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
+body { margin: 0; background: var(--bg-body); color: var(--text-main); overflow-x: hidden; transition: background 0.3s, color 0.3s; }
 
 /* LAYOUT CONTAINER */
-.app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background: #fff; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
+.app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--bg-card); position: relative; box-shadow: 0 0 20px var(--shadow-color); transition: background 0.3s; }
 
 /* AUTH PAGES */
 .login-wrapper { min-height: 100vh; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); display: flex; align-items: center; justify-content: center; padding: 20px; }
-.card-login { background: #ffffff; width: 100%; max-width: 360px; border-radius: 20px; padding: 28px 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
-.i-group { display: flex; align-items: center; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin: 10px 0; }
-.i-group input { border: none; background: transparent; width: 100%; outline: none; font-weight: 600; font-size: 14px; color: #0f172a; margin-left: 10px; }
+.card-login { background: var(--bg-card); width: 100%; max-width: 360px; border-radius: 20px; padding: 28px 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
+.i-group { display: flex; align-items: center; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 14px; margin: 10px 0; }
+.i-group input { border: none; background: transparent; width: 100%; outline: none; font-weight: 600; font-size: 14px; color: var(--text-main); margin-left: 10px; }
 .btn-green { width: 100%; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; border: none; border-radius: 12px; padding: 14px; font-weight: 700; font-size: 15px; cursor: pointer; transition: opacity 0.2s; margin-top: 10px; }
 .btn-green:active { opacity: 0.9; }
 
-.remember-box { display: flex; align-items: center; justify-content: space-between; margin: 8px 0 12px; font-size: 12px; color: #64748b; }
+.remember-box { display: flex; align-items: center; justify-content: space-between; margin: 8px 0 12px; font-size: 12px; color: var(--text-sub); }
 .remember-box label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-weight: 600; }
 .remember-box input[type="checkbox"] { accent-color: #16a34a; width: 15px; height: 15px; cursor: pointer; }
 
 /* APP PAGES */
-.page { display: none; padding-bottom: 80px; min-height: 100vh; background: #f8fafc; }
+.page { display: none; padding-bottom: 80px; min-height: 100vh; background: var(--bg-body); transition: background 0.3s; }
 
-.sticky-top-section { position: sticky; top: 0; z-index: 100; background: #ffffff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03); }
-.header-top { background: #ffffff; padding: 16px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 16px; }
+.sticky-top-section { position: sticky; top: 0; z-index: 100; background: var(--bg-card); border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03); }
+.header-top { background: var(--bg-card); padding: 16px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 16px; color: var(--text-main); }
 
 .filter-box-wrapper { margin: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
-.search-box { position: relative; padding: 10px 32px 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; display: flex; align-items: center; gap: 8px; }
-.search-box input { border: none; background: transparent; width: 100%; outline: none; font-size: 14px; }
-.btn-reset-search { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; font-weight: 700; cursor: pointer; display: none; user-select: none; }
+.search-box { position: relative; padding: 10px 32px 10px 14px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; display: flex; align-items: center; gap: 8px; }
+.search-box input { border: none; background: transparent; width: 100%; outline: none; font-size: 14px; color: var(--text-main); }
+.btn-reset-search { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-sub); font-size: 14px; font-weight: 700; cursor: pointer; display: none; user-select: none; }
 .btn-reset-search:hover { color: #ef4444; }
 
-.date-filter-box { display: flex; align-items: center; gap: 6px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 8px 10px; }
-.date-filter-box label { font-size: 11px; font-weight: 700; color: #64748b; margin-right: 2px; }
-.date-filter-box input[type="date"] { border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; padding: 4px 6px; font-size: 11px; outline: none; color: #0f172a; flex: 1; min-width: 0; }
-.btn-reset-filter { background: #f1f5f9; border: 1px solid #cbd5e1; color: #64748b; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
+.date-filter-box { display: flex; align-items: center; gap: 6px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 8px 10px; }
+.date-filter-box label { font-size: 11px; font-weight: 700; color: var(--text-sub); margin-right: 2px; }
+.date-filter-box input[type="date"] { border: 1px solid var(--border-color); background: var(--input-bg); border-radius: 6px; padding: 4px 6px; font-size: 11px; outline: none; color: var(--text-main); flex: 1; min-width: 0; }
+.btn-reset-filter { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-sub); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
 
 /* --- PERUBAHAN CSS UNTUK MENU SCROLLABLE --- */
 .stats-summary { 
     display: flex; 
     align-items: center; 
-    /* Hapus justify-content: space-between agar bisa scroll */
     padding: 0 16px 12px; 
     font-size: 12px; 
     font-weight: 600; 
-    color: #64748b; 
-    /* Tambahkan properti scroll */
+    color: var(--text-sub); 
     overflow-x: auto; 
     white-space: nowrap; 
     gap: 8px;
-    /* Sembunyikan scrollbar tapi tetap bisa scroll */
     scrollbar-width: none; /* Firefox */
 }
-.stats-summary::-webkit-scrollbar { 
-    display: none; /* Chrome/Safari */
-}
+.stats-summary::-webkit-scrollbar { display: none; }
 
 .stats-badge { 
     padding: 6px 12px; 
@@ -85,7 +107,6 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
     user-select: none; 
     transition: all 0.2s ease; 
     border: 1px solid transparent; 
-    /* Pastikan tidak menyusut */
     flex-shrink: 0; 
 }
 
@@ -95,36 +116,35 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 .stats-badge.proses.active { background: #d97706; color: #ffffff; }
 .stats-badge.selesai { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
 .stats-badge.selesai.active { background: #15803d; color: #ffffff; }
-.stats-badge.pending { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
+.stats-badge.pending { background: var(--input-bg); color: var(--text-sub); border-color: var(--border-color); }
 .stats-badge.pending.active { background: #475569; color: #ffffff; }
-/* STYLE BARU UNTUK BELUM KELUAR */
 .stats-badge.belum_keluar { background: #f3e8ff; color: #7e22ce; border-color: #e9d5ff; }
 .stats-badge.belum_keluar.active { background: #7e22ce; color: #ffffff; }
 
 .stats-badge:hover { opacity: 0.85; transform: translateY(-1px); }
 
-.card-order { background: #ffffff; padding: 16px; margin: 12px 16px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-.order-id { font-weight: 800; font-size: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.card-order { background: var(--bg-card); padding: 16px; margin: 12px 16px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+.order-id { font-weight: 800; font-size: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; color: var(--text-main); }
 .badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-block; }
 .badge-blue { background: #e0f2fe; color: #0369a1; }
 .badge-green { background: #dcfce7; color: #15803d; }
 .badge-orange { background: #fef3c7; color: #b45309; }
-.badge-gray { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+.badge-gray { background: var(--input-bg); color: var(--text-sub); border: 1px solid var(--border-color); }
 
 .info-grid { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; font-size: 13px; }
-.info-grid .l { color: #64748b; font-weight: 500; }
-.info-grid .v { font-weight: 600; color: #0f172a; word-break: break-word; }
+.info-grid .l { color: var(--text-sub); font-weight: 500; }
+.info-grid .v { font-weight: 600; color: var(--text-main); word-break: break-word; }
 
-.btn-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; margin-top: 14px; padding-top: 12px; border-top: 1px dashed #e2e8f0; }
-.btn-row button { border: 1px solid #2563eb; color: #2563eb; background: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--border-color); }
+.btn-row button { border: 1px solid #2563eb; color: #2563eb; background: transparent; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
 .btn-row button.warning { border-color: #f59e0b; color: #f59e0b; }
 .btn-row button.danger { border-color: #ef4444; color: #ef4444; }
-.btn-row button.secondary { border-color: #64748b; color: #475569; }
+.btn-row button.secondary { border-color: var(--text-sub); color: var(--text-sub); }
 
 .fab { position: fixed; bottom: 80px; right: 20px; background: #2563eb; color: #fff; border: none; border-radius: 30px; padding: 12px 20px; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 20px rgba(37,99,235,0.4); font-weight: 700; cursor: move; z-index: 99; touch-action: none; user-select: none; }
 
-.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; font-size: 11px; padding: 10px 0; z-index: 30; }
-.nav-item { text-align: center; font-size: 11px; font-weight: 600; color: #94a3b8; cursor: pointer; flex: 1; }
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--nav-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; font-size: 11px; padding: 10px 0; z-index: 30; }
+.nav-item { text-align: center; font-size: 11px; font-weight: 600; color: var(--text-sub); cursor: pointer; flex: 1; }
 .nav-item.active { color: #2563eb; }
 
 #modal, #modalSelesai, #modalEdit, #modalHapus, #modalToast, #modalForgot, #modalUpdateAccount, #modalExportExcel, #modalDeleteAccount, #modalAdminDeleteUser, #modalCustomConfirm, #modalInfoApp { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: none; align-items: flex-end; justify-content: center; z-index: 150; backdrop-filter: blur(4px); }
@@ -140,14 +160,14 @@ body { margin: 0; background: #f4f6f9; color: #1e293b; overflow-x: hidden; }
 #modalInfoApp { z-index: 205; align-items: center; padding: 20px; } 
 #modalCustomConfirm { z-index: 210; align-items: center; padding: 20px; }
 
-.modal-box { background: #fff; width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; border-radius: 24px 24px 0 0; padding: 20px; box-shadow: 0 -10px 25px rgba(0,0,0,0.1); }
-.modal-box input, .modal-box select, .modal-box textarea { width: 100%; padding: 10px 12px; margin: 4px 0 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
+.modal-box { background: var(--modal-bg); width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; border-radius: 24px 24px 0 0; padding: 20px; box-shadow: 0 -10px 25px rgba(0,0,0,0.1); }
+.modal-box input, .modal-box select, .modal-box textarea { width: 100%; padding: 10px 12px; margin: 4px 0 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; outline: none; background: var(--input-bg); color: var(--text-main); }
 .modal-box input:focus, .modal-box select:focus, .modal-box textarea:focus { border-color: #2563eb; }
-.modal-box input:disabled, .modal-box select:disabled { background-color: #f1f5f9; color: #64748b; cursor: not-allowed; }
-label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-top: 4px; }
-.box { background: #fff; padding: 16px; border-radius: 12px; margin: 16px; border: 1px solid #e2e8f0; }
+.modal-box input:disabled, .modal-box select:disabled { background-color: var(--input-bg); opacity: 0.7; color: var(--text-sub); cursor: not-allowed; }
+label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-top: 4px; }
+.box { background: var(--bg-card); padding: 16px; border-radius: 12px; margin: 16px; border: 1px solid var(--border-color); color: var(--text-main); }
 
-.modal-confirm-box { background: #ffffff; width: 100%; max-width: 360px; border-radius: 24px; padding: 24px; text-align: center; box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25); transform: scale(0.9); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.modal-confirm-box { background: var(--modal-bg); width: 100%; max-width: 360px; border-radius: 24px; padding: 24px; text-align: center; box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25); transform: scale(0.9); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
 #modalToast.active .modal-confirm-box, #modalHapus.active .modal-confirm-box, #modalForgot.active .modal-confirm-box, #modalUpdateAccount.active .modal-confirm-box, #modalDeleteAccount.active .modal-confirm-box, #modalAdminDeleteUser.active .modal-confirm-box, #modalExportExcel.active .modal-confirm-box, #modalCustomConfirm.active .modal-confirm-box, #modalInfoApp.active .modal-confirm-box { transform: scale(1); }
 
 .icon-wrapper { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; }
@@ -155,22 +175,22 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 .icon-danger { background: #fee2e2; color: #ef4444; }
 .icon-warning { background: #fef3c7; color: #d97706; }
 .icon-info { background: #e0f2fe; color: #0284c7; }
-.icon-pending { background: #f1f5f9; color: #475569; border: 2px solid #cbd5e1; }
+.icon-pending { background: var(--input-bg); color: var(--text-sub); border: 2px solid var(--border-color); }
 .icon-play { background: #dcfce7; color: #16a34a; border: 2px solid #bbf7d0; }
 
-.btn-cancel { flex: 1; background: #f1f5f9; color: #475569; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; }
+.btn-cancel { flex: 1; background: var(--input-bg); color: var(--text-sub); border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; }
 .btn-delete { flex: 1; background: #ef4444; color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
 .btn-primary { width: 100%; background: #2563eb; color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
 .btn-pending { flex: 1; background: linear-gradient(135deg, #64748b, #475569); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(71, 85, 105, 0.35); display:flex; align-items:center; justify-content:center; gap:6px; }
 .btn-play { flex: 1; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35); display:flex; align-items:center; justify-content:center; gap:6px; }
 
-.user-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+.user-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
 .user-item:last-child { border-bottom: none; }
-.user-info { font-size: 13px; }
-.user-info b { color: #0f172a; }
-.user-info span { color: #64748b; font-size: 11px; display: block; }
+.user-info { font-size: 13px; color: var(--text-main); }
+.user-info b { color: var(--text-main); }
+.user-info span { color: var(--text-sub); font-size: 11px; display: block; }
 .user-action-group { display: flex; align-items: center; gap: 6px; }
-.role-select { padding: 4px 8px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 12px; font-weight: 600; outline: none; }
+.role-select { padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border-color); font-size: 12px; font-weight: 600; outline: none; background: var(--bg-card); color: var(--text-main); }
 .btn-del-user { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; border-radius: 6px; padding: 4px 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
 .btn-del-user:hover { background: #ef4444; color: #fff; }
 
@@ -191,32 +211,38 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 .wo-table th, .wo-table td { border: 1px solid #333; padding: 8px 10px; text-align: left; font-size: 13px; }
 .wo-table th { background-color: #f2f2f2; }
 
-.profile-pic-container { position: relative; width: 100px; height: 100px; margin: 0 auto 12px; cursor: pointer; border-radius: 50%; overflow: hidden; border: 3px solid #e2e8f0; transition: all 0.3s ease; }
+.profile-pic-container { position: relative; width: 100px; height: 100px; margin: 0 auto 12px; cursor: pointer; border-radius: 50%; overflow: hidden; border: 3px solid var(--border-color); transition: all 0.3s ease; }
 .profile-pic-container:hover { border-color: #2563eb; transform: scale(1.05); }
 .profile-pic-img { width: 100%; height: 100%; object-fit: cover; }
 .profile-edit-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.6); color: #fff; font-size: 10px; text-align: center; padding: 4px 0; font-weight: 700; }
 
 .room-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px; margin-bottom: 12px; }
-.room-option { background: #f1f5f9; border: 2px solid transparent; border-radius: 12px; padding: 12px 4px; text-align: center; font-weight: 700; font-size: 14px; color: #475569; cursor: pointer; transition: all 0.2s ease; user-select: none; }
-.room-option:hover { background: #e2e8f0; }
+.room-option { background: var(--input-bg); border: 2px solid transparent; border-radius: 12px; padding: 12px 4px; text-align: center; font-weight: 700; font-size: 14px; color: var(--text-sub); cursor: pointer; transition: all 0.2s ease; user-select: none; }
+.room-option:hover { opacity: 0.8; }
 .room-option.active { background: #eff6ff; border-color: #2563eb; color: #2563eb; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15); }
 .hidden-input { position: absolute; opacity: 0; pointer-events: none; height: 0; width: 0; }
 
 /* ========================================= */
 /* === CSS KHUSUS HALAMAN CHAT (BARU) === */
 /* ========================================= */
-.chat-page-layout { display: flex; flex-direction: column; height: calc(100vh - 50px); background: #e5ddd5; }
+.chat-page-layout { display: flex; flex-direction: column; height: calc(100vh - 50px); background: var(--chat-bg); }
 .chat-header-sticky { background: #0f172a; color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 .chat-messages-area { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background-image: url('https://user-images.githubusercontent.com/15075759/28719111-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-repeat: repeat; background-blend-mode: soft-light; }
 .chat-bubble { max-width: 80%; padding: 8px 12px; border-radius: 12px; font-size: 13px; position: relative; line-height: 1.4; box-shadow: 0 1px 2px rgba(0,0,0,0.1); word-wrap: break-word; }
-.chat-bubble.other { align-self: flex-start; background: #ffffff; border-top-left-radius: 2px; }
-.chat-bubble.me { align-self: flex-end; background: #dcf8c6; border-top-right-radius: 2px; }
+.chat-bubble.other { align-self: flex-start; background: var(--bg-card); color: var(--text-main); border-top-left-radius: 2px; }
+.chat-bubble.me { align-self: flex-end; background: #dcf8c6; color: #000; border-top-right-radius: 2px; }
 .chat-sender-name { font-size: 10px; font-weight: 700; color: #2563eb; margin-bottom: 2px; display: block; }
 .chat-meta { display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin-top: 4px; font-size: 10px; color: #999; }
-.chat-input-bar { background: #f0f2f5; padding: 8px 12px; display: flex; align-items: center; gap: 8px; border-top: 1px solid #e2e8f0; }
-.chat-input-field { flex: 1; border: none; border-radius: 20px; padding: 10px 14px; font-size: 14px; outline: none; background: #fff; }
+.chat-input-bar { background: var(--bg-card); padding: 8px 12px; display: flex; align-items: center; gap: 8px; border-top: 1px solid var(--border-color); }
+.chat-input-field { flex: 1; border: none; border-radius: 20px; padding: 10px 14px; font-size: 14px; outline: none; background: var(--input-bg); color: var(--text-main); }
 .btn-send-chat { background: #2563eb; color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; box-shadow: 0 2px 5px rgba(37,99,235,0.3); }
 .btn-send-chat:active { transform: scale(0.95); }
+
+/* TOGGLE SWITCH STYLE */
+.theme-toggle-btn {
+    background: none; border: none; font-size: 20px; cursor: pointer; padding: 5px;
+    display: flex; align-items: center; justify-content: center;
+}
 </style>
 </head>
 <body>
@@ -262,15 +288,20 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 
   <!-- DASHBOARD -->
   <div id="dashPage" class="page">
-    <div class="header-top"><span>Halaman Depan</span></div>
+    <div class="header-top">
+        <span>Halaman Depan</span>
+        <!-- TOMBOL DARK MODE -->
+        <button class="theme-toggle-btn" onclick="toggleTheme()" title="Ganti Mode Gelap/Terang">
+            🌙
+        </button>
+    </div>
     <div style="padding:16px">
-      <div style="font-weight:800;font-size:18px;margin-bottom:12px;color:#0f172a">Manajemen Perbaikan</div>
-      <div onclick="openBengkel()" style="background:#fff;border-radius:16px;padding:20px;width:140px;text-align:center;border:1px solid #e2e8f0;box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);cursor:pointer">
+      <div style="font-weight:800;font-size:18px;margin-bottom:12px;color:var(--text-main)">Manajemen Perbaikan</div>
+      <div onclick="openBengkel()" style="background:var(--bg-card);border-radius:16px;padding:20px;width:140px;text-align:center;border:1px solid var(--border-color);box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);cursor:pointer">
         <div style="background:#eff6ff;color:#2563eb;border-radius:12px;width:48px;height:48px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:20px">🕒</div>
-        <p style="font-size:13px;font-weight:700;margin:0;color:#1e293b;line-height:1.3">Daftar<br>Perbaikan<br>Unit</p>
+        <p style="font-size:13px;font-weight:700;margin:0;color:var(--text-main);line-height:1.3">Daftar<br>Perbaikan<br>Unit</p>
       </div>
     </div>
-    <!-- PERBAIKAN: TOMBOL CHAT DITAMBAHKAN DI SINI -->
     <div class="bottom-nav">
       <div class="nav-item active">🏠<br>Depan</div>
       <div class="nav-item" onclick="openChatPage()">💬<br>Chat</div>
@@ -297,7 +328,6 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
           <button class="btn-reset-filter" onclick="resetFilterTanggal()">Reset</button>
         </div>
       </div>
-      <!-- MENU FILTER YANG BISA DIGESER -->
       <div class="stats-summary">
         <div class="stats-badge total active" id="btnFilterTotal" onclick="setFilterStatus('semua')">Total: <span id="jmlSemua">0</span></div>
         <div class="stats-badge proses" id="btnFilterProses" onclick="setFilterStatus('proses')">Proses: <span id="jmlProses">0</span></div>
@@ -308,7 +338,6 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
     </div>
     <div id="list"></div>
     <button class="fab" id="fabBtn"><span>+</span> Perintah Baru</button>
-    <!-- PERBAIKAN: TOMBOL CHAT DITAMBAHKAN DI SINI -->
     <div class="bottom-nav">
       <div class="nav-item" onclick="openDash()">🏠<br>Depan</div>
       <div class="nav-item" onclick="openChatPage()">💬<br>Chat</div>
@@ -325,32 +354,31 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
         <img id="milikAvatar" src="" alt="Foto Profil" class="profile-pic-img">
         <div class="profile-edit-overlay">Ubah Foto</div>
       </div>
-      <b id="milikName" style="font-size:18px;color:#0f172a"></b><br>
-      <small id="milikNIK" style="color:#64748b;font-size:13px"></small><br>
-      <small id="milikPhone" style="color:#64748b;font-size:12px;display:block;margin-top:2px"></small>
+      <b id="milikName" style="font-size:18px;color:var(--text-main)"></b><br>
+      <small id="milikNIK" style="color:var(--text-sub);font-size:13px"></small><br>
+      <small id="milikPhone" style="color:var(--text-sub);font-size:12px;display:block;margin-top:2px"></small>
       <span id="milikRole" class="badge badge-blue" style="margin-top:6px"></span>
     </div>
     <div class="box">
-      <div style="font-weight:700;margin-bottom:12px;color:#0f172a">⚙️ Pengaturan Akun</div>
+      <div style="font-weight:700;margin-bottom:12px;color:var(--text-main)">⚙️ Pengaturan Akun</div>
       <div style="display:flex;flex-direction:column;gap:8px">
-        <button onclick="showUpdateAccountModal('phone')" style="background:#f1f5f9;color:#0f172a;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>📱 Ubah Nomor HP</span><span>›</span></button>
-        <button onclick="showUpdateAccountModal('pass')" style="background:#f1f5f9;color:#0f172a;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>🔒 Ubah Kata Sandi</span><span>›</span></button>
-        <button onclick="showInfoApp()" style="background:#f1f5f9;color:#0f172a;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>ℹ️ Info Aplikasi</span><span>›</span></button>
+        <button onclick="showUpdateAccountModal('phone')" style="background:var(--input-bg);color:var(--text-main);padding:12px;border:1px solid var(--border-color);border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>📱 Ubah Nomor HP</span><span>›</span></button>
+        <button onclick="showUpdateAccountModal('pass')" style="background:var(--input-bg);color:var(--text-main);padding:12px;border:1px solid var(--border-color);border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>🔒 Ubah Kata Sandi</span><span>›</span></button>
+        <button onclick="showInfoApp()" style="background:var(--input-bg);color:var(--text-main);padding:12px;border:1px solid var(--border-color);border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>ℹ️ Info Aplikasi</span><span>›</span></button>
         <button onclick="showDeleteAccountModal()" style="background:#fef2f2;color:#ef4444;padding:12px;border:1px solid #fecaca;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>🗑️ Hapus Akun</span><span>›</span></button>
       </div>
     </div>
     <div class="box" id="adminUserControl" style="display:none">
-      <div style="font-weight:700;margin-bottom:12px;color:#0f172a">⚙️ Kelola Peran & Akun Pengguna (Admin Only)</div>
+      <div style="font-weight:700;margin-bottom:12px;color:var(--text-main)">⚙️ Kelola Peran & Akun Pengguna (Admin Only)</div>
       <div id="userListContainer"></div>
     </div>
     <div class="box">
-      <div style="font-weight:700;margin-bottom:12px;color:#0f172a">📊 Database Excel (Cloud Connected)</div>
+      <div style="font-weight:700;margin-bottom:12px;color:var(--text-main)">📊 Database Excel (Cloud Connected)</div>
       <div style="display:flex;gap:10px">
         <button onclick="bukaModalExportExcel()" style="flex:1;background:#16a34a;color:#fff;padding:12px;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">📤 Export Excel</button>
       </div>
     </div>
     <div class="box"><button onclick="logout()" style="background:#ef4444;color:#fff;padding:12px;width:100%;border:none;border-radius:10px;font-weight:700;cursor:pointer">Keluar (Logout)</button></div>
-    <!-- PERBAIKAN: TOMBOL CHAT DITAMBAHKAN DI SINI -->
     <div class="bottom-nav">
       <div class="nav-item" onclick="openDash()">🏠<br>Depan</div>
       <div class="nav-item" onclick="openChatPage()">💬<br>Chat</div>
@@ -358,9 +386,7 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
     </div>
   </div>
 
-  <!-- ========================================= -->
-  <!-- HALAMAN CHAT (BARU) -->
-  <!-- ========================================= -->
+  <!-- HALAMAN CHAT -->
   <div id="chatPage" class="page" style="padding-bottom: 0;">
     <div class="chat-page-layout">
       <div class="chat-header-sticky">
@@ -389,15 +415,15 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <div id="modalExportExcel">
     <div class="modal-confirm-box" style="text-align:left">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h3 style="margin:0;color:#0f172a;font-size:18px;font-weight:800">📊 Export Data Excel</h3>
-        <span onclick="tutupModalExportExcel()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+        <h3 style="margin:0;color:var(--text-main);font-size:18px;font-weight:800">📊 Export Data Excel</h3>
+        <span onclick="tutupModalExportExcel()" style="font-size:24px;cursor:pointer;color:var(--text-sub)">&times;</span>
       </div>
-      <p style="margin:0 0 12px;color:#64748b;font-size:12px;line-height:1.4">Pilih rentang tanggal data yang ingin diunduh. Jika dikosongkan, seluruh data akan diunduh secara default.</p>
+      <p style="margin:0 0 12px;color:var(--text-sub);font-size:12px;line-height:1.4">Pilih rentang tanggal data yang ingin diunduh. Jika dikosongkan, seluruh data akan diunduh secara default.</p>
       <label class="t">Dari Tanggal</label>
-      <input type="date" id="exp_tglAwal" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #cbd5e1;border-radius:8px">
+      <input type="date" id="exp_tglAwal" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid var(--border-color);border-radius:8px">
       <label class="t">Sampai Tanggal</label>
-      <input type="date" id="exp_tglAkhir" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid #cbd5e1;border-radius:8px">
-      <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:10px;border-radius:8px;margin-bottom:16px;font-size:11px;color:#64748b;line-height:1.4">📁 <b>Lokasi File:</b> Otomatis tersimpan di folder <b>Downloads</b> bawaan HP / Laptop Anda.</div>
+      <input type="date" id="exp_tglAkhir" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid var(--border-color);border-radius:8px">
+      <div style="background:var(--input-bg);border:1px dashed var(--border-color);padding:10px;border-radius:8px;margin-bottom:16px;font-size:11px;color:var(--text-sub);line-height:1.4">📁 <b>Lokasi File:</b> Otomatis tersimpan di folder <b>Downloads</b> bawaan HP / Laptop Anda.</div>
       <div style="display:flex;gap:8px">
         <button class="btn-cancel" onclick="tutupModalExportExcel()">Batal</button>
         <button class="btn-primary" style="background:#16a34a;box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3)" onclick="eksekusiExportExcel()">Unduh Excel</button>
@@ -409,9 +435,9 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <div id="modal">
     <div class="modal-box">
       <form id="formPerintahBaru" onsubmit="event.preventDefault(); simpanPerintah();">
-        <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px;margin-bottom:12px;color:var(--text-main)">
           <span>Perintah Perbaikan Baru</span>
-          <span onclick="closeModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+          <span onclick="closeModal()" style="font-size:24px;cursor:pointer;color:var(--text-sub)">&times;</span>
         </div>
         <label class="t">Waktu Masuk (Tanggal & Jam)</label><input type="datetime-local" id="waktuMasuk">
         <label class="t">Waktu Mulai (Tanggal & Jam)</label><input type="datetime-local" id="waktuMulai">
@@ -433,9 +459,9 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <!-- MODAL EDIT PERBAIKAN -->
   <div id="modalEdit">
     <div class="modal-box">
-      <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px;margin-bottom:12px;color:var(--text-main)">
         <span id="judulModalEdit">Edit Data Perbaikan</span>
-        <span onclick="closeModalEdit()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+        <span onclick="closeModalEdit()" style="font-size:24px;cursor:pointer;color:var(--text-sub)">&times;</span>
       </div>
       <input type="hidden" id="e_firebaseKey">
       <label class="t">Tanggal Masuk</label><input type="date" id="e_tanggal">
@@ -452,7 +478,7 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
       <label class="t">Tim Perbaikan</label><input id="e_tim">
       <label class="t">Keterangan Laporan</label><textarea id="e_laporan" rows="2"></textarea>
       <button onclick="simpanEditPerbaikan()" style="width:100%;background:#f59e0b;color:#fff;padding:14px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px">UPDATE DATA</button>
-      <div style="margin-top:10px; border-top:1px dashed #e2e8f0; padding-top:10px;">
+      <div style="margin-top:10px; border-top:1px dashed var(--border-color); padding-top:10px;">
          <button onclick="setPendingViaEdit()" style="width:100%; background:linear-gradient(135deg, #64748b, #475569); color:#fff; padding:12px; border:none; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:8px; box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);">⏸️ Set Pending (Alat Kosong)</button>
          <button onclick="resumeRepairViaEdit()" style="width:100%; background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; padding:12px; border:none; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);">▶️ Lanjut Perbaikan (Alat Ada)</button>
       </div>
@@ -462,19 +488,19 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <!-- MODAL INPUT SELESAI & KELUAR -->
   <div id="modalSelesai">
     <div class="modal-box">
-      <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px;margin-bottom:12px;color:var(--text-main)">
         <span id="judulModalSelesai">Update Waktu Perbaikan</span>
-        <span onclick="closeModalSelesai()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+        <span onclick="closeModalSelesai()" style="font-size:24px;cursor:pointer;color:var(--text-sub)">&times;</span>
       </div>
       <input type="hidden" id="editId">
-      <div style="border-bottom: 1px dashed #cbd5e1; padding-bottom: 10px; margin-bottom: 10px;">
+      <div style="border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; margin-bottom: 10px;">
         <label class="t" style="color:#15803d">Selesai Perbaikan</label><input type="datetime-local" id="waktuSelesaiInput">
       </div>
       <div style="margin-bottom: 10px;">
-        <label class="t" style="color:#b45309">Keluar Bengkel <small style="color:#64748b;font-weight:normal">(Opsional)</small></label><input type="datetime-local" id="waktuKeluarInput">
+        <label class="t" style="color:#b45309">Keluar Bengkel <small style="color:var(--text-sub);font-weight:normal">(Opsional)</small></label><input type="datetime-local" id="waktuKeluarInput">
       </div>
       <div style="display:flex;gap:10px;margin-top:10px">
-        <button onclick="closeModalSelesai()" style="flex:1;background:#f1f5f9;color:#475569;padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Batal</button>
+        <button onclick="closeModalSelesai()" style="flex:1;background:var(--input-bg);color:var(--text-sub);padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Batal</button>
         <button onclick="simpanSelesaiKeluar()" style="flex:1;background:#2563eb;color:#fff;padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Simpan Update</button>
       </div>
     </div>
@@ -484,23 +510,23 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <div id="modalForgot">
     <div class="modal-confirm-box" style="text-align:left">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h3 style="margin:0;color:#0f172a;font-size:18px;font-weight:800">Lupa Kata Sandi</h3>
-        <span onclick="closeForgotModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+        <h3 style="margin:0;color:var(--text-main);font-size:18px;font-weight:800">Lupa Kata Sandi</h3>
+        <span onclick="closeForgotModal()" style="font-size:24px;cursor:pointer;color:var(--text-sub)">&times;</span>
       </div>
       <div id="fg_step1">
-        <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Masukkan Username/NIK dan Nomor HP yang terdaftar untuk menerima Kode OTP.</p>
-        <label class="t">Username / NIK</label><input id="fg_user" placeholder="NIK / Username" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid #cbd5e1;border-radius:8px">
-        <label class="t">Nomor HP / WhatsApp</label><input id="fg_phone" placeholder="Contoh: 08123456789" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
+        <p style="margin:0 0 12px;color:var(--text-sub);font-size:13px;">Masukkan Username/NIK dan Nomor HP yang terdaftar untuk menerima Kode OTP.</p>
+        <label class="t">Username / NIK</label><input id="fg_user" placeholder="NIK / Username" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid var(--border-color);border-radius:8px">
+        <label class="t">Nomor HP / WhatsApp</label><input id="fg_phone" placeholder="Contoh: 08123456789" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid var(--border-color);border-radius:8px">
         <button class="btn-primary" onclick="kirimOtp()">Kirim Kode OTP</button>
       </div>
       <div id="fg_step2" style="display:none">
-        <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Kode OTP 4 digit telah dikirimkan. Masukkan kode untuk memverifikasi.</p>
-        <label class="t">Kode OTP Verifikasi</label><input id="fg_otp" placeholder="Contoh: 1234" maxlength="4" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:18px;letter-spacing:4px">
+        <p style="margin:0 0 12px;color:var(--text-sub);font-size:13px;">Kode OTP 4 digit telah dikirimkan. Masukkan kode untuk memverifikasi.</p>
+        <label class="t">Kode OTP Verifikasi</label><input id="fg_otp" placeholder="Contoh: 1234" maxlength="4" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid var(--border-color);border-radius:8px;text-align:center;font-size:18px;letter-spacing:4px">
         <button class="btn-primary" onclick="verifikasiOtp()">Verifikasi OTP</button>
       </div>
       <div id="fg_step3" style="display:none">
-        <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Verifikasi berhasil. Silakan buat password baru untuk akun Anda.</p>
-        <label class="t">Password Baru</label><input id="fg_newpass" type="password" placeholder="Masukkan password baru" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
+        <p style="margin:0 0 12px;color:var(--text-sub);font-size:13px;">Verifikasi berhasil. Silakan buat password baru untuk akun Anda.</p>
+        <label class="t">Password Baru</label><input id="fg_newpass" type="password" placeholder="Masukkan password baru" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid var(--border-color);border-radius:8px">
         <button class="btn-primary" style="background:#22c55e" onclick="simpanSandiBaru()">Simpan Password Baru</button>
       </div>
     </div>
@@ -510,22 +536,22 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <div id="modalUpdateAccount">
     <div class="modal-confirm-box" style="text-align:left">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h3 id="accModalTitle" style="margin:0;color:#0f172a;font-size:18px;font-weight:800">Pengaturan Akun</h3>
-        <span onclick="closeUpdateAccountModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+        <h3 id="accModalTitle" style="margin:0;color:var(--text-main);font-size:18px;font-weight:800">Pengaturan Akun</h3>
+        <span onclick="closeUpdateAccountModal()" style="font-size:24px;cursor:pointer;color:var(--text-sub)">&times;</span>
       </div>
       <div id="formUpdatePhoneStep1" style="display:none">
-        <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Masukkan nomor HP baru. Kode OTP verifikasi akan dikirimkan ke nomor ini.</p>
-        <label class="t">Nomor HP Baru</label><input id="acc_new_phone" type="tel" placeholder="Contoh: 08123456789" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
+        <p style="margin:0 0 12px;color:var(--text-sub);font-size:13px;">Masukkan nomor HP baru. Kode OTP verifikasi akan dikirimkan ke nomor ini.</p>
+        <label class="t">Nomor HP Baru</label><input id="acc_new_phone" type="tel" placeholder="Contoh: 08123456789" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid var(--border-color);border-radius:8px">
         <button class="btn-primary" onclick="kirimOtpUbahHp()">Kirim Kode OTP</button>
       </div>
       <div id="formUpdatePhoneStep2" style="display:none">
-        <p style="margin:0 0 12px;color:#64748b;font-size:13px;">Masukkan kode OTP 4-digit yang dikirimkan ke nomor HP baru Anda.</p>
-        <label class="t">Kode OTP Verifikasi</label><input id="acc_phone_otp" placeholder="Contoh: 1234" maxlength="4" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:18px;letter-spacing:4px">
+        <p style="margin:0 0 12px;color:var(--text-sub);font-size:13px;">Masukkan kode OTP 4-digit yang dikirimkan ke nomor HP baru Anda.</p>
+        <label class="t">Kode OTP Verifikasi</label><input id="acc_phone_otp" placeholder="Contoh: 1234" maxlength="4" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid var(--border-color);border-radius:8px;text-align:center;font-size:18px;letter-spacing:4px">
         <button class="btn-primary" style="background:#22c55e" onclick="verifikasiDanSimpanHpBaru()">Konfirmasi OTP & Simpan</button>
       </div>
       <div id="formUpdatePass" style="display:none">
-        <label class="t">Kata Sandi Lama</label><input id="acc_old_pass" type="password" placeholder="Masukkan sandi saat ini" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #cbd5e1;border-radius:8px">
-        <label class="t">Kata Sandi Baru</label><input id="acc_new_pass" type="password" placeholder="Masukkan sandi baru" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid #cbd5e1;border-radius:8px">
+        <label class="t">Kata Sandi Lama</label><input id="acc_old_pass" type="password" placeholder="Masukkan sandi saat ini" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid var(--border-color);border-radius:8px">
+        <label class="t">Kata Sandi Baru</label><input id="acc_new_pass" type="password" placeholder="Masukkan sandi baru" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid var(--border-color);border-radius:8px">
         <button class="btn-primary" style="margin-top:4px" onclick="simpanKataSandiBaru()">Simpan Kata Sandi</button>
         <div style="text-align:center;margin-top:14px"><a onclick="pindahKeLupaSandiDariModal()" style="color:#2563eb;font-size:12px;font-weight:700;cursor:pointer">Lupa Kata Sandi?</a></div>
       </div>
@@ -537,10 +563,10 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
     <div class="modal-confirm-box" style="text-align:left">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
         <h3 style="margin:0;color:#ef4444;font-size:18px;font-weight:800">🗑️ Hapus Akun Saya</h3>
-        <span onclick="closeDeleteAccountModal()" style="font-size:24px;cursor:pointer;color:#94a3b8">&times;</span>
+        <span onclick="closeDeleteAccountModal()" style="font-size:24px;cursor:pointer;color:var(--text-sub)">&times;</span>
       </div>
-      <p style="margin:0 0 12px;color:#64748b;font-size:12px;line-height:1.4">Apakah Anda yakin ingin menghapus akun Anda? Tindakan ini tidak dapat dibatalkan dan akun Anda akan dihapus permanen dari sistem.</p>
-      <label class="t">Masukkan Kata Sandi Anda</label><input type="password" id="del_confirm_pass" placeholder="Password saat ini" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid #cbd5e1;border-radius:8px">
+      <p style="margin:0 0 12px;color:var(--text-sub);font-size:12px;line-height:1.4">Apakah Anda yakin ingin menghapus akun Anda? Tindakan ini tidak dapat dibatalkan dan akun Anda akan dihapus permanen dari sistem.</p>
+      <label class="t">Masukkan Kata Sandi Anda</label><input type="password" id="del_confirm_pass" placeholder="Password saat ini" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid var(--border-color);border-radius:8px">
       <div style="display:flex;gap:8px">
         <button class="btn-cancel" onclick="closeDeleteAccountModal()">Batal</button>
         <button class="btn-delete" onclick="eksekusiHapusAkun()">Ya, Hapus Akun</button>
@@ -552,8 +578,8 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <div id="modalAdminDeleteUser">
     <div class="modal-confirm-box">
       <div class="icon-wrapper icon-danger">👤</div>
-      <h3 style="margin:0 0 8px;color:#0f172a;font-size:18px;font-weight:800">Hapus Akun Pengguna?</h3>
-      <p style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.4">Apakah Anda yakin ingin menghapus akun pengguna <br><strong id="adminDeleteUserTarget" style="color:#0f172a"></strong>? Akun yang dihapus tidak dapat dipulihkan.</p>
+      <h3 style="margin:0 0 8px;color:var(--text-main);font-size:18px;font-weight:800">Hapus Akun Pengguna?</h3>
+      <p style="margin:0 0 20px;color:var(--text-sub);font-size:13px;line-height:1.4">Apakah Anda yakin ingin menghapus akun pengguna <br><strong id="adminDeleteUserTarget" style="color:var(--text-main)"></strong>? Akun yang dihapus tidak dapat dipulihkan.</p>
       <input type="hidden" id="adminDeleteUserKey">
       <div style="display:flex;gap:10px">
         <button class="btn-cancel" onclick="closeAdminDeleteUserModal()">Batal</button>
@@ -566,8 +592,8 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <div id="modalHapus">
     <div class="modal-confirm-box">
       <div class="icon-wrapper icon-danger">🗑️</div>
-      <h3 style="margin:0 0 8px;color:#0f172a;font-size:18px;font-weight:800">Hapus Data Perbaikan?</h3>
-      <p style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.4">Apakah Anda yakin ingin menghapus data perbaikan ID: <br><strong id="hapusWOId" style="color:#0f172a"></strong>? Data yang dihapus tidak dapat dikembalikan.</p>
+      <h3 style="margin:0 0 8px;color:var(--text-main);font-size:18px;font-weight:800">Hapus Data Perbaikan?</h3>
+      <p style="margin:0 0 20px;color:var(--text-sub);font-size:13px;line-height:1.4">Apakah Anda yakin ingin menghapus data perbaikan ID: <br><strong id="hapusWOId" style="color:var(--text-main)"></strong>? Data yang dihapus tidak dapat dikembalikan.</p>
       <input type="hidden" id="hapusFirebaseKey">
       <div style="display:flex;gap:10px">
         <button class="btn-cancel" onclick="closeModalHapus()">Batal</button>
@@ -580,8 +606,8 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <div id="modalToast">
     <div class="modal-confirm-box">
       <div id="toastIcon" class="icon-wrapper icon-success">✓</div>
-      <h3 id="toastTitle" style="margin:0 0 8px;color:#0f172a;font-size:18px;font-weight:800">Pemberitahuan</h3>
-      <p id="toastMessage" style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.5;word-break:break-word;"></p>
+      <h3 id="toastTitle" style="margin:0 0 8px;color:var(--text-main);font-size:18px;font-weight:800">Pemberitahuan</h3>
+      <p id="toastMessage" style="margin:0 0 20px;color:var(--text-sub);font-size:13px;line-height:1.5;word-break:break-word;"></p>
       <button class="btn-primary" onclick="closeToast()">OK</button>
     </div>
   </div>
@@ -590,12 +616,12 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <div id="modalInfoApp">
     <div class="modal-confirm-box">
       <div class="icon-wrapper icon-info">📱</div>
-      <h3 style="margin:0 0 8px;color:#0f172a;font-size:18px;font-weight:800">Info Aplikasi</h3>
-      <div style="background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:16px;text-align:left">
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:#64748b;font-size:13px">Versi Saat Ini</span><span id="infoAppVersion" style="font-weight:700;color:#2563eb;font-size:13px">-</span></div>
-        <div style="display:flex;justify-content:space-between"><span style="color:#64748b;font-size:13px">Status Server</span><span style="font-weight:700;color:#16a34a;font-size:13px">Online</span></div>
+      <h3 style="margin:0 0 8px;color:var(--text-main);font-size:18px;font-weight:800">Info Aplikasi</h3>
+      <div style="background:var(--input-bg);padding:12px;border-radius:12px;margin-bottom:16px;text-align:left">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-sub);font-size:13px">Versi Saat Ini</span><span id="infoAppVersion" style="font-weight:700;color:#2563eb;font-size:13px">-</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-sub);font-size:13px">Status Server</span><span style="font-weight:700;color:#16a34a;font-size:13px">Online</span></div>
       </div>
-      <p style="margin:0 0 16px;color:#64748b;font-size:12px;line-height:1.4">Aplikasi ini menggunakan sistem update otomatis. Tekan tombol di bawah untuk memaksa pemuatan ulang sumber daya terbaru dari server.</p>
+      <p style="margin:0 0 16px;color:var(--text-sub);font-size:12px;line-height:1.4">Aplikasi ini menggunakan sistem update otomatis. Tekan tombol di bawah untuk memaksa pemuatan ulang sumber daya terbaru dari server.</p>
       <div style="display:flex;gap:8px">
         <button class="btn-cancel" onclick="closeInfoApp()">Tutup</button>
         <button class="btn-primary" onclick="forceCheckUpdate()">🔄 Periksa Pembaruan</button>
@@ -607,8 +633,8 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
   <div id="modalCustomConfirm">
     <div class="modal-confirm-box">
       <div id="ccIcon" class="icon-wrapper icon-info">ℹ️</div>
-      <h3 id="ccTitle" style="margin:0 0 8px;color:#0f172a;font-size:18px;font-weight:800">Konfirmasi</h3>
-      <p id="ccMessage" style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.5;word-break:break-word;"></p>
+      <h3 id="ccTitle" style="margin:0 0 8px;color:var(--text-main);font-size:18px;font-weight:800">Konfirmasi</h3>
+      <p id="ccMessage" style="margin:0 0 20px;color:var(--text-sub);font-size:13px;line-height:1.5;word-break:break-word;"></p>
       <div style="display:flex;gap:10px">
         <button class="btn-cancel" onclick="closeCustomConfirm(false)">Batal</button>
         <button id="ccConfirmBtn" class="btn-primary" onclick="closeCustomConfirm(true)">Ya, Lanjutkan</button>
@@ -619,7 +645,7 @@ label.t { font-size: 12px; font-weight: 700; color: #475569; text-transform: upp
 </div>
 
 <script>
-const APP_VERSION = "1.0.8"; // Updated Version for Scrollable Menu
+const APP_VERSION = "1.0.9"; // Updated Version for Dark Mode
 
 function checkForUpdate() {
     const lastVersion = localStorage.getItem('app_last_version');
@@ -638,6 +664,30 @@ function forceCheckUpdate() {
     }, 1500);
 }
 checkForUpdate();
+
+// --- LOGIKA DARK MODE ---
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("iwip_theme", newTheme);
+    
+    // Update Icon
+    const btn = document.querySelector('.theme-toggle-btn');
+    if(btn) btn.innerText = newTheme === "dark" ? "☀️" : "🌙";
+}
+
+function initTheme() {
+    const savedTheme = localStorage.getItem("iwip_theme");
+    if (savedTheme) {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+        const btn = document.querySelector('.theme-toggle-btn');
+        if(btn) btn.innerText = savedTheme === "dark" ? "☀️" : "🌙";
+    }
+}
+initTheme(); // Jalankan saat load
+// ------------------------
 
 const firebaseConfig = {
   apiKey: "AIzaSyDKyUcHEUE8HIhpL9s85122MIbn9q2GMkg",
@@ -1184,7 +1234,7 @@ function renderUserManagement() {
   const container = document.getElementById('userListContainer');
   if (!container || !currentUser || currentUser.role !== 'admin') return;
   const keys = Object.keys(allUsers);
-  if (keys.length === 0) { container.innerHTML = '<div style="font-size:12px;color:#94a3b8">Belum ada pengguna lain.</div>'; return; }
+  if (keys.length === 0) { container.innerHTML = '<div style="font-size:12px;color:var(--text-sub)">Belum ada pengguna lain.</div>'; return; }
   container.innerHTML = keys.map(k => {
     const usr = allUsers[k];
     const isSelf = currentUser.user === usr.user;
@@ -1576,7 +1626,7 @@ function tampil() {
   });
   const listEl = document.getElementById('list');
   if (!listEl) return;
-  if (f.length === 0) { listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8">Tidak ada data perbaikan</div>'; return; }
+  if (f.length === 0) { listEl.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-sub)">Tidak ada data perbaikan</div>'; return; }
   const isAdmin = currentUser && currentUser.role === 'admin';
   listEl.innerHTML = f.map(x => {
     const isSelesai = !!(x.selesai && x.selesai !== '-');
@@ -1598,9 +1648,9 @@ function tampil() {
         <div class="l">Kerusakan / Item</div><div class="v">${x.item || '-'}</div>
         <div class="l">Ruangan</div><div class="v" style="color:#2563eb;font-weight:700">${x.tempat || '-'}</div>
         <div class="l">Tim Kerja</div><div class="v">${x.tim}</div>
-        <div class="l">Selesai</div><div class="v" style="color:${isSelesai ? '#15803d' : '#94a3b8'}">${textSelesai}</div>
+        <div class="l">Selesai</div><div class="v" style="color:${isSelesai ? '#15803d' : 'var(--text-sub)'}">${textSelesai}</div>
         <div class="l">Keluar</div><div class="v">${textKeluar}</div>
-        ${x.laporan ? `<div class="l">Catatan</div><div class="v" style="color:#64748b">${x.laporan}</div>` : ''}
+        ${x.laporan ? `<div class="l">Catatan</div><div class="v" style="color:var(--text-sub)">${x.laporan}</div>` : ''}
       </div>
       <div class="btn-row">
         <button class="secondary" onclick="cetakWO('${x.firebaseKey}')">🖨️ Cetak WO</button>

@@ -20,67 +20,165 @@
 <style>
 /* --- VARIABEL WARNA UNTUK DARK MODE --- */
 :root {
-    --bg-body: #f4f6f9;
+    --bg-body: #e8ecf1;
     --bg-card: #ffffff;
     --text-main: #1e293b;
     --text-sub: #64748b;
     --border-color: #e2e8f0;
     --input-bg: #f1f5f9;
-    --shadow-color: rgba(0,0,0,0.05);
+    --shadow-color: rgba(0,0,0,0.08);
     --nav-bg: #ffffff;
     --chat-bg: #e5ddd5;
     --modal-bg: #ffffff;
+    --shadow-3d: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06), 0 1px 2px 0 rgba(0,0,0,0.05);
+    --shadow-3d-hover: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
 }
 
 [data-theme="dark"] {
-    --bg-body: #0f172a;
+    --bg-body: #0a0e1a;
     --bg-card: #1e293b;
     --text-main: #f1f5f9;
     --text-sub: #94a3b8;
     --border-color: #334155;
-    --input-bg: #334155;
-    --shadow-color: rgba(0,0,0,0.3);
+    --input-bg: #2d3a52;
+    --shadow-color: rgba(0,0,0,0.4);
     --nav-bg: #1e293b;
-    --chat-bg: #0f172a; /* Chat background lebih gelap */
+    --chat-bg: #0f172a;
     --modal-bg: #1e293b;
+    --shadow-3d: 0 4px 6px -1px rgba(0,0,0,0.4), 0 2px 4px -1px rgba(0,0,0,0.3), 0 1px 2px 0 rgba(0,0,0,0.2);
+    --shadow-3d-hover: 0 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -2px rgba(0,0,0,0.3);
 }
 
 * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
 body { margin: 0; background: var(--bg-body); color: var(--text-main); overflow-x: hidden; transition: background 0.3s, color 0.3s; }
 
-/* LAYOUT CONTAINER */
-.app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--bg-card); position: relative; box-shadow: 0 0 20px var(--shadow-color); transition: background 0.3s; }
+.app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--bg-card); position: relative; box-shadow: 0 20px 40px var(--shadow-color); transition: background 0.3s; }
 
-/* AUTH PAGES */
 .login-wrapper { min-height: 100vh; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); display: flex; align-items: center; justify-content: center; padding: 20px; }
-.card-login { background: var(--bg-card); width: 100%; max-width: 360px; border-radius: 20px; padding: 28px 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
-.i-group { display: flex; align-items: center; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 14px; margin: 10px 0; }
+.card-login { 
+    background: var(--bg-card); 
+    width: 100%; 
+    max-width: 360px; 
+    border-radius: 24px; 
+    padding: 28px 24px; 
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.1);
+    transform: perspective(1000px) rotateX(2deg);
+    transition: transform 0.3s ease;
+}
+.card-login:hover { transform: perspective(1000px) rotateX(0deg); }
+
+.i-group { 
+    display: flex; 
+    align-items: center; 
+    background: var(--input-bg); 
+    border: 1px solid var(--border-color); 
+    border-radius: 12px; 
+    padding: 12px 14px; 
+    margin: 10px 0;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.2s;
+}
+.i-group:focus-within { 
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 0 0 3px rgba(37,99,235,0.1);
+    border-color: #2563eb;
+}
 .i-group input { border: none; background: transparent; width: 100%; outline: none; font-weight: 600; font-size: 14px; color: var(--text-main); margin-left: 10px; }
-.btn-green { width: 100%; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; border: none; border-radius: 12px; padding: 14px; font-weight: 700; font-size: 15px; cursor: pointer; transition: opacity 0.2s; margin-top: 10px; }
-.btn-green:active { opacity: 0.9; }
+
+.btn-green { 
+    width: 100%; 
+    background: linear-gradient(135deg, #22c55e, #16a34a); 
+    color: #fff; 
+    border: none; 
+    border-radius: 12px; 
+    padding: 14px; 
+    font-weight: 700; 
+    font-size: 15px; 
+    cursor: pointer; 
+    transition: all 0.2s; 
+    margin-top: 10px;
+    box-shadow: 0 4px 6px -1px rgba(34,197,94,0.3), 0 2px 4px -1px rgba(34,197,94,0.2), inset 0 1px 0 rgba(255,255,255,0.2);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.btn-green:active { 
+    transform: translateY(2px);
+    box-shadow: 0 1px 2px rgba(34,197,94,0.3);
+}
 
 .remember-box { display: flex; align-items: center; justify-content: space-between; margin: 8px 0 12px; font-size: 12px; color: var(--text-sub); }
 .remember-box label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-weight: 600; }
 .remember-box input[type="checkbox"] { accent-color: #16a34a; width: 15px; height: 15px; cursor: pointer; }
 
-/* APP PAGES */
 .page { display: none; padding-bottom: 80px; min-height: 100vh; background: var(--bg-body); transition: background 0.3s; }
 
-.sticky-top-section { position: sticky; top: 0; z-index: 100; background: var(--bg-card); border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03); }
-.header-top { background: var(--bg-card); padding: 16px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 16px; color: var(--text-main); }
+.sticky-top-section { position: sticky; top: 0; z-index: 100; background: var(--bg-card); border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 12px -2px rgba(0,0,0,0.08); }
+.header-top { 
+    background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-body) 100%);
+    padding: 16px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    font-weight: 700; 
+    font-size: 16px; 
+    color: var(--text-main);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
 
 .filter-box-wrapper { margin: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
-.search-box { position: relative; padding: 10px 32px 10px 14px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; display: flex; align-items: center; gap: 8px; }
+.search-box { 
+    position: relative; 
+    padding: 10px 32px 10px 14px; 
+    background: var(--bg-card); 
+    border: 1px solid var(--border-color); 
+    border-radius: 12px; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px;
+    box-shadow: var(--shadow-3d);
+    transition: all 0.2s;
+}
+.search-box:focus-within { box-shadow: var(--shadow-3d-hover); }
 .search-box input { border: none; background: transparent; width: 100%; outline: none; font-size: 14px; color: var(--text-main); }
 .btn-reset-search { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-sub); font-size: 14px; font-weight: 700; cursor: pointer; display: none; user-select: none; }
 .btn-reset-search:hover { color: #ef4444; }
 
-.date-filter-box { display: flex; align-items: center; gap: 6px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 8px 10px; }
+.date-filter-box { 
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
+    background: var(--bg-card); 
+    border: 1px solid var(--border-color); 
+    border-radius: 12px; 
+    padding: 8px 10px;
+    box-shadow: var(--shadow-3d);
+}
 .date-filter-box label { font-size: 11px; font-weight: 700; color: var(--text-sub); margin-right: 2px; }
-.date-filter-box input[type="date"] { border: 1px solid var(--border-color); background: var(--input-bg); border-radius: 6px; padding: 4px 6px; font-size: 11px; outline: none; color: var(--text-main); flex: 1; min-width: 0; }
-.btn-reset-filter { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-sub); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
+.date-filter-box input[type="date"] { 
+    border: 1px solid var(--border-color); 
+    background: var(--input-bg); 
+    border-radius: 6px; 
+    padding: 4px 6px; 
+    font-size: 11px; 
+    outline: none; 
+    color: var(--text-main); 
+    flex: 1; 
+    min-width: 0;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+}
+.btn-reset-filter { 
+    background: linear-gradient(135deg, var(--input-bg), var(--bg-card)); 
+    border: 1px solid var(--border-color); 
+    color: var(--text-sub); 
+    font-size: 11px; 
+    font-weight: 700; 
+    padding: 4px 8px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.2s;
+}
+.btn-reset-filter:active { transform: translateY(1px); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
 
-/* --- PERUBAHAN CSS UNTUK MENU SCROLLABLE --- */
 .stats-summary { 
     display: flex; 
     align-items: center; 
@@ -91,7 +189,7 @@ body { margin: 0; background: var(--bg-body); color: var(--text-main); overflow-
     overflow-x: auto; 
     white-space: nowrap; 
     gap: 8px;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
 }
 .stats-summary::-webkit-scrollbar { display: none; }
 
@@ -107,47 +205,118 @@ body { margin: 0; background: var(--bg-body); color: var(--text-main); overflow-
     user-select: none; 
     transition: all 0.2s ease; 
     border: 1px solid transparent; 
-    flex-shrink: 0; 
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
 
-.stats-badge.total { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
-.stats-badge.total.active { background: #2563eb; color: #ffffff; }
-.stats-badge.proses { background: #fef3c7; color: #d97706; border-color: #fde68a; }
-.stats-badge.proses.active { background: #d97706; color: #ffffff; }
-.stats-badge.selesai { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
-.stats-badge.selesai.active { background: #15803d; color: #ffffff; }
-.stats-badge.pending { background: var(--input-bg); color: var(--text-sub); border-color: var(--border-color); }
-.stats-badge.pending.active { background: #475569; color: #ffffff; }
-.stats-badge.belum_keluar { background: #f3e8ff; color: #7e22ce; border-color: #e9d5ff; }
-.stats-badge.belum_keluar.active { background: #7e22ce; color: #ffffff; }
+.stats-badge.total { background: linear-gradient(135deg, #eff6ff, #dbeafe); color: #2563eb; border-color: #bfdbfe; }
+.stats-badge.total.active { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #ffffff; box-shadow: 0 4px 8px rgba(37,99,235,0.3); }
+.stats-badge.proses { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #d97706; border-color: #fde68a; }
+.stats-badge.proses.active { background: linear-gradient(135deg, #d97706, #b45309); color: #ffffff; box-shadow: 0 4px 8px rgba(217,119,6,0.3); }
+.stats-badge.selesai { background: linear-gradient(135deg, #dcfce7, #bbf7d0); color: #15803d; border-color: #bbf7d0; }
+.stats-badge.selesai.active { background: linear-gradient(135deg, #15803d, #166534); color: #ffffff; box-shadow: 0 4px 8px rgba(21,128,61,0.3); }
+.stats-badge.pending { background: linear-gradient(135deg, var(--input-bg), var(--bg-card)); color: var(--text-sub); border-color: var(--border-color); }
+.stats-badge.pending.active { background: linear-gradient(135deg, #475569, #334155); color: #ffffff; box-shadow: 0 4px 8px rgba(71,85,105,0.3); }
+.stats-badge.belum_keluar { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); color: #7e22ce; border-color: #e9d5ff; }
+.stats-badge.belum_keluar.active { background: linear-gradient(135deg, #7e22ce, #6b21a8); color: #ffffff; box-shadow: 0 4px 8px rgba(126,34,206,0.3); }
 
-.stats-badge:hover { opacity: 0.85; transform: translateY(-1px); }
+.stats-badge:hover { opacity: 0.85; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.12); }
+.stats-badge:active { transform: translateY(0); }
 
-.card-order { background: var(--bg-card); padding: 16px; margin: 12px 16px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+.card-order { 
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--input-bg) 100%); 
+    padding: 16px; 
+    margin: 12px 16px; 
+    border-radius: 16px; 
+    border: 1px solid var(--border-color); 
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: all 0.2s;
+}
+.card-order:hover {
+    box-shadow: 0 8px 12px -2px rgba(0,0,0,0.12), 0 4px 6px -1px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+}
 .order-id { font-weight: 800; font-size: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; color: var(--text-main); }
-.badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-block; }
-.badge-blue { background: #e0f2fe; color: #0369a1; }
-.badge-green { background: #dcfce7; color: #15803d; }
-.badge-orange { background: #fef3c7; color: #b45309; }
-.badge-gray { background: var(--input-bg); color: var(--text-sub); border: 1px solid var(--border-color); }
+.badge { 
+    font-size: 11px; 
+    font-weight: 700; 
+    padding: 4px 10px; 
+    border-radius: 20px; 
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+.badge-blue { background: linear-gradient(135deg, #e0f2fe, #bae6fd); color: #0369a1; }
+.badge-green { background: linear-gradient(135deg, #dcfce7, #bbf7d0); color: #15803d; }
+.badge-orange { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #b45309; }
+.badge-gray { background: linear-gradient(135deg, var(--input-bg), var(--bg-card)); color: var(--text-sub); border: 1px solid var(--border-color); }
 
 .info-grid { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; font-size: 13px; }
 .info-grid .l { color: var(--text-sub); font-weight: 500; }
 .info-grid .v { font-weight: 600; color: var(--text-main); word-break: break-word; }
 
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--border-color); }
-.btn-row button { border: 1px solid #2563eb; color: #2563eb; background: transparent; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
-.btn-row button.warning { border-color: #f59e0b; color: #f59e0b; }
-.btn-row button.danger { border-color: #ef4444; color: #ef4444; }
-.btn-row button.secondary { border-color: var(--text-sub); color: var(--text-sub); }
+.btn-row button { 
+    border: 1px solid #2563eb; 
+    color: #2563eb; 
+    background: linear-gradient(135deg, #ffffff, #f1f5f9);
+    border-radius: 8px; 
+    padding: 8px 12px; 
+    font-size: 12px; 
+    font-weight: 600; 
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(37,99,235,0.15);
+    transition: all 0.2s;
+}
+.btn-row button:active { transform: translateY(2px); box-shadow: 0 1px 2px rgba(37,99,235,0.15); }
+.btn-row button.warning { border-color: #f59e0b; color: #f59e0b; background: linear-gradient(135deg, #fffbeb, #fef3c7); box-shadow: 0 2px 4px rgba(245,158,11,0.15); }
+.btn-row button.danger { border-color: #ef4444; color: #ef4444; background: linear-gradient(135deg, #fef2f2, #fee2e2); box-shadow: 0 2px 4px rgba(239,68,68,0.15); }
+.btn-row button.secondary { border-color: var(--text-sub); color: var(--text-sub); background: linear-gradient(135deg, var(--bg-card), var(--input-bg)); box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
 
-.fab { position: fixed; bottom: 80px; right: 20px; background: #2563eb; color: #fff; border: none; border-radius: 30px; padding: 12px 20px; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 20px rgba(37,99,235,0.4); font-weight: 700; cursor: move; z-index: 99; touch-action: none; user-select: none; }
+.fab { 
+    position: fixed; 
+    bottom: 80px; 
+    right: 20px; 
+    background: linear-gradient(135deg, #3b82f6, #2563eb); 
+    color: #fff; 
+    border: none; 
+    border-radius: 30px; 
+    padding: 12px 20px; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    box-shadow: 0 10px 20px rgba(37,99,235,0.4), 0 4px 8px rgba(37,99,235,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+    font-weight: 700; 
+    cursor: move; 
+    z-index: 99; 
+    touch-action: none; 
+    user-select: none;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+}
+.fab:active { transform: scale(0.95); box-shadow: 0 4px 8px rgba(37,99,235,0.3); }
 
-.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--nav-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; font-size: 11px; padding: 10px 0; z-index: 30; }
-.nav-item { text-align: center; font-size: 11px; font-weight: 600; color: var(--text-sub); cursor: pointer; flex: 1; }
-.nav-item.active { color: #2563eb; }
+.bottom-nav { 
+    position: fixed; 
+    bottom: 0; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 100%; 
+    max-width: 480px; 
+    background: linear-gradient(180deg, var(--nav-bg) 0%, var(--bg-card) 100%); 
+    border-top: 1px solid var(--border-color); 
+    display: flex; 
+    justify-content: space-around; 
+    font-size: 11px; 
+    padding: 10px 0; 
+    z-index: 30;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+}
+.nav-item { text-align: center; font-size: 11px; font-weight: 600; color: var(--text-sub); cursor: pointer; flex: 1; transition: all 0.2s; }
+.nav-item:active { transform: scale(0.95); }
+.nav-item.active { color: #2563eb; text-shadow: 0 2px 4px rgba(37,99,235,0.2); }
 
-#modal, #modalSelesai, #modalEdit, #modalHapus, #modalToast, #modalForgot, #modalUpdateAccount, #modalExportExcel, #modalDeleteAccount, #modalAdminDeleteUser, #modalCustomConfirm, #modalInfoApp { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: none; align-items: flex-end; justify-content: center; z-index: 150; backdrop-filter: blur(4px); }
+#modal, #modalSelesai, #modalEdit, #modalHapus, #modalToast, #modalForgot, #modalUpdateAccount, #modalExportExcel, #modalDeleteAccount, #modalAdminDeleteUser, #modalCustomConfirm, #modalInfoApp { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); display: none; align-items: flex-end; justify-content: center; z-index: 150; backdrop-filter: blur(4px); }
 #modalSelesai { z-index: 160; }
 #modalEdit { z-index: 170; }
 #modalHapus { z-index: 180; align-items: center; padding: 20px; }
@@ -160,29 +329,153 @@ body { margin: 0; background: var(--bg-body); color: var(--text-main); overflow-
 #modalInfoApp { z-index: 205; align-items: center; padding: 20px; } 
 #modalCustomConfirm { z-index: 210; align-items: center; padding: 20px; }
 
-.modal-box { background: var(--modal-bg); width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; border-radius: 24px 24px 0 0; padding: 20px; box-shadow: 0 -10px 25px rgba(0,0,0,0.1); }
-.modal-box input, .modal-box select, .modal-box textarea { width: 100%; padding: 10px 12px; margin: 4px 0 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; outline: none; background: var(--input-bg); color: var(--text-main); }
-.modal-box input:focus, .modal-box select:focus, .modal-box textarea:focus { border-color: #2563eb; }
+.modal-box { 
+    background: linear-gradient(135deg, var(--modal-bg) 0%, var(--bg-card) 100%); 
+    width: 100%; 
+    max-width: 480px; 
+    max-height: 88vh; 
+    overflow-y: auto; 
+    border-radius: 24px 24px 0 0; 
+    padding: 20px; 
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.2), 0 -4px 12px rgba(0,0,0,0.1);
+}
+.modal-box input, .modal-box select, .modal-box textarea { 
+    width: 100%; 
+    padding: 10px 12px; 
+    margin: 4px 0 10px; 
+    border: 1px solid var(--border-color); 
+    border-radius: 8px; 
+    font-size: 14px; 
+    outline: none; 
+    background: var(--input-bg); 
+    color: var(--text-main);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.2s;
+}
+.modal-box input:focus, .modal-box select:focus, .modal-box textarea:focus { 
+    border-color: #2563eb;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 0 0 3px rgba(37,99,235,0.1);
+}
 .modal-box input:disabled, .modal-box select:disabled { background-color: var(--input-bg); opacity: 0.7; color: var(--text-sub); cursor: not-allowed; }
 label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-top: 4px; }
-.box { background: var(--bg-card); padding: 16px; border-radius: 12px; margin: 16px; border: 1px solid var(--border-color); color: var(--text-main); }
 
-.modal-confirm-box { background: var(--modal-bg); width: 100%; max-width: 360px; border-radius: 24px; padding: 24px; text-align: center; box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25); transform: scale(0.9); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.box { 
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--input-bg) 100%); 
+    padding: 16px; 
+    border-radius: 16px; 
+    margin: 16px; 
+    border: 1px solid var(--border-color); 
+    color: var(--text-main);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.modal-confirm-box { 
+    background: linear-gradient(135deg, var(--modal-bg) 0%, var(--bg-card) 100%); 
+    width: 100%; 
+    max-width: 360px; 
+    border-radius: 24px; 
+    padding: 24px; 
+    text-align: center; 
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(0.9); 
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 #modalToast.active .modal-confirm-box, #modalHapus.active .modal-confirm-box, #modalForgot.active .modal-confirm-box, #modalUpdateAccount.active .modal-confirm-box, #modalDeleteAccount.active .modal-confirm-box, #modalAdminDeleteUser.active .modal-confirm-box, #modalExportExcel.active .modal-confirm-box, #modalCustomConfirm.active .modal-confirm-box, #modalInfoApp.active .modal-confirm-box { transform: scale(1); }
 
-.icon-wrapper { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; }
-.icon-success { background: #dcfce7; color: #16a34a; }
-.icon-danger { background: #fee2e2; color: #ef4444; }
-.icon-warning { background: #fef3c7; color: #d97706; }
-.icon-info { background: #e0f2fe; color: #0284c7; }
-.icon-pending { background: var(--input-bg); color: var(--text-sub); border: 2px solid var(--border-color); }
-.icon-play { background: #dcfce7; color: #16a34a; border: 2px solid #bbf7d0; }
+.icon-wrapper { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.icon-success { background: linear-gradient(135deg, #dcfce7, #bbf7d0); color: #16a34a; }
+.icon-danger { background: linear-gradient(135deg, #fee2e2, #fecaca); color: #ef4444; }
+.icon-warning { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #d97706; }
+.icon-info { background: linear-gradient(135deg, #e0f2fe, #bae6fd); color: #0284c7; }
+.icon-pending { background: linear-gradient(135deg, var(--input-bg), var(--bg-card)); color: var(--text-sub); border: 2px solid var(--border-color); }
+.icon-play { background: linear-gradient(135deg, #dcfce7, #bbf7d0); color: #16a34a; border: 2px solid #bbf7d0; }
 
-.btn-cancel { flex: 1; background: var(--input-bg); color: var(--text-sub); border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; }
-.btn-delete { flex: 1; background: #ef4444; color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
-.btn-primary { width: 100%; background: #2563eb; color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
-.btn-pending { flex: 1; background: linear-gradient(135deg, #64748b, #475569); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(71, 85, 105, 0.35); display:flex; align-items:center; justify-content:center; gap:6px; }
-.btn-play { flex: 1; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35); display:flex; align-items:center; justify-content:center; gap:6px; }
+.btn-cancel { 
+    flex: 1; 
+    background: linear-gradient(135deg, var(--input-bg), var(--bg-card)); 
+    color: var(--text-sub); 
+    border: 1px solid var(--border-color); 
+    padding: 12px; 
+    border-radius: 12px; 
+    font-weight: 700; 
+    font-size: 14px; 
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    transition: all 0.2s;
+}
+.btn-cancel:active { transform: translateY(2px); box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+
+.btn-delete { 
+    flex: 1; 
+    background: linear-gradient(135deg, #ef4444, #dc2626); 
+    color: #fff; 
+    border: none; 
+    padding: 12px; 
+    border-radius: 12px; 
+    font-weight: 700; 
+    font-size: 14px; 
+    cursor: pointer; 
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+}
+.btn-delete:active { transform: translateY(2px); box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4); }
+
+.btn-primary { 
+    width: 100%; 
+    background: linear-gradient(135deg, #3b82f6, #2563eb); 
+    color: #fff; 
+    border: none; 
+    padding: 12px; 
+    border-radius: 12px; 
+    font-weight: 700; 
+    font-size: 14px; 
+    cursor: pointer; 
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+}
+.btn-primary:active { transform: translateY(2px); box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4); }
+
+.btn-pending { 
+    flex: 1; 
+    background: linear-gradient(135deg, #64748b, #475569); 
+    color: #fff; 
+    border: none; 
+    padding: 12px; 
+    border-radius: 12px; 
+    font-weight: 700; 
+    font-size: 14px; 
+    cursor: pointer; 
+    box-shadow: 0 4px 12px rgba(71, 85, 105, 0.4);
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    gap:6px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+}
+.btn-pending:active { transform: translateY(2px); box-shadow: 0 2px 6px rgba(71, 85, 105, 0.4); }
+
+.btn-play { 
+    flex: 1; 
+    background: linear-gradient(135deg, #22c55e, #16a34a); 
+    color: #fff; 
+    border: none; 
+    padding: 12px; 
+    border-radius: 12px; 
+    font-weight: 700; 
+    font-size: 14px; 
+    cursor: pointer; 
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4);
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    gap:6px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+}
+.btn-play:active { transform: translateY(2px); box-shadow: 0 2px 6px rgba(22, 163, 74, 0.4); }
 
 .user-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
 .user-item:last-child { border-bottom: none; }
@@ -190,15 +483,30 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
 .user-info b { color: var(--text-main); }
 .user-info span { color: var(--text-sub); font-size: 11px; display: block; }
 .user-action-group { display: flex; align-items: center; gap: 6px; }
-.role-select { padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border-color); font-size: 12px; font-weight: 600; outline: none; background: var(--bg-card); color: var(--text-main); }
-.btn-del-user { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; border-radius: 6px; padding: 4px 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-.btn-del-user:hover { background: #ef4444; color: #fff; }
-
-#loadingOverlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 300; backdrop-filter: blur(5px); color: #ffffff; text-align: center; padding: 20px; }
-.spinner { width: 48px; height: 48px; border: 5px solid rgba(255, 255, 255, 0.2); border-top-color: #22c55e; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.loading-text { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
-.loading-subtext { font-size: 12px; color: #94a3b8; max-width: 260px; line-height: 1.4; }
+.role-select { 
+    padding: 4px 8px; 
+    border-radius: 6px; 
+    border: 1px solid var(--border-color); 
+    font-size: 12px; 
+    font-weight: 600; 
+    outline: none; 
+    background: linear-gradient(135deg, var(--bg-card), var(--input-bg)); 
+    color: var(--text-main);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.btn-del-user { 
+    background: linear-gradient(135deg, #fee2e2, #fecaca); 
+    color: #ef4444; 
+    border: 1px solid #fecaca; 
+    border-radius: 6px; 
+    padding: 4px 8px; 
+    font-size: 12px; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(239,68,68,0.15);
+}
+.btn-del-user:hover { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; }
 
 @media print {
   body * { visibility: hidden; }
@@ -211,38 +519,125 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
 .wo-table th, .wo-table td { border: 1px solid #333; padding: 8px 10px; text-align: left; font-size: 13px; }
 .wo-table th { background-color: #f2f2f2; }
 
-.profile-pic-container { position: relative; width: 100px; height: 100px; margin: 0 auto 12px; cursor: pointer; border-radius: 50%; overflow: hidden; border: 3px solid var(--border-color); transition: all 0.3s ease; }
-.profile-pic-container:hover { border-color: #2563eb; transform: scale(1.05); }
+.profile-pic-container { 
+    position: relative; 
+    width: 100px; 
+    height: 100px; 
+    margin: 0 auto 12px; 
+    cursor: pointer; 
+    border-radius: 50%; 
+    overflow: hidden; 
+    border: 3px solid var(--border-color); 
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.profile-pic-container:hover { border-color: #2563eb; transform: scale(1.05); box-shadow: 0 6px 16px rgba(37,99,235,0.3); }
 .profile-pic-img { width: 100%; height: 100%; object-fit: cover; }
 .profile-edit-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.6); color: #fff; font-size: 10px; text-align: center; padding: 4px 0; font-weight: 700; }
 
 .room-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px; margin-bottom: 12px; }
-.room-option { background: var(--input-bg); border: 2px solid transparent; border-radius: 12px; padding: 12px 4px; text-align: center; font-weight: 700; font-size: 14px; color: var(--text-sub); cursor: pointer; transition: all 0.2s ease; user-select: none; }
-.room-option:hover { opacity: 0.8; }
-.room-option.active { background: #eff6ff; border-color: #2563eb; color: #2563eb; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15); }
+.room-option { 
+    background: linear-gradient(135deg, var(--input-bg), var(--bg-card)); 
+    border: 2px solid transparent; 
+    border-radius: 12px; 
+    padding: 12px 4px; 
+    text-align: center; 
+    font-weight: 700; 
+    font-size: 14px; 
+    color: var(--text-sub); 
+    cursor: pointer; 
+    transition: all 0.2s ease; 
+    user-select: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+.room-option:hover { opacity: 0.8; transform: translateY(-2px); }
+.room-option.active { 
+    background: linear-gradient(135deg, #eff6ff, #dbeafe); 
+    border-color: #2563eb; 
+    color: #2563eb; 
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    transform: translateY(-2px);
+}
 .hidden-input { position: absolute; opacity: 0; pointer-events: none; height: 0; width: 0; }
 
-/* ========================================= */
-/* === CSS KHUSUS HALAMAN CHAT (BARU) === */
-/* ========================================= */
 .chat-page-layout { display: flex; flex-direction: column; height: calc(100vh - 50px); background: var(--chat-bg); }
-.chat-header-sticky { background: #0f172a; color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.chat-header-sticky { 
+    background: linear-gradient(135deg, #0f172a, #1e293b); 
+    color: #fff; 
+    padding: 12px 16px; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    font-weight: 700; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
 .chat-messages-area { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background-image: url('https://user-images.githubusercontent.com/15075759/28719111-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-repeat: repeat; background-blend-mode: soft-light; }
-.chat-bubble { max-width: 80%; padding: 8px 12px; border-radius: 12px; font-size: 13px; position: relative; line-height: 1.4; box-shadow: 0 1px 2px rgba(0,0,0,0.1); word-wrap: break-word; }
-.chat-bubble.other { align-self: flex-start; background: var(--bg-card); color: var(--text-main); border-top-left-radius: 2px; }
-.chat-bubble.me { align-self: flex-end; background: #dcf8c6; color: #000; border-top-right-radius: 2px; }
+.chat-bubble { 
+    max-width: 80%; 
+    padding: 8px 12px; 
+    border-radius: 12px; 
+    font-size: 13px; 
+    position: relative; 
+    line-height: 1.4; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    word-wrap: break-word;
+}
+.chat-bubble.other { align-self: flex-start; background: linear-gradient(135deg, var(--bg-card), var(--input-bg)); color: var(--text-main); border-top-left-radius: 2px; }
+.chat-bubble.me { align-self: flex-end; background: linear-gradient(135deg, #dcf8c6, #bbf7d0); color: #000; border-top-right-radius: 2px; }
 .chat-sender-name { font-size: 10px; font-weight: 700; color: #2563eb; margin-bottom: 2px; display: block; }
 .chat-meta { display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin-top: 4px; font-size: 10px; color: #999; }
-.chat-input-bar { background: var(--bg-card); padding: 8px 12px; display: flex; align-items: center; gap: 8px; border-top: 1px solid var(--border-color); }
-.chat-input-field { flex: 1; border: none; border-radius: 20px; padding: 10px 14px; font-size: 14px; outline: none; background: var(--input-bg); color: var(--text-main); }
-.btn-send-chat { background: #2563eb; color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; box-shadow: 0 2px 5px rgba(37,99,235,0.3); }
-.btn-send-chat:active { transform: scale(0.95); }
-
-/* TOGGLE SWITCH STYLE */
-.theme-toggle-btn {
-    background: none; border: none; font-size: 20px; cursor: pointer; padding: 5px;
-    display: flex; align-items: center; justify-content: center;
+.chat-input-bar { 
+    background: linear-gradient(180deg, var(--bg-card) 0%, var(--input-bg) 100%); 
+    padding: 8px 12px; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
 }
+.chat-input-field { 
+    flex: 1; 
+    border: 1px solid var(--border-color); 
+    border-radius: 20px; 
+    padding: 10px 14px; 
+    font-size: 14px; 
+    outline: none; 
+    background: var(--input-bg); 
+    color: var(--text-main);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+.btn-send-chat { 
+    background: linear-gradient(135deg, #3b82f6, #2563eb); 
+    color: #fff; 
+    border: none; 
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    cursor: pointer; 
+    font-size: 16px; 
+    box-shadow: 0 4px 12px rgba(37,99,235,0.4);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+}
+.btn-send-chat:active { transform: scale(0.95); box-shadow: 0 2px 6px rgba(37,99,235,0.4); }
+
+.theme-toggle-btn {
+    background: linear-gradient(135deg, var(--input-bg), var(--bg-card)); 
+    border: 1px solid var(--border-color); 
+    font-size: 20px; 
+    cursor: pointer; 
+    padding: 8px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    transition: all 0.2s;
+}
+.theme-toggle-btn:active { transform: scale(0.95); }
 </style>
 </head>
 <body>
@@ -250,16 +645,10 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
 <div id="printArea"></div>
 <div class="app-container">
 
-  <div id="loadingOverlay">
-    <div class="spinner"></div>
-    <div id="loadingText" class="loading-text">Memproses Login...</div>
-    <div id="loadingSubtext" class="loading-subtext">Menghubungkan ke server Firebase...</div>
-  </div>
-
   <!-- HALAMAN LOGIN -->
   <div id="loginPage" class="login-wrapper">
     <div class="card-login">
-      <div style="text-align:center;font-weight:900;font-size:32px;margin-bottom:4px"><span style="color:#22c55e">◧</span><span style="color:#f97316">IWIP</span></div>
+      <div style="text-align:center;font-weight:900;font-size:32px;margin-bottom:4px"><span style="color:#22c55e"></span><span style="color:#f97316">IWIP</span></div>
       <div style="text-align:center;font-weight:700;color:#0f172a">Sistem Perbaikan Mekanik 2</div>
       <div style="text-align:center;color:#64748b;font-size:12px;margin:6px 0 18px">Masuk dengan akun terdaftar</div>
       <div class="i-group">👤<input id="user" placeholder="NIK / Username"></div>
@@ -290,15 +679,12 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
   <div id="dashPage" class="page">
     <div class="header-top">
         <span>Halaman Depan</span>
-        <!-- TOMBOL DARK MODE -->
-        <button class="theme-toggle-btn" onclick="toggleTheme()" title="Ganti Mode Gelap/Terang">
-            🌙
-        </button>
+        <button class="theme-toggle-btn" onclick="toggleTheme()" title="Ganti Mode Gelap/Terang">🌙</button>
     </div>
     <div style="padding:16px">
       <div style="font-weight:800;font-size:18px;margin-bottom:12px;color:var(--text-main)">Manajemen Perbaikan</div>
-      <div onclick="openBengkel()" style="background:var(--bg-card);border-radius:16px;padding:20px;width:140px;text-align:center;border:1px solid var(--border-color);box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);cursor:pointer">
-        <div style="background:#eff6ff;color:#2563eb;border-radius:12px;width:48px;height:48px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:20px">🕒</div>
+      <div onclick="openBengkel()" style="background:linear-gradient(135deg, var(--bg-card), var(--input-bg));border-radius:16px;padding:20px;width:140px;text-align:center;border:1px solid var(--border-color);box-shadow:0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04);cursor:pointer;transition:all 0.2s;">
+        <div style="background:linear-gradient(135deg, #eff6ff, #dbeafe);color:#2563eb;border-radius:12px;width:48px;height:48px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 2px 4px rgba(37,99,235,0.2)">🔧</div>
         <p style="font-size:13px;font-weight:700;margin:0;color:var(--text-main);line-height:1.3">Daftar<br>Perbaikan<br>Unit</p>
       </div>
     </div>
@@ -315,12 +701,12 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
       <div class="header-top">
         <span onclick="openDash()" style="cursor:pointer;font-size:28px;line-height:1; margin-left:10px">‹</span> 
         <span>Daftar Perbaikan Unit</span>
-        <span style="opacity:0">🔽</span>
+        <span style="opacity:0"></span>
       </div>
       <div class="filter-box-wrapper">
         <div class="search-box">
           🔍<input id="cari" oninput="onSearchInput()" placeholder="Cari Nomor Unit / ID WO...">
-          <span id="btnResetCari" class="btn-reset-search" onclick="hapusPencarian()">✕</span>
+          <span id="btnResetCari" class="btn-reset-search" onclick="hapusPencarian()"></span>
         </div>
         <div class="date-filter-box">
           <label>Dari:</label><input type="date" id="tglAwal" onchange="tampil()">
@@ -337,7 +723,7 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
       </div>
     </div>
     <div id="list"></div>
-    <button class="fab" id="fabBtn"><span>+</span> Perintah Baru</button>
+    <button class="fab" id="fabBtn"><span>➕</span> Perintah Baru</button>
     <div class="bottom-nav">
       <div class="nav-item" onclick="openDash()">🏠<br>Depan</div>
       <div class="nav-item" onclick="openChatPage()">💬<br>Chat</div>
@@ -359,31 +745,58 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
       <small id="milikPhone" style="color:var(--text-sub);font-size:12px;display:block;margin-top:2px"></small>
       <span id="milikRole" class="badge badge-blue" style="margin-top:6px"></span>
     </div>
+    
     <div class="box">
-      <div style="font-weight:700;margin-bottom:12px;color:var(--text-main)">⚙️ Pengaturan Akun</div>
       <div style="display:flex;flex-direction:column;gap:8px">
-        <button onclick="showUpdateAccountModal('phone')" style="background:var(--input-bg);color:var(--text-main);padding:12px;border:1px solid var(--border-color);border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>📱 Ubah Nomor HP</span><span>›</span></button>
-        <button onclick="showUpdateAccountModal('pass')" style="background:var(--input-bg);color:var(--text-main);padding:12px;border:1px solid var(--border-color);border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>🔒 Ubah Kata Sandi</span><span>›</span></button>
-        <button onclick="showInfoApp()" style="background:var(--input-bg);color:var(--text-main);padding:12px;border:1px solid var(--border-color);border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>ℹ️ Info Aplikasi</span><span>›</span></button>
-        <button onclick="showDeleteAccountModal()" style="background:#fef2f2;color:#ef4444;padding:12px;border:1px solid #fecaca;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between"><span>🗑️ Hapus Akun</span><span>›</span></button>
+        <button onclick="openSettingsPage()" style="background:linear-gradient(135deg, var(--input-bg), var(--bg-card));color:var(--text-main);padding:12px;border:1px solid var(--border-color);border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 4px rgba(0,0,0,0.05);transition:all 0.2s;"><span>⚙️ Pengaturan Akun</span><span>›</span></button>
+        <button id="btnManageUsers" onclick="openManageUsersPage()" style="display:none;background:linear-gradient(135deg, var(--input-bg), var(--bg-card));color:var(--text-main);padding:12px;border:1px solid var(--border-color);border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 4px rgba(0,0,0,0.05);transition:all 0.2s;"><span>👥 Kelola Pengguna</span><span>›</span></button>
+        <button onclick="bukaModalExportExcel()" style="background:linear-gradient(135deg, var(--input-bg), var(--bg-card));color:var(--text-main);padding:12px;border:1px solid var(--border-color);border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 4px rgba(0,0,0,0.05);transition:all 0.2s;"><span>📊 Export Excel</span><span>›</span></button>
       </div>
     </div>
-    <div class="box" id="adminUserControl" style="display:none">
-      <div style="font-weight:700;margin-bottom:12px;color:var(--text-main)">⚙️ Kelola Peran & Akun Pengguna (Admin Only)</div>
-      <div id="userListContainer"></div>
-    </div>
-    <div class="box">
-      <div style="font-weight:700;margin-bottom:12px;color:var(--text-main)">📊 Database Excel (Cloud Connected)</div>
-      <div style="display:flex;gap:10px">
-        <button onclick="bukaModalExportExcel()" style="flex:1;background:#16a34a;color:#fff;padding:12px;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">📤 Export Excel</button>
-      </div>
-    </div>
-    <div class="box"><button onclick="logout()" style="background:#ef4444;color:#fff;padding:12px;width:100%;border:none;border-radius:10px;font-weight:700;cursor:pointer">Keluar (Logout)</button></div>
+
+    <div class="box"><button onclick="logout()" style="background:linear-gradient(135deg, #ef4444, #dc2626);color:#fff;padding:12px;width:100%;border:none;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(239,68,68,0.3);transition:all 0.2s;">🚪 Keluar (Logout)</button></div>
     <div class="bottom-nav">
       <div class="nav-item" onclick="openDash()">🏠<br>Depan</div>
       <div class="nav-item" onclick="openChatPage()">💬<br>Chat</div>
       <div class="nav-item active">👤<br>Milikku</div>
     </div>
+  </div>
+
+  <!-- HALAMAN PENGATURAN AKUN (FULL PAGE) -->
+  <div id="settingsPage" class="page">
+    <div class="header-top">
+        <span onclick="openMilikku()" style="cursor:pointer;font-size:28px;line-height:1; margin-left:10px">‹</span>
+        <span>Pengaturan Akun</span>
+        <span style="opacity:0">.</span>
+    </div>
+    
+    <div class="box">
+        <div style="font-weight:700;margin-bottom:12px;color:var(--text-main)">🎨 Tampilan</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg, var(--input-bg), var(--bg-card));padding:12px;border-radius:10px;box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+            <span style="font-size:13px;font-weight:600">Mode Gelap / Terang</span>
+            <button class="theme-toggle-btn" onclick="toggleTheme()" style="font-size:24px;background:transparent;"></button>
+        </div>
+    </div>
+
+    <div class="box">
+        <div style="font-weight:700;margin-bottom:12px;color:var(--text-main)">🔐 Keamanan & Data</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+            <button onclick="showUpdateAccountModal('phone')" style="background:linear-gradient(135deg, var(--input-bg), var(--bg-card));color:var(--text-main);padding:12px;border:1px solid var(--border-color);border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 4px rgba(0,0,0,0.05);transition:all 0.2s;"><span>📱 Ubah Nomor HP</span><span>›</span></button>
+            <button onclick="showUpdateAccountModal('pass')" style="background:linear-gradient(135deg, var(--input-bg), var(--bg-card));color:var(--text-main);padding:12px;border:1px solid var(--border-color);border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 4px rgba(0,0,0,0.05);transition:all 0.2s;"><span> Ubah Kata Sandi</span><span>›</span></button>
+            <button onclick="showInfoApp()" style="background:linear-gradient(135deg, var(--input-bg), var(--bg-card));color:var(--text-main);padding:12px;border:1px solid var(--border-color);border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 4px rgba(0,0,0,0.05);transition:all 0.2s;"><span>️ Info Aplikasi</span><span>›</span></button>
+            <button onclick="showDeleteAccountModal()" style="background:linear-gradient(135deg, #fef2f2, #fee2e2);color:#ef4444;padding:12px;border:1px solid #fecaca;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 4px rgba(239,68,68,0.1);transition:all 0.2s;"><span>🗑️ Hapus Akun</span><span>›</span></button>
+        </div>
+    </div>
+  </div>
+
+  <!-- HALAMAN KELOLA PENGGUNA (FULL PAGE) -->
+  <div id="manageUsersPage" class="page">
+    <div class="header-top">
+        <span onclick="openMilikku()" style="cursor:pointer;font-size:28px;line-height:1; margin-left:10px">‹</span>
+        <span>Kelola Pengguna</span>
+        <span style="opacity:0">.</span>
+    </div>
+    <div class="box" id="fullUserListContainer" style="min-height:200px"></div>
   </div>
 
   <!-- HALAMAN CHAT -->
@@ -415,7 +828,7 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
   <div id="modalExportExcel">
     <div class="modal-confirm-box" style="text-align:left">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h3 style="margin:0;color:var(--text-main);font-size:18px;font-weight:800">📊 Export Data Excel</h3>
+        <h3 style="margin:0;color:var(--text-main);font-size:18px;font-weight:800"> Export Data Excel</h3>
         <span onclick="tutupModalExportExcel()" style="font-size:24px;cursor:pointer;color:var(--text-sub)">&times;</span>
       </div>
       <p style="margin:0 0 12px;color:var(--text-sub);font-size:12px;line-height:1.4">Pilih rentang tanggal data yang ingin diunduh. Jika dikosongkan, seluruh data akan diunduh secara default.</p>
@@ -423,10 +836,10 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
       <input type="date" id="exp_tglAwal" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid var(--border-color);border-radius:8px">
       <label class="t">Sampai Tanggal</label>
       <input type="date" id="exp_tglAkhir" style="width:100%;padding:10px;margin:4px 0 12px;border:1px solid var(--border-color);border-radius:8px">
-      <div style="background:var(--input-bg);border:1px dashed var(--border-color);padding:10px;border-radius:8px;margin-bottom:16px;font-size:11px;color:var(--text-sub);line-height:1.4">📁 <b>Lokasi File:</b> Otomatis tersimpan di folder <b>Downloads</b> bawaan HP / Laptop Anda.</div>
+      <div style="background:linear-gradient(135deg, var(--input-bg), var(--bg-card));border:1px dashed var(--border-color);padding:10px;border-radius:8px;margin-bottom:16px;font-size:11px;color:var(--text-sub);line-height:1.4;box-shadow:inset 0 2px 4px rgba(0,0,0,0.05)"> 📁 <b>Lokasi File:</b> Otomatis tersimpan di folder <b>Downloads</b> bawaan HP / Laptop Anda.</div>
       <div style="display:flex;gap:8px">
         <button class="btn-cancel" onclick="tutupModalExportExcel()">Batal</button>
-        <button class="btn-primary" style="background:#16a34a;box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3)" onclick="eksekusiExportExcel()">Unduh Excel</button>
+        <button class="btn-primary" style="background:linear-gradient(135deg, #22c55e, #16a34a);box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4)" onclick="eksekusiExportExcel()">Unduh Excel</button>
       </div>
     </div>
   </div>
@@ -451,7 +864,7 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
         <small id="roomError" style="color:#ef4444;font-size:11px;display:none;margin-top:-5px;margin-bottom:5px;">* Silakan pilih ruangan</small>
         <label class="t">Tim Perbaikan</label><input id="tim" placeholder="Contoh : Shift Siang">
         <label class="t">Keterangan Laporan</label><textarea id="laporan" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
-        <button type="submit" style="width:100%;background:#2563eb;color:#fff;padding:14px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px">SIMPAN KE CLOUD</button>
+        <button type="submit" style="width:100%;background:linear-gradient(135deg, #3b82f6, #2563eb);color:#fff;padding:14px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px;box-shadow:0 4px 12px rgba(37,99,235,0.4);transition:all 0.2s;">SIMPAN KE CLOUD</button>
       </form>
     </div>
   </div>
@@ -477,10 +890,10 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
       </select>
       <label class="t">Tim Perbaikan</label><input id="e_tim">
       <label class="t">Keterangan Laporan</label><textarea id="e_laporan" rows="2"></textarea>
-      <button onclick="simpanEditPerbaikan()" style="width:100%;background:#f59e0b;color:#fff;padding:14px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px">UPDATE DATA</button>
+      <button onclick="simpanEditPerbaikan()" style="width:100%;background:linear-gradient(135deg, #f59e0b, #d97706);color:#fff;padding:14px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px;box-shadow:0 4px 12px rgba(245,158,11,0.4);transition:all 0.2s;">UPDATE DATA</button>
       <div style="margin-top:10px; border-top:1px dashed var(--border-color); padding-top:10px;">
-         <button onclick="setPendingViaEdit()" style="width:100%; background:linear-gradient(135deg, #64748b, #475569); color:#fff; padding:12px; border:none; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:8px; box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);">⏸️ Set Pending (Alat Kosong)</button>
-         <button onclick="resumeRepairViaEdit()" style="width:100%; background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; padding:12px; border:none; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);">▶️ Lanjut Perbaikan (Alat Ada)</button>
+         <button onclick="setPendingViaEdit()" style="width:100%; background:linear-gradient(135deg, #64748b, #475569); color:#fff; padding:12px; border:none; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:8px; box-shadow: 0 4px 12px rgba(71, 85, 105, 0.4);">⏸️ Set Pending (Alat Kosong)</button>
+         <button onclick="resumeRepairViaEdit()" style="width:100%; background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; padding:12px; border:none; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4);">▶️ Lanjut Perbaikan (Alat Ada)</button>
       </div>
     </div>
   </div>
@@ -500,8 +913,8 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
         <label class="t" style="color:#b45309">Keluar Bengkel <small style="color:var(--text-sub);font-weight:normal">(Opsional)</small></label><input type="datetime-local" id="waktuKeluarInput">
       </div>
       <div style="display:flex;gap:10px;margin-top:10px">
-        <button onclick="closeModalSelesai()" style="flex:1;background:var(--input-bg);color:var(--text-sub);padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Batal</button>
-        <button onclick="simpanSelesaiKeluar()" style="flex:1;background:#2563eb;color:#fff;padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Simpan Update</button>
+        <button onclick="closeModalSelesai()" style="flex:1;background:linear-gradient(135deg, var(--input-bg), var(--bg-card));color:var(--text-sub);padding:12px;border:1px solid var(--border-color);border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 2px 4px rgba(0,0,0,0.08);transition:all 0.2s;">Batal</button>
+        <button onclick="simpanSelesaiKeluar()" style="flex:1;background:linear-gradient(135deg, #3b82f6, #2563eb);color:#fff;padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,0.4);transition:all 0.2s;">Simpan Update</button>
       </div>
     </div>
   </div>
@@ -527,7 +940,7 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
       <div id="fg_step3" style="display:none">
         <p style="margin:0 0 12px;color:var(--text-sub);font-size:13px;">Verifikasi berhasil. Silakan buat password baru untuk akun Anda.</p>
         <label class="t">Password Baru</label><input id="fg_newpass" type="password" placeholder="Masukkan password baru" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid var(--border-color);border-radius:8px">
-        <button class="btn-primary" style="background:#22c55e" onclick="simpanSandiBaru()">Simpan Password Baru</button>
+        <button class="btn-primary" style="background:linear-gradient(135deg, #22c55e, #16a34a);box-shadow:0 4px 12px rgba(22,163,74,0.4)" onclick="simpanSandiBaru()">Simpan Password Baru</button>
       </div>
     </div>
   </div>
@@ -547,7 +960,7 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
       <div id="formUpdatePhoneStep2" style="display:none">
         <p style="margin:0 0 12px;color:var(--text-sub);font-size:13px;">Masukkan kode OTP 4-digit yang dikirimkan ke nomor HP baru Anda.</p>
         <label class="t">Kode OTP Verifikasi</label><input id="acc_phone_otp" placeholder="Contoh: 1234" maxlength="4" style="width:100%;padding:10px;margin:4px 0 16px;border:1px solid var(--border-color);border-radius:8px;text-align:center;font-size:18px;letter-spacing:4px">
-        <button class="btn-primary" style="background:#22c55e" onclick="verifikasiDanSimpanHpBaru()">Konfirmasi OTP & Simpan</button>
+        <button class="btn-primary" style="background:linear-gradient(135deg, #22c55e, #16a34a);box-shadow:0 4px 12px rgba(22,163,74,0.4)" onclick="verifikasiDanSimpanHpBaru()">Konfirmasi OTP & Simpan</button>
       </div>
       <div id="formUpdatePass" style="display:none">
         <label class="t">Kata Sandi Lama</label><input id="acc_old_pass" type="password" placeholder="Masukkan sandi saat ini" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid var(--border-color);border-radius:8px">
@@ -591,7 +1004,7 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
   <!-- POP-UP HAPUS KUSTOM (UNTUK WO) -->
   <div id="modalHapus">
     <div class="modal-confirm-box">
-      <div class="icon-wrapper icon-danger">🗑️</div>
+      <div class="icon-wrapper icon-danger">️</div>
       <h3 style="margin:0 0 8px;color:var(--text-main);font-size:18px;font-weight:800">Hapus Data Perbaikan?</h3>
       <p style="margin:0 0 20px;color:var(--text-sub);font-size:13px;line-height:1.4">Apakah Anda yakin ingin menghapus data perbaikan ID: <br><strong id="hapusWOId" style="color:var(--text-main)"></strong>? Data yang dihapus tidak dapat dikembalikan.</p>
       <input type="hidden" id="hapusFirebaseKey">
@@ -617,7 +1030,7 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
     <div class="modal-confirm-box">
       <div class="icon-wrapper icon-info">📱</div>
       <h3 style="margin:0 0 8px;color:var(--text-main);font-size:18px;font-weight:800">Info Aplikasi</h3>
-      <div style="background:var(--input-bg);padding:12px;border-radius:12px;margin-bottom:16px;text-align:left">
+      <div style="background:linear-gradient(135deg, var(--input-bg), var(--bg-card));padding:12px;border-radius:12px;margin-bottom:16px;text-align:left;box-shadow:inset 0 2px 4px rgba(0,0,0,0.05)">
         <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-sub);font-size:13px">Versi Saat Ini</span><span id="infoAppVersion" style="font-weight:700;color:#2563eb;font-size:13px">-</span></div>
         <div style="display:flex;justify-content:space-between"><span style="color:var(--text-sub);font-size:13px">Status Server</span><span style="font-weight:700;color:#16a34a;font-size:13px">Online</span></div>
       </div>
@@ -645,7 +1058,7 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
 </div>
 
 <script>
-const APP_VERSION = "1.0.9"; // Updated Version for Dark Mode
+const APP_VERSION = "1.1.0"; // Updated Version with Icons & Fixes
 
 function checkForUpdate() {
     const lastVersion = localStorage.getItem('app_last_version');
@@ -656,39 +1069,37 @@ function checkForUpdate() {
 }
 function forceCheckUpdate() {
     closeInfoApp();
-    showLoading('Memeriksa Pembaruan...', 'Menghubungkan ke server...');
     setTimeout(() => {
-        hideLoading();
         localStorage.removeItem('app_last_version');
         showToast('Pembaruan tersedia! Aplikasi akan dimuat ulang.', 'Info', 'success', () => { window.location.reload(true); });
-    }, 1500);
+    }, 500);
 }
 checkForUpdate();
 
-// --- LOGIKA DARK MODE ---
 function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute("data-theme");
     const newTheme = currentTheme === "dark" ? "light" : "dark";
-    
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem("iwip_theme", newTheme);
-    
-    // Update Icon
-    const btn = document.querySelector('.theme-toggle-btn');
-    if(btn) btn.innerText = newTheme === "dark" ? "☀️" : "🌙";
+    const btns = document.querySelectorAll('.theme-toggle-btn');
+    btns.forEach(btn => btn.innerText = newTheme === "dark" ? "☀️" : "🌙");
 }
 
 function initTheme() {
     const savedTheme = localStorage.getItem("iwip_theme");
     if (savedTheme) {
         document.documentElement.setAttribute("data-theme", savedTheme);
-        const btn = document.querySelector('.theme-toggle-btn');
-        if(btn) btn.innerText = savedTheme === "dark" ? "☀️" : "🌙";
+        const btns = document.querySelectorAll('.theme-toggle-btn');
+        btns.forEach(btn => btn.innerText = savedTheme === "dark" ? "☀️" : "");
+    } else {
+        // Default to moon icon if no theme set
+        const btns = document.querySelectorAll('.theme-toggle-btn');
+        btns.forEach(btn => btn.innerText = "🌙");
     }
 }
-initTheme(); // Jalankan saat load
-// ------------------------
+initTheme();
 
+// === FIREBASE CONFIGURATION ===
 const firebaseConfig = {
   apiKey: "AIzaSyDKyUcHEUE8HIhpL9s85122MIbn9q2GMkg",
   authDomain: "mekanik2.firebaseapp.com",
@@ -742,18 +1153,22 @@ function renderSingleMessage(msg) {
   if (chatContainer.innerText.includes('Memuat')) chatContainer.innerHTML = '';
   const isMe = msg.uid === (currentUser ? currentUser.user : '');
   const time = new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-  let senderHtml = isMe ? '' : `<span class="chat-sender-name">${msg.sender}</span>`;
+  let senderHtml = isMe ? '' : `<span class="chat-sender-name">${msg.sender || 'Unknown'}</span>`;
   const bubbleClass = isMe ? 'chat-bubble me' : 'chat-bubble other';
   const div = document.createElement('div');
   div.className = bubbleClass;
-  div.innerHTML = `${senderHtml}<div>${msg.text}</div><div class="chat-meta"><span>${time}</span></div>`;
+  div.innerHTML = `${senderHtml}<div>${msg.text || ''}</div><div class="chat-meta"><span>${time}</span></div>`;
   chatContainer.appendChild(div);
-}
+  }
 
 function sendChatMessage() {
+  if (!currentUser) {
+    showToast('Anda harus login terlebih dahulu!', 'Error', 'danger');
+    return;
+  }
   const input = document.getElementById('chatInput');
   const text = input.value.trim();
-  if (!text || !currentUser) return;
+  if (!text) return;
   const msgData = {
     uid: currentUser.user,
     sender: currentUser.name || currentUser.user,
@@ -763,13 +1178,12 @@ function sendChatMessage() {
   chatRef.push(msgData);
   input.value = '';
   input.focus();
-}
+  }
 
 function scrollToBottom() {
   const container = document.getElementById('chatMessages');
   container.scrollTop = container.scrollHeight;
 }
-// -------------------
 
 function showCustomConfirm(options) {
   const modal = document.getElementById('modalCustomConfirm');
@@ -828,7 +1242,14 @@ window.addEventListener('popstate', (e) => {
     const bengkelPage = document.getElementById('bengkelPage');
     const milikPage = document.getElementById('milikPage');
     const chatPage = document.getElementById('chatPage');
-    if ((bengkelPage && bengkelPage.style.display === 'block') || (milikPage && milikPage.style.display === 'block') || (chatPage && chatPage.style.display === 'block')) {
+    const settingsPage = document.getElementById('settingsPage');
+    const manageUsersPage = document.getElementById('manageUsersPage');
+    
+    if ((bengkelPage && bengkelPage.style.display === 'block') || 
+        (milikPage && milikPage.style.display === 'block') || 
+        (chatPage && chatPage.style.display === 'block') ||
+        (settingsPage && settingsPage.style.display === 'block') ||
+        (manageUsersPage && manageUsersPage.style.display === 'block')) {
       openDash();
     }
   }
@@ -873,6 +1294,7 @@ function closeToast() {
   }, 150);
 }
 
+// Firebase Realtime Listeners
 dbRef.on('value', (snapshot) => {
   const data = snapshot.val();
   db = [];
@@ -889,7 +1311,7 @@ usersRef.on('value', (snapshot) => {
     currentUser = allUsers[currentUser.user];
     updateMilikkuUI();
   }
-  renderUserManagement();
+  renderFullUserList();
 });
 
 function togglePass(id) {
@@ -900,26 +1322,14 @@ function togglePass(id) {
 function showReg() { document.getElementById('loginPage').style.display = 'none'; document.getElementById('regPage').style.display = 'flex'; }
 function showLogin() { document.getElementById('regPage').style.display = 'none'; document.getElementById('loginPage').style.display = 'flex'; }
 
-let loginTimeout = null;
-function showLoading(text = "Memproses...", subtext = "Harap tunggu sebentar") {
-  document.getElementById('loadingText').innerText = text;
-  document.getElementById('loadingSubtext').innerText = subtext;
-  document.getElementById('loadingOverlay').style.display = 'flex';
-}
-function hideLoading() {
-  document.getElementById('loadingOverlay').style.display = 'none';
-  if (loginTimeout) { clearTimeout(loginTimeout); loginTimeout = null; }
-}
-
 function register() {
   const u = document.getElementById('r_user').value.trim();
   const p = document.getElementById('r_pass').value.trim();
   const n = document.getElementById('r_name').value.trim();
   const ph = document.getElementById('r_phone').value.trim();
   if (!u || !p || !ph) { showToast('Harap lengkapi NIK/Username, Nomor HP, dan Password!', 'Peringatan', 'warning'); return; }
-  showLoading('Mendaftarkan Akun...', 'Menyimpan data ke server...');
+  
   usersRef.once('value', snapshot => {
-    hideLoading();
     const users = snapshot.val();
     const isFirstUser = !users || Object.keys(users).length === 0;
     if (users && users[u]) {
@@ -932,7 +1342,6 @@ function register() {
       });
     }
   }, (error) => {
-    hideLoading();
     showToast('Gagal mendaftar, periksa koneksi internet Anda!', 'Gagal Terhubung', 'danger');
   });
 }
@@ -942,17 +1351,8 @@ function login() {
   let pInput = document.getElementById('pass').value.trim();
   let rememberMe = document.getElementById('rememberMe').checked;
   if (!uInput || !pInput) { showToast('Isi Username dan Password!', 'Peringatan', 'warning'); return; }
-  showLoading('Memproses Login...', 'Menghubungkan ke server Firebase...');
-  let networkNoticeTimer = setTimeout(() => {
-    document.getElementById('loadingText').innerText = 'Jaringan Lambat Detected...';
-    document.getElementById('loadingSubtext').innerText = 'Sedang mengupayakan koneksi ke database.';
-  }, 3000);
-  loginTimeout = setTimeout(() => {
-    clearTimeout(networkNoticeTimer); hideLoading();
-    showToast('Koneksi internet Anda jelek atau terputus!', 'Gagal Terhubung', 'danger');
-  }, 15000);
+  
   usersRef.child(uInput).once('value', snapshot => {
-    clearTimeout(networkNoticeTimer); hideLoading();
     let u = snapshot.val();
     if (u && u.pass === pInput) {
       if (!u.role) u.role = 'user';
@@ -971,7 +1371,6 @@ function login() {
       showToast('Username / Password salah atau belum terdaftar!', 'Akses Ditolak', 'danger');
     }
   }, (error) => {
-    clearTimeout(networkNoticeTimer); hideLoading();
     showToast('Terjadi kesalahan jaringan: ' + error.message, 'Gagal Terhubung', 'danger');
   });
 }
@@ -1003,9 +1402,8 @@ function kirimOtp() {
   const u = document.getElementById('fg_user').value.trim();
   const ph = document.getElementById('fg_phone').value.trim();
   if (!u || !ph) { showToast('Isi Username/NIK dan Nomor HP!', 'Data Tidak Lengkap', 'warning'); return; }
-  showLoading('Memverifikasi User...', 'Mengecek data terdaftar...');
+  
   usersRef.child(u).once('value', snapshot => {
-    hideLoading();
     const userData = snapshot.val();
     if (!userData) { showToast('Username/NIK tidak ditemukan!', 'Gagal Verifikasi', 'danger'); return; }
     if (userData.phone !== ph) { showToast('Nomor HP tidak cocok dengan data terdaftar!', 'Gagal Verifikasi', 'danger'); return; }
@@ -1016,7 +1414,6 @@ function kirimOtp() {
       document.getElementById('fg_step2').style.display = 'block';
     });
   }, (error) => {
-    hideLoading();
     showToast('Koneksi internet bermasalah!', 'Gagal', 'danger');
   });
 }
@@ -1033,9 +1430,8 @@ function verifikasiOtp() {
 function simpanSandiBaru() {
   const newPass = document.getElementById('fg_newpass').value.trim();
   if (!newPass) { showToast('Masukkan password baru Anda!', 'Peringatan', 'warning'); return; }
-  showLoading('Menyimpan Password...', 'Memperbarui data akun...');
+  
   usersRef.child(targetResetUser).update({ pass: newPass }, (err) => {
-    hideLoading();
     if (err) showToast('Gagal mengubah password: ' + err.message, 'Error', 'danger');
     else {
       closeForgotModal();
@@ -1090,9 +1486,8 @@ function verifikasiDanSimpanHpBaru() {
   const inputOtp = document.getElementById('acc_phone_otp').value.trim();
   if (!inputOtp) { showToast('Masukkan kode OTP verifikasi!', 'Peringatan', 'warning'); return; }
   if (inputOtp !== changePhoneOTP) { showToast('Kode OTP yang Anda masukkan salah!', 'Gagal Verifikasi', 'danger'); return; }
-  showLoading('Menyimpan Nomor HP...', 'Mengintegrasikan dengan akun...');
+  
   usersRef.child(currentUser.user).update({ phone: newPhoneCandidate }, (err) => {
-    hideLoading();
     if (err) showToast('Gagal memperbarui nomor HP: ' + err.message, 'Error', 'danger');
     else {
       currentUser.phone = newPhoneCandidate;
@@ -1107,9 +1502,8 @@ function simpanKataSandiBaru() {
   const newPass = document.getElementById('acc_new_pass').value.trim();
   if (!oldPass || !newPass) { showToast('Isi kata sandi lama dan kata sandi baru!', 'Peringatan', 'warning'); return; }
   if (oldPass !== currentUser.pass) { showToast('Kata sandi lama yang Anda masukkan salah!', 'Gagal Verifikasi', 'danger'); return; }
-  showLoading('Memperbarui Sandi...', 'Menyimpan kata sandi baru...');
+  
   usersRef.child(currentUser.user).update({ pass: newPass }, (err) => {
-    hideLoading();
     if (err) showToast('Gagal memperbarui kata sandi: ' + err.message, 'Error', 'danger');
     else {
       currentUser.pass = newPass;
@@ -1137,9 +1531,8 @@ function eksekusiHapusAkun() {
   const confirmPass = document.getElementById('del_confirm_pass').value.trim();
   if (!confirmPass) { showToast('Masukkan kata sandi untuk mengonfirmasi penghapusan akun!', 'Konfirmasi Diperlukan', 'warning'); return; }
   if (confirmPass !== currentUser.pass) { showToast('Kata sandi yang Anda masukkan salah!', 'Gagal Konfirmasi', 'danger'); return; }
-  showLoading('Menghapus Akun...', 'Menghapus data dari server...');
+  
   usersRef.child(currentUser.user).remove((err) => {
-    hideLoading();
     if (err) showToast('Gagal menghapus akun: ' + err.message, 'Error', 'danger');
     else {
       closeDeleteAccountModal();
@@ -1169,9 +1562,8 @@ function closeAdminDeleteUserModal() {
 function eksekusiAdminHapusUser() {
   const targetUser = document.getElementById('adminDeleteUserKey').value;
   if (!targetUser) return;
-  showLoading('Menghapus Akun User...', 'Menghapus pengguna dari database...');
+  
   usersRef.child(targetUser).remove((err) => {
-    hideLoading();
     if (err) showToast('Gagal menghapus akun user: ' + err.message, 'Error', 'danger');
     else {
       closeAdminDeleteUserModal();
@@ -1188,9 +1580,8 @@ function handleProfileImage(input) {
     reader.onload = function(e) {
       const base64String = e.target.result;
       document.getElementById('milikAvatar').src = base64String;
-      showLoading('Menyimpan Foto...', 'Mengunggah ke cloud...');
+      
       usersRef.child(currentUser.user).update({ photo: base64String }, (err) => {
-        hideLoading();
         if (err) showToast('Gagal menyimpan foto: ' + err.message, 'Error', 'danger');
         else {
           currentUser.photo = base64String;
@@ -1213,6 +1604,10 @@ function updateMilikkuUI() {
 }
 
 function goDash(u) {
+  if (!u) {
+    showToast('Session error, silakan login ulang', 'Error', 'danger');
+    return;
+  }
   currentUser = u;
   document.getElementById('loginPage').style.display = 'none';
   document.getElementById('regPage').style.display = 'none';
@@ -1220,41 +1615,65 @@ function goDash(u) {
   document.getElementById('bengkelPage').style.display = 'none';
   document.getElementById('milikPage').style.display = 'none';
   document.getElementById('chatPage').style.display = 'none';
+  document.getElementById('settingsPage').style.display = 'none';
+  document.getElementById('manageUsersPage').style.display = 'none';
+  
   updateMilikkuUI();
+  
+  const btnManage = document.getElementById('btnManageUsers');
   if (u.role === 'admin') {
-    document.getElementById('adminUserControl').style.display = 'block';
-    renderUserManagement();
+    btnManage.style.display = 'flex';
   } else {
-    document.getElementById('adminUserControl').style.display = 'none';
+    btnManage.style.display = 'none';
   }
+  
   tampil();
 }
 
-function renderUserManagement() {
-  const container = document.getElementById('userListContainer');
-  if (!container || !currentUser || currentUser.role !== 'admin') return;
-  const keys = Object.keys(allUsers);
-  if (keys.length === 0) { container.innerHTML = '<div style="font-size:12px;color:var(--text-sub)">Belum ada pengguna lain.</div>'; return; }
-  container.innerHTML = keys.map(k => {
-    const usr = allUsers[k];
-    const isSelf = currentUser.user === usr.user;
-    return `
-      <div class="user-item">
-        <div class="user-info">
-          <b>${usr.name || usr.user}</b> (${usr.user})
-          <span>HP: ${usr.phone || '-'} | Role: ${usr.role === 'admin' ? 'Admin' : 'User'}</span>
-        </div>
-        <div class="user-action-group">
-          <select class="role-select" onchange="changeUserRole('${usr.user}', this.value)" ${isSelf ? 'disabled' : ''}>
-            <option value="user" ${usr.role === 'user' ? 'selected' : ''}>User</option>
-            <option value="admin" ${usr.role === 'admin' ? 'selected' : ''}>Admin</option>
-          </select>
-          ${!isSelf ? `<button class="btn-del-user" onclick="confirmAdminDeleteUser('${usr.user}', '${usr.name || usr.user}')">🗑️ Hapus</button>` : ''}
-        </div>
-      </div>
-    `;
-  }).join('');
+function openSettingsPage() {
+    document.getElementById('milikPage').style.display = 'none';
+    document.getElementById('settingsPage').style.display = 'block';
+    pushNavigationState('settings');
 }
+
+function openManageUsersPage() {
+    document.getElementById('milikPage').style.display = 'none';
+    document.getElementById('manageUsersPage').style.display = 'block';
+    renderFullUserList();
+    pushNavigationState('manageUsers');
+}
+
+function renderFullUserList() {
+    const container = document.getElementById('fullUserListContainer');
+    if (!container) return;
+    if (!currentUser) return; // ← TAMBAHKAN BARIS INI!
+    
+    const keys = Object.keys(allUsers);
+    if (keys.length === 0) { 
+        container.innerHTML = '<div style="font-size:12px;color:var(--text-sub);text-align:center;padding:20px">Belum ada pengguna lain.</div>'; 
+        return; 
+    }
+    
+    container.innerHTML = keys.map(k => {
+        const usr = allUsers[k];
+        const isSelf = currentUser.user === usr.user;
+        return `
+          <div class="user-item">
+            <div class="user-info">
+              <b>${usr.name || usr.user}</b> (${usr.user})
+              <span>HP: ${usr.phone || '-'} | Role: ${usr.role === 'admin' ? 'Admin' : 'User'}</span>
+            </div>
+            <div class="user-action-group">
+              <select class="role-select" onchange="changeUserRole('${usr.user}', this.value)" ${isSelf ? 'disabled' : ''}>
+                <option value="user" ${usr.role === 'user' ? 'selected' : ''}>User</option>
+                <option value="admin" ${usr.role === 'admin' ? 'selected' : ''}>Admin</option>
+              </select>
+              ${!isSelf ? `<button class="btn-del-user" onclick="confirmAdminDeleteUser('${usr.user}', '${usr.name || usr.user}')">🗑️ Hapus</button>` : ''}
+            </div>
+          </div>
+        `;
+    }).join('');
+  }
 
 function changeUserRole(username, newRole) {
   if (!currentUser || currentUser.role !== 'admin') return;
@@ -1269,16 +1688,28 @@ function openDash() {
   document.getElementById('bengkelPage').style.display = 'none'; 
   document.getElementById('milikPage').style.display = 'none'; 
   document.getElementById('chatPage').style.display = 'none';
+  document.getElementById('settingsPage').style.display = 'none';
+  document.getElementById('manageUsersPage').style.display = 'none';
   document.getElementById('dashPage').style.display = 'block'; 
 }
 function openMilikku() { 
   document.getElementById('dashPage').style.display = 'none'; 
   document.getElementById('bengkelPage').style.display = 'none'; 
   document.getElementById('chatPage').style.display = 'none';
+  document.getElementById('settingsPage').style.display = 'none';
+  document.getElementById('manageUsersPage').style.display = 'none';
   document.getElementById('milikPage').style.display = 'block'; 
   pushNavigationState('milik');
 }
-function logout() { currentUser = null; location.reload(); }
+function logout() { 
+    currentUser = null; 
+    // Hapus semua data login yang tersimpan
+    localStorage.removeItem('iwip_saved_user');
+    localStorage.removeItem('iwip_saved_pass');
+    localStorage.removeItem('iwip_remember');
+    // Reload halaman untuk kembali ke login
+    location.reload(); 
+  }
 
 function openModal() {
   const currentDateTime = getFormattedDateTimeLocal();
@@ -1363,7 +1794,7 @@ function simpanPerintah() {
   if (!waktuMasukVal) { showToast('Pilih Waktu Masuk!', 'Data Belum Lengkap', 'warning'); return; }
   if (!unit) { showToast('Nomor Unit wajib diisi!', 'Data Belum Lengkap', 'warning'); return; }
   if (!rm) { document.getElementById('roomError').style.display = 'block'; showToast('Silakan pilih Ruangan!', 'Data Belum Lengkap', 'warning'); return; }
-  showLoading('Menyimpan Perintah...', 'Mengunggah ke database server...');
+  
   const [tglMasuk, jamMasuk] = waktuMasukVal.split('T');
   const [tglMulai, jamMulai] = waktuMulaiVal ? waktuMulaiVal.split('T') : [tglMasuk, jamMasuk];
   let o = {
@@ -1375,7 +1806,6 @@ function simpanPerintah() {
     waktuMulai: `${tglMulai} ${jamMulai}`, status: 'Menunggu Selesai Perbaikan', durasi: 0
   };
   dbRef.push(o, (err) => {
-    hideLoading();
     if (err) showToast('Gagal menyimpan ke Firebase: ' + err.message, 'Error', 'danger');
     else {
       closeModal();
@@ -1419,9 +1849,8 @@ function simpanSelesaiKeluar() {
   const [tglS, jamS] = selVal.split('T');
   let updateData = { tglSelesai: tglS, selesai: jamS, status: 'Selesai Perbaikan' };
   if (kelVal) { const [tglK, jamK] = kelVal.split('T'); updateData.tglKeluar = tglK; updateData.keluar = jamK; }
-  showLoading('Memperbarui Status...', 'Menyimpan waktu selesai...');
+  
   dbRef.child(key).update(updateData, (err) => {
-    hideLoading();
     if (err) showToast('Gagal memperbarui status: ' + err.message, 'Error', 'danger');
     else { closeModalSelesai(); showToast('Status perbaikan berhasil diperbarui!', 'Berhasil', 'success'); }
   });
@@ -1452,9 +1881,8 @@ function simpanEditPerbaikan() {
     item: document.getElementById('e_item').value, tempat: document.getElementById('e_tempat').value,
     tim: document.getElementById('e_tim').value, laporan: document.getElementById('e_laporan').value
   };
-  showLoading('Memperbarui Data...', 'Menyimpan perubahan ke cloud...');
+  
   dbRef.child(key).update(updateObj, (err) => {
-    hideLoading();
     if (err) showToast('Gagal mengedit data: ' + err.message, 'Error', 'danger');
     else { closeModalEdit(); showToast('Data perbaikan berhasil diperbarui!', 'Berhasil', 'success'); }
   });
@@ -1465,11 +1893,9 @@ function setPendingViaEdit() {
   if (!key) return;
   showCustomConfirm({
     title: 'Tandai Sebagai Pending?', message: 'Perbaikan ini akan ditandai <b>Pending (Alat Kosong)</b>.',
-    icon: '⏸️', iconClass: 'icon-pending', confirmText: 'Ya, Tandai Pending', confirmClass: 'btn-pending',
+    icon: '️', iconClass: 'icon-pending', confirmText: 'Ya, Tandai Pending', confirmClass: 'btn-pending',
     onConfirm: () => {
-      showLoading('Mengubah Status...', 'Menandai sebagai Pending...');
       dbRef.child(key).update({ status: 'Pending' }, (err) => {
-        hideLoading();
         if (err) showToast('Gagal update status: ' + err.message, 'Error', 'danger');
         else { closeModalEdit(); showToast('Status berhasil diubah menjadi PENDING!', 'Berhasil', 'success'); }
       });
@@ -1484,9 +1910,7 @@ function resumeRepairViaEdit() {
     title: 'Lanjutkan Perbaikan?', message: 'Status akan dikembalikan ke <b>Dalam Perbaikan</b>.',
     icon: '▶️', iconClass: 'icon-play', confirmText: 'Ya, Lanjutkan', confirmClass: 'btn-play',
     onConfirm: () => {
-      showLoading('Melanjutkan Perbaikan...', 'Mengupdate status...');
       dbRef.child(key).update({ status: 'Dalam Perbaikan' }, (err) => {
-        hideLoading();
         if (err) showToast('Gagal update status: ' + err.message, 'Error', 'danger');
         else { closeModalEdit(); showToast('Perbaikan dilanjutkan! Status kembali normal.', 'Berhasil', 'success'); }
       });
@@ -1506,9 +1930,8 @@ function confirmHapus(key, idWO) {
 function eksekusiHapus() {
   const key = document.getElementById('hapusFirebaseKey').value;
   if (!key) return;
-  showLoading('Menghapus Data...', 'Menghapus perintah perbaikan...');
+  
   dbRef.child(key).remove((err) => {
-    hideLoading();
     if (err) showToast('Gagal menghapus data: ' + err.message, 'Error', 'danger');
     else { closeModalHapus(); showToast('Data perbaikan berhasil dihapus!', 'Berhasil', 'success'); }
   });
@@ -1566,7 +1989,7 @@ function eksekusiExportExcel() {
     return true;
   });
   if (exportData.length === 0) { showToast('Tidak ada data perbaikan pada rentang tanggal tersebut!', 'Data Kosong', 'warning'); return; }
-  showLoading('Mengunduh Excel...', 'Menyiapkan berkas spreadsheet...');
+  
   let formattedRows = exportData.map((x, idx) => ({
     "No": idx + 1, "ID Work Order": x.id, "Tanggal Masuk": x.tanggal || '-', "Jam Masuk": x.masuk || '-',
     "Pelapor": x.nama || '-', "Nomor Unit": x.nomorMesin || '-', "Jenis Unit": x.jenisMesin || '-',
@@ -1581,9 +2004,9 @@ function eksekusiExportExcel() {
       XLSX.utils.book_append_sheet(workbook, worksheet, "Data Perbaikan");
       const fileName = `Data_Perbaikan_Mekanik2_${tAwal || 'All'}_sd_${tAkhir || 'All'}.xlsx`;
       XLSX.writeFile(workbook, fileName);
-      hideLoading(); tutupModalExportExcel();
+      tutupModalExportExcel();
       showToast('File Excel berhasil diunduh ke perangkat Anda!', 'Berhasil Export', 'success');
-    } catch (e) { hideLoading(); showToast('Gagal mengunduh file Excel: ' + e.message, 'Error', 'danger'); }
+    } catch (e) { showToast('Gagal mengunduh file Excel: ' + e.message, 'Error', 'danger'); }
   }, 500);
 }
 
@@ -1602,7 +2025,6 @@ function tampil() {
   
   let countProses = dataFilteredBase.filter(x => !x.selesai || x.selesai === '-').length;
   let countSelesai = dataFilteredBase.filter(x => x.selesai && x.selesai !== '-').length;
-  // Hitung yang sudah selesai tapi belum keluar
   let countBelumKeluar = dataFilteredBase.filter(x => x.selesai && x.selesai !== '-' && (!x.keluar || x.keluar === '-')).length;
   
   if (document.getElementById('jmlSemua')) document.getElementById('jmlSemua').innerText = dataFilteredBase.length;
@@ -1621,7 +2043,7 @@ function tampil() {
     if (currentStatusFilter === 'proses') return !isDone && !isPending;
     if (currentStatusFilter === 'selesai') return isDone;
     if (currentStatusFilter === 'pending') return isPending;
-    if (currentStatusFilter === 'belum_keluar') return isBelumKeluar; // Filter Baru
+    if (currentStatusFilter === 'belum_keluar') return isBelumKeluar;
     return true;
   });
   const listEl = document.getElementById('list');

@@ -1253,6 +1253,7 @@ label.t { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transf
           <span data-i18n="newRepairOrder">Perintah Perbaikan Baru</span>
           <span onclick="closeModal()" style="font-size:24px;cursor:pointer;color:var(--text-sub)">&times;</span>
         </div>
+        <small id="repeatDesc" style="display:none;color:var(--accent);font-size:12px;font-weight:600;background:var(--accent-light);padding:8px 12px;border-radius:8px;margin-bottom:10px;"></small>
         <label class="t" data-i18n="entryTime">Waktu Masuk</label><input type="datetime-local" id="waktuMasuk">
         <label class="t" data-i18n="startTime">Waktu Mulai</label><input type="datetime-local" id="waktuMulai">
         <label class="t" data-i18n="reporterName">Nama Pelapor</label><input id="nama" placeholder="Contoh: Yudha">
@@ -1581,7 +1582,10 @@ const i18n = {
         doneLabel:'Selesai', leaveLabel:'Keluar', notesLabel:'Catatan',
         notDoneYet:'Belum selesai', doneLeft:'Sudah Keluar', doneNotLeft:'Selesai - Belum Keluar',
         pendingEmpty:'Pending (Alat Kosong)', repairInProgress:'Dalam Perbaikan',
-        waitingDone:'Menunggu Selesai Perbaikan'
+        waitingDone:'Menunggu Selesai Perbaikan', repeatRepair:'🔄 Perbaikan Ulang',
+        repeatRepairTitle:'Perbaikan Ulang',
+        repeatRepairDesc:'Membuat WO baru berdasarkan data ini. WO lama tetap tersimpan.',
+        repeatSuccess:'WO perbaikan ulang berhasil dibuat!',
     },
     en: {
         loginTitle:'Mechanic 2 Repair System', loginSubtitle:'Login with registered account',
@@ -1644,7 +1648,10 @@ const i18n = {
         doneLabel:'Done', leaveLabel:'Leave', notesLabel:'Notes',
         notDoneYet:'Not done yet', doneLeft:'Left', doneNotLeft:'Done - Not Left',
         pendingEmpty:'Pending (No Tools)', repairInProgress:'In Repair',
-        waitingDone:'Waiting for Repair Completion'
+        waitingDone:'Waiting for Repair Completion', repeatRepair:'🔄 Repeat Repair',
+        repeatRepairTitle:'Repeat Repair',
+        repeatRepairDesc:'Create new WO based on this data. Old WO remains saved.',
+        repeatSuccess:'Repeat repair WO created successfully!',
     },
     zh: {
         loginTitle:'机械2维修系统', loginSubtitle:'使用注册账户登录',
@@ -1707,7 +1714,10 @@ const i18n = {
         doneLabel:'完成', leaveLabel:'离开', notesLabel:'备注',
         notDoneYet:'尚未完成', doneLeft:'已离开', doneNotLeft:'完成 - 未离开',
         pendingEmpty:'待处理(无工具)', repairInProgress:'维修中',
-        waitingDone:'等待维修完成'
+        waitingDone:'等待维修完成', repeatRepair:'🔄 重新维修',
+        repeatRepairTitle:'重新维修',
+        repeatRepairDesc:'基于此数据创建新工单。旧工单保留。',
+        repeatSuccess:'重新维修工单创建成功！',
     }
 };
 
@@ -2601,7 +2611,16 @@ function openModal() {
   document.getElementById('modal').style.display = 'flex';
   pushNavigationState('modal');
 }
-function closeModal() { document.getElementById('modal').style.display = 'none'; }
+function closeModal() { 
+    document.getElementById('modal').style.display = 'none';
+    // Reset mode ulang
+    isRepeatMode = false;
+    repeatSourceKey = null;
+    const judulEl = document.querySelector('#modal form div:first-child span:first-child');
+    if (judulEl) judulEl.innerText = i18n[settingsState.lang].newRepairOrder;
+    const descEl = document.getElementById('repeatDesc');
+    if (descEl) descEl.style.display = 'none';
+  }
 function closeModalSelesai() { document.getElementById('modalSelesai').style.display = 'none'; }
 function closeModalEdit() { document.getElementById('modalEdit').style.display = 'none'; }
 function closeModalHapus() { 
@@ -2669,39 +2688,78 @@ function renderRoomGrid() {
 }
 
 function simpanPerintah() {
-  const waktuMasukVal = document.getElementById('waktuMasuk').value;
-  const waktuMulaiVal = document.getElementById('waktuMulai').value;
-  const unit = document.getElementById('noMesin').value;
-  const rm = document.getElementById('tempat').value;
-  const pkrj = document.getElementById('nama').value;
-  if (!waktuMasukVal) { showToast('Pilih Waktu Masuk!', 'Data Belum Lengkap', 'warning'); return; }
-  if (!unit) { showToast('Nomor Unit wajib diisi!', 'Data Belum Lengkap', 'warning'); return; }
-  if (!rm) { document.getElementById('roomError').style.display = 'block'; showToast('Silakan pilih Ruangan!', 'Data Belum Lengkap', 'warning'); return; }
-  
-  const [tglMasuk, jamMasuk] = waktuMasukVal.split('T');
-  const [tglMulai, jamMulai] = waktuMulaiVal ? waktuMulaiVal.split('T') : [tglMasuk, jamMasuk];
-  const t = i18n[settingsState.lang];
-  let o = {
-    id: genId(), nama: pkrj || (currentUser ? currentUser.name : 'Petugas'), tanggal: tglMasuk, nomorMesin: unit,
-    jenisMesin: document.getElementById('jenisMesin').value || '-', item: document.getElementById('item').value || '-',
-    tempat: rm, tim: document.getElementById('tim').value || 'Bagian Mekanik 2', bengkel: 'RIM汽修厂一车间',
-    laporan: document.getElementById('laporan').value || '', masuk: jamMasuk || '08:00', mulai: jamMulai || '09:00',
-    selesai: "", tglSelesai: "", keluar: "", tglKeluar: "", waktuLapor: `${tglMasuk} ${jamMasuk}`,
-    waktuMulai: `${tglMulai} ${jamMulai}`, status: t.waitingDone, durasi: 0
-  };
-  dbRef.push(o, (err) => {
-    if (err) showToast('Gagal menyimpan ke Firebase: ' + err.message, 'Error', 'danger');
-    else {
-      closeModal();
-      document.getElementById('formPerintahBaru').reset();
-      document.querySelectorAll('.room-option').forEach(el => el.classList.remove('active'));
-      const currentDateTime = getFormattedDateTimeLocal();
-      document.getElementById('waktuMasuk').value = currentDateTime;
-      document.getElementById('waktuMulai').value = currentDateTime;
-      showToast('Perintah perbaikan baru berhasil disimpan!', 'Berhasil', 'success');
+    const waktuMasukVal = document.getElementById('waktuMasuk').value;
+    const waktuMulaiVal = document.getElementById('waktuMulai').value;
+    const unit = document.getElementById('noMesin').value;
+    const rm = document.getElementById('tempat').value;
+    const pkrj = document.getElementById('nama').value;
+    
+    if (!waktuMasukVal) { showToast('Pilih Waktu Masuk!', 'Data Belum Lengkap', 'warning'); return; }
+    if (!unit) { showToast('Nomor Unit wajib diisi!', 'Data Belum Lengkap', 'warning'); return; }
+    if (!rm) { document.getElementById('roomError').style.display = 'block'; showToast('Silakan pilih Ruangan!', 'Data Belum Lengkap', 'warning'); return; }
+    
+    const [tglMasuk, jamMasuk] = waktuMasukVal.split('T');
+    const [tglMulai, jamMulai] = waktuMulaiVal ? waktuMulaiVal.split('T') : [tglMasuk, jamMasuk];
+    const t = i18n[settingsState.lang];
+    
+    let o = {
+        id: genId(), 
+        nama: pkrj || (currentUser ? currentUser.name : 'Petugas'), 
+        tanggal: tglMasuk, 
+        nomorMesin: unit,
+        jenisMesin: document.getElementById('jenisMesin').value || '-', 
+        item: document.getElementById('item').value || '-',
+        tempat: rm, 
+        tim: document.getElementById('tim').value || 'Bagian Mekanik 2', 
+        bengkel: 'RIM汽修厂一车间',
+        laporan: document.getElementById('laporan').value || '', 
+        masuk: jamMasuk || '08:00', 
+        mulai: jamMulai || '09:00',
+        selesai: "", 
+        tglSelesai: "", 
+        keluar: "", 
+        tglKeluar: "", 
+        waktuLapor: `${tglMasuk} ${jamMasuk}`,
+        waktuMulai: `${tglMulai} ${jamMulai}`, 
+        status: t.waitingDone, 
+        durasi: 0
+    };
+    
+    // Jika mode ulang, tambahkan referensi ke WO asal
+    if (isRepeatMode && repeatSourceKey) {
+        const sourceItem = db.find(x => x.firebaseKey === repeatSourceKey);
+        if (sourceItem) {
+            o.woAsal = sourceItem.id;
+            o.firebaseKeyAsal = repeatSourceKey;
+        }
     }
-  });
-}
+    
+    dbRef.push(o, (err) => {
+        if (err) {
+            showToast('Gagal menyimpan ke Firebase: ' + err.message, 'Error', 'danger');
+        } else {
+            closeModal();
+            document.getElementById('formPerintahBaru').reset();
+            document.querySelectorAll('.room-option').forEach(el => el.classList.remove('active'));
+            const currentDateTime = getFormattedDateTimeLocal();
+            document.getElementById('waktuMasuk').value = currentDateTime;
+            document.getElementById('waktuMulai').value = currentDateTime;
+            
+            // Reset mode ulang
+            if (isRepeatMode) {
+                showToast(t.repeatSuccess, 'Berhasil', 'success');
+                isRepeatMode = false;
+                repeatSourceKey = null;
+                const judulEl = document.querySelector('#modal form div:first-child span:first-child');
+                if (judulEl) judulEl.innerText = t.newRepairOrder;
+                const descEl = document.getElementById('repeatDesc');
+                if (descEl) descEl.style.display = 'none';
+            } else {
+                showToast('Perintah perbaikan baru berhasil disimpan!', 'Berhasil', 'success');
+            }
+        }
+    });
+  }
 
 function resetFilterTanggal() { document.getElementById('tglAwal').value = ''; document.getElementById('tglAkhir').value = ''; tampil(); }
 function setFilterStatus(status) {
@@ -2756,7 +2814,47 @@ function openModalEdit(key) {
   document.getElementById('modalEdit').style.display = 'flex';
   pushNavigationState('modalEdit');
 }
-
+  
+function ulangiPerbaikan(key) {
+    const item = db.find(x => x.firebaseKey === key);
+    if (!item) return;
+    
+    isRepeatMode = true;
+    repeatSourceKey = key;
+    
+    // Isi modal dengan data dari WO lama
+    const currentDateTime = getFormattedDateTimeLocal();
+    document.getElementById('waktuMasuk').value = currentDateTime;
+    document.getElementById('waktuMulai').value = currentDateTime;
+    document.getElementById('nama').value = item.nama || '';
+    document.getElementById('noMesin').value = item.nomorMesin || '';
+    document.getElementById('jenisMesin').value = item.jenisMesin || '';
+    document.getElementById('item').value = item.item || '';
+    document.getElementById('tim').value = item.tim || '';
+    document.getElementById('laporan').value = '';
+    document.getElementById('tempat').value = item.tempat || '';
+    
+    // Update pilihan ruangan
+    document.querySelectorAll('.room-option').forEach(el => {
+        el.classList.toggle('active', el.innerText === item.tempat);
+    });
+    
+    // Tampilkan judul modal yang berbeda
+    const t = i18n[settingsState.lang];
+    const judulEl = document.querySelector('#modal form div:first-child span:first-child');
+    if (judulEl) judulEl.innerText = t.repeatRepairTitle + ' - ' + item.id;
+    
+    // Tampilkan deskripsi
+    const descEl = document.getElementById('repeatDesc');
+    if (descEl) {
+        descEl.style.display = 'block';
+        descEl.innerText = t.repeatRepairDesc;
+    }
+    
+    document.getElementById('modal').style.display = 'flex';
+    pushNavigationState('modal');
+  }
+  
 function simpanEditPerbaikan() {
   const key = document.getElementById('e_firebaseKey').value;
   if (!key) return;
@@ -2965,11 +3063,13 @@ function tampil() {
       <div class="btn-row">
         <button class="secondary" onclick="cetakWO('${x.firebaseKey}')">${t.printWO}</button>
         ${!textKeluar || textKeluar === '-' ? `
-        <button class="warning" onclick="openModalEdit('${x.firebaseKey}')">${t.edit}</button>
-        <button onclick="openModalSelesai('${x.firebaseKey}')">${t.doneLeave}</button>
-        ${isAdmin ? `<button class="danger" onclick="confirmHapus('${x.firebaseKey}', '${x.id}')">${t.delete}</button>` : ''}
-        ` : ''}
-      </div>
+            <button class="warning" onclick="openModalEdit('${x.firebaseKey}')">${t.edit}</button>
+            <button onclick="openModalSelesai('${x.firebaseKey}')">${t.doneLeave}</button>
+            ${isAdmin ? `<button class="danger" onclick="confirmHapus('${x.firebaseKey}', '${x.id}')">${t.delete}</button>` : ''}
+        ` : `
+            <button class="secondary" onclick="ulangiPerbaikan('${x.firebaseKey}')" style="border-color:#10B981;color:#10B981;background:linear-gradient(135deg,#ecfdf5,#dcfce7);box-shadow:0 2px 4px rgba(16,185,129,0.15);">🔄 ${t.repeatRepair}</button>
+        `}
+    </div>
     </div>`;
   }).join('');
 }
@@ -2986,6 +3086,8 @@ function closeInfoApp() {
   modal.classList.remove('active');
   setTimeout(() => modal.style.display = 'none', 150);
 }
+  let isRepeatMode = false;
+  let repeatSourceKey = null;
 </script>
 </body>
-</html>
+</html

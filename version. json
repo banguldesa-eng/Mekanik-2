@@ -1,6 +1,6 @@
 {
-  "latestVersion": "2.1.0",
-  "downloadUrl": "https://github.com/bangul-eng/mekanik-2/releases/download/v2.1.0/mekanik2.apk",
-  "changelog": "- Tambah tombol Perbaikan Ulang\n- Perbaikan UI Settings\n- Tambah bahasa Mandarin",
+  "latestVersion": "2.0.0",
+  "downloadUrl": "https://github.com/banguldesa-eng/Mekanik-2/releases/download/v2.0.0/MEKANIK_2_v2.0.0_.apk",
+  "changelog": "🆕 Fitur Baru:\n- Tombol Perbaikan Ulang untuk WO yang sudah selesai\n- Settings App terintegrasi (warna, ukuran teks, bahasa)\n- 3 bahasa: Indonesia, English, 中文\n- Sistem update otomatis\n\n🐛 Perbaikan:\n- Fixed error currentUser before initialization\n- Perbaikan UI dark mode\n- Optimasi performa",
   "forceUpdate": false
 }

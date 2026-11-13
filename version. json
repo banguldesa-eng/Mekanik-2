@@ -1,6 +1,6 @@
 {
   "latestVersion": "2.1.0",
-  "downloadUrl": "https://github.com/bangul-eng/mekanik2/releases/download/v2.1.0/mekanik2.apk",
+  "downloadUrl": "https://github.com/bangul-eng/mekanik-2/releases/download/v2.1.0/mekanik2.apk",
   "changelog": "- Tambah tombol Perbaikan Ulang\n- Perbaikan UI Settings\n- Tambah bahasa Mandarin",
   "forceUpdate": false
 }
